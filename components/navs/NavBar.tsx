@@ -27,23 +27,25 @@ type Props = {
 };
 
 function useBoundedScroll(threshold: number) {
-  const { scrollY } = useScroll();
-  const scrollYBounded = useMotionValue(0);
-  const scrollYBoundedProgress = useTransform(
-    scrollYBounded,
-    [0, threshold],
-    [0, 1]
-  );
+  const [scrollY, setScrollY] = useState(0);
+  const [scrollYBounded, setScrollYBounded] = useState(0);
+  const [scrollYBoundedProgress, setScrollYBoundedProgress] = useState(0);
 
   useEffect(() => {
-    return scrollY.on("change", (current) => {
-      const previous = scrollY.getPrevious() ?? current;
+    const handleScroll = () => {
+      const current = window.scrollY;
+      const previous = scrollY;
       const diff = current - previous;
-      const newScrollYBounded = scrollYBounded.get() + diff;
+      const newScrollYBounded = clamp(scrollYBounded + diff, 0, threshold);
 
-      scrollYBounded.set(clamp(newScrollYBounded, 0, threshold));
-    });
-  }, [threshold, scrollY, scrollYBounded]);
+      setScrollY(current);
+      setScrollYBounded(newScrollYBounded);
+      setScrollYBoundedProgress(newScrollYBounded / threshold);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scrollY, scrollYBounded, threshold]);
 
   return { scrollYBounded, scrollYBoundedProgress };
 }
@@ -169,20 +171,13 @@ export function NavBar({
   }, []);
 
   const { scrollYBoundedProgress } = useBoundedScroll(72);
-  const scrollYBoundedProgressDelayed = useTransform(
-    scrollYBoundedProgress,
-    [0, 0.75, 1],
-    [0, 0, 1]
-  );
+  const scrollYBoundedProgressDelayed =
+    scrollYBoundedProgress < 0.5 ? 0 : (scrollYBoundedProgress - 0.5) / 0.5;
 
-  const blurEffect = useTransform(
-    scrollYBoundedProgressDelayed,
-    [0, 1],
-    [10, 0]
-  );
-  const backdropFilter = useMotionTemplate`blur(${blurEffect}px)`;
-  const top = useTransform(scrollYBoundedProgressDelayed, [0, 1], [0, -72]);
-  const opacity = useTransform(scrollYBoundedProgressDelayed, [0, 1], [1, 0]);
+  // 根据滚动进度计算模糊样式
+  const blurEffect = 10 - scrollYBoundedProgressDelayed * 10;
+  const top = scrollYBoundedProgressDelayed * -72;
+  const opacity = 1 - scrollYBoundedProgressDelayed;
 
   return (
     <div
@@ -193,8 +188,8 @@ export function NavBar({
       `}
       style={{
         backdropFilter: disableBlur ? "none" : `blur(${blurEffect}px)`,
-        top: disableBlur ? 0 : `${top.get()}px`,
-        opacity: disableBlur ? 1 : opacity.get(),
+        top: disableBlur ? 0 : top,
+        opacity: disableBlur ? 1 : opacity,
       }}
       onScroll={(e) => console.log("Navbar scroll:", e)}
     >
