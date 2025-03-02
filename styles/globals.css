@@ -6,8 +6,17 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-level1: #ffffff;
+  --primary-500: #3182ce;
+  --primary-600: #2b6cb0;
+  --border-base: #e2e8f0;
+}
+
+.dark {
+  --background-level1: #1a202c;
+  --primary-500: #4299e1;
+  --primary-600: #3182ce;
+  --border-base: #2d3748;
 }
 
 @media (prefers-color-scheme: dark) {
