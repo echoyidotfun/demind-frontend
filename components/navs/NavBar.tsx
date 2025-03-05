@@ -1,19 +1,17 @@
 "use client";
 
 import { AppLink } from "@/lib/configs/config.types";
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useScroll,
-  useTransform,
-} from "framer-motion";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { clamp } from "lodash";
 import { useNav } from "./useNav";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
+import { useThemeSettings } from "@/lib/services/themes/useThemeSettings";
+import DarkModeToggle from "../common/DarkModeToggle";
+import { ConnectWallet } from "@/lib/modules/web3/ConnectWallet";
+import { Box } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 
 type Props = {
   mobileNav?: ReactNode;
@@ -81,72 +79,81 @@ function NavLinks({
   );
 }
 
-// export function NavActions(
-//   {
-//     allowCreateWallet
-//   } : {
-//     allowCreateWallet?: boolean
-//   }
-// ) {
-//   const pathname = usePathname();
-//   const {isConnected } = useUserAccount();
-//   // const {hideDarkModeToggle} = useThemeSettings();
+// 导航栏右侧操作按钮
+export function NavActions({
+  allowCreateWallet,
+}: {
+  allowCreateWallet?: boolean;
+}) {
+  const pathname = usePathname();
+  const { isConnected } = useUserAccount();
+  const { hideDarkModeToggle } = useThemeSettings();
 
-//   const actions = useMemo(() => {
-//     if(pathname === '/') {
-//       return [
-//         // {
-//         //   el: hideDarkModeToggle ? null : <DarkModeToggle />,
-//         //   display: {base: 'none', lg: 'block'}
-//         // },
-//         {
-//           el: (
-//             <Link
-//               href="/swap"
-//               prefetch
-//               className="inline-flex items-center justify-center px-7 py-2 text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-md"
-//             >
-//               Launch app
-//             </Link>
-//           ),
-//           display: "block"
-//         }
-//       ]
-//     }
+  const actions = useMemo(() => {
+    // landing页
+    if (pathname === "/") {
+      return [
+        {
+          el: hideDarkModeToggle ? null : <DarkModeToggle />,
+          display: { base: "none", lg: "block" },
+        },
+        {
+          el: (
+            <Link
+              href="/swap"
+              prefetch
+              className="inline-flex items-center justify-center px-7 py-2 text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-md"
+            >
+              Launch app
+            </Link>
+          ),
+          display: "block",
+        },
+      ];
+    }
 
-//     const defaultActions = [
-//       {
-//         el: <UserSettings />,
-//         display: 'hidden lg:block',
-//       },
-//       {
-//         el: hideDarkModeToggle ? null : <DarkModeToggle />,
-//         display: 'hidden lg:block',
-//       },
-//       {
-//         el: (
-//           <ConnectWallet
-//             connectLabel={allowCreateWallet ? 'Connect' : 'Connect wallet'}
-//             showCreateWalletButton={allowCreateWallet}
-//           />
-//         ),
-//         display: 'block',
-//       },
-//     ]
+    const defaultActions = [
+      {
+        el: hideDarkModeToggle ? null : <DarkModeToggle />,
+        display: "hidden lg:block",
+      },
+      {
+        el: (
+          <ConnectWallet
+            connectLabel={allowCreateWallet ? "Connect" : "Connect wallet"}
+            showCreateWalletButton={allowCreateWallet}
+          />
+        ),
+        display: "block",
+      },
+    ];
 
-//     // if (isConnected) {
-//     //   return [
-//     //     {
-//     //       el: <RecentTransactions />,
-//     //       display: 'hidden lg:block',
-//     //     },
-//     //     ...defaultActions,
-//     //   ]
-//     // }
+    // if (isConnected) {
+    //   return [
+    //     {
+    //       el: <RecentTransactions />,
+    //       display: 'hidden lg:block',
+    //     },
+    //     ...defaultActions,
+    //   ]
+    // }
 
-//     return defaultActions
-//   }, [pathname])
-// }
+    return defaultActions;
+  }, [pathname, isConnected]);
+
+  return (
+    <>
+      {actions.map(
+        (action, index) =>
+          action.el && (
+            <Box as={motion.div} display={action.display} key={index}>
+              {action.el}
+            </Box>
+          )
+      )}
+    </>
+  );
+}
 
 export function NavBar({
   leftSlot,
@@ -221,7 +228,7 @@ export function NavBar({
           className="flex items-center space-x-4 animate-staggered-fade-in md:order-2"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* {rightSlot || <NavActions allowCreateWallet={allowCreateWallet} mobileNav={mobileNav} />} */}
+          {rightSlot || <NavActions allowCreateWallet={allowCreateWallet} />}
         </div>
       </nav>
     </div>

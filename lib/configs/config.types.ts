@@ -1,6 +1,8 @@
-import { Address } from "viem";
-import { Chain } from "./constants";
-export interface TokenConfig {
+import { Address, Chain } from "viem";
+import { Chain as GqlChain } from "./constants";
+import { chains } from "@/lib/modules/web3/ChainConfig";
+
+export interface TokensConfig {
   addresses: {
     wNative: Address;
   };
@@ -10,8 +12,42 @@ export interface TokenConfig {
     address: Address;
     decimals: number;
   };
-
   trustedTokens?: Record<Address, string>;
+  defaultSwapTokens?: {
+    tokenIn?: Address;
+    tokenOut?: Address;
+  };
+}
+
+export interface ContractsConfig {
+  router: Address;
+}
+
+export interface BlockExplorerConfig {
+  baseUrl: string;
+  name: string;
+}
+
+export type SupportedChainId = (typeof chains)[number]["id"];
+
+export interface NetworkConfig {
+  chainId: SupportedChainId;
+  name: string;
+  shortName: string;
+  chain: GqlChain;
+  iconPath: string;
+  rpcUrl?: string;
+  blockExplorer: BlockExplorerConfig;
+  tokens: TokensConfig;
+  contracts: ContractsConfig;
+  minConfirmations?: number;
+}
+
+export interface Config {
+  appEnv: "dev" | "prod" | "staging";
+  networks: {
+    [key in GqlChain]: NetworkConfig;
+  };
 }
 
 export type AppLink = {
@@ -19,6 +55,11 @@ export type AppLink = {
   label?: string;
   iconType?: string;
   isExternal?: boolean;
+};
+
+type Options = {
+  allowCreateWallet: boolean;
+  isOnSafeAppList: boolean;
 };
 
 type Links = {
@@ -31,8 +72,9 @@ export interface ProjectConfig {
   projectUrl: string;
   projectName: string;
   projectLogo: string;
-  supportedNetworks: Chain[];
-  defaultNetwork: Chain;
+  supportedNetworks: GqlChain[];
+  defaultNetwork: GqlChain;
   delegateOwner: Address;
+  options: Options;
   links: Links;
 }

@@ -12,6 +12,11 @@ export const projectConfig: ProjectConfig = {
   defaultNetwork: Chain.Sonic,
   delegateOwner: "0xaaaaaaaaaa",
 
+  options: {
+    allowCreateWallet: false,
+    isOnSafeAppList: false,
+  },
+
   links: {
     appLinks: [
       {
