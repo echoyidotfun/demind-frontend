@@ -1,10 +1,11 @@
-import { Chain as GqlChain } from "@/lib/configs/constants";
+import { GqlChain } from "@/lib/services/api/generated/graphql";
 import { keyBy } from "lodash";
 import { Config, NetworkConfig, SupportedChainId } from "./config.types";
 import networks from "./networks";
 
 export const config: Config = {
   appEnv: (process.env.NEXT_PUBLIC_APP_ENV as Config["appEnv"]) || "dev",
+  apiUrl: process.env.NEXT_PUBLIC_BALANCER_API_URL || "",
   networks,
 };
 

@@ -1,13 +1,21 @@
 // app/layouts/base-layout.tsx
 
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { Footer } from "@/components/navs/Footer";
 import { NavBarContainer } from "@/components/navs/NavBarContainer";
-export function BaseLayout({ children }: { children: React.ReactNode }) {
+import NextTopLoader from "nextjs-toploader";
+
+export function BaseLayout({ children }: PropsWithChildren) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div
+      style={{
+        backgroundImage: "url(/images/misc/pattern-sml-7@2x.webp)",
+        backgroundSize: "8%",
+      }}
+    >
+      <NextTopLoader color="#7f6ae8" showSpinner={false} />
       <NavBarContainer />
-      <main className="flex-grow container mx-auto px-4 py-8">{children}</main>
+      {children}
       <Footer />
     </div>
   );

@@ -1,7 +1,11 @@
 import { ProjectConfig } from "./config.types";
-import { Chain } from "./constants";
+import { GqlChain } from "../services/api/generated/graphql";
 
-export const supportedNetworks = [Chain.Sonic, Chain.Base];
+export const supportedNetworks = [
+  GqlChain.Sonic,
+  GqlChain.Base,
+  GqlChain.Arbitrum,
+];
 
 export const projectConfig: ProjectConfig = {
   projectId: "demind",
@@ -9,7 +13,7 @@ export const projectConfig: ProjectConfig = {
   projectName: "DeMind",
   projectLogo: "https://demind.xyz/logo.png",
   supportedNetworks: supportedNetworks,
-  defaultNetwork: Chain.Sonic,
+  defaultNetwork: GqlChain.Sonic,
   delegateOwner: "0xaaaaaaaaaa",
 
   options: {

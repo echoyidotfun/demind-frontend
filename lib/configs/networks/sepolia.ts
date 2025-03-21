@@ -1,4 +1,4 @@
-import { Chain as GqlChain } from "@/lib/configs/constants";
+import { GqlChain } from "@/lib/services/api/generated/graphql";
 import { NetworkConfig } from "../config.types";
 
 const networkConfig: NetworkConfig = {
@@ -26,7 +26,10 @@ const networkConfig: NetworkConfig = {
     },
   },
   contracts: {
-    router: "0xa",
+    router: "0xba12222222228d8ba445958a75a0704d566bf2c8",
+    balancer: {
+      vaultV2: "0xba12222222228d8ba445958a75a0704d566bf2c8",
+    },
   },
 };
 

@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import SwapLayout from "./layouts/SwapLayout";
 import { SwapProviderProps } from "@/lib/modules/swap/SwapProvider";
 import { getSwapPathParams } from "@/components/swap/getSwapPathParams";
-import { DefaultPageContainer } from "@/components/common/DefaultPageContainer";
+import { DefaultPageContainer } from "@/components/common/containers/DefaultPageContainer";
 
 type Props = PropsWithChildren<{
   params: { slug?: string[] };

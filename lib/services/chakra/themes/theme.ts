@@ -27,9 +27,9 @@ export const beetsTheme = {
   styles: {
     global: {
       ...styles.global,
-      body: {
-        background: "linear-gradient(90deg, #111111 0%, #333333 100%)",
-      },
+      // body: {
+      //   background: "linear-gradient(90deg, #111111 0%, #333333 100%)",
+      // },
     },
   },
   colors,

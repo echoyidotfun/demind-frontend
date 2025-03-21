@@ -523,7 +523,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
         },
       },
       defaultProps: {
-        size: "md",
+        size: "sm",
       },
     },
     Drawer: {

@@ -1,5 +1,5 @@
-import { Address, Chain } from "viem";
-import { Chain as GqlChain } from "./constants";
+import { Address } from "viem";
+import { GqlChain } from "@/lib/services/api/generated/graphql";
 import { chains } from "@/lib/modules/web3/ChainConfig";
 
 export interface TokensConfig {
@@ -12,15 +12,23 @@ export interface TokensConfig {
     address: Address;
     decimals: number;
   };
-  trustedTokens?: Record<Address, string>;
+  popularTokens?: Record<Address, string>;
   defaultSwapTokens?: {
     tokenIn?: Address;
     tokenOut?: Address;
   };
+  supportedWrappers?: {
+    baseToken: Address;
+    wrappedToken: Address;
+  }[];
+  doubleApprovalRequired?: string[];
 }
 
 export interface ContractsConfig {
   router: Address;
+  balancer: {
+    vaultV2: Address;
+  };
 }
 
 export interface BlockExplorerConfig {
@@ -45,6 +53,7 @@ export interface NetworkConfig {
 
 export interface Config {
   appEnv: "dev" | "prod" | "staging";
+  apiUrl: string;
   networks: {
     [key in GqlChain]: NetworkConfig;
   };

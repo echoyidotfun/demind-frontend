@@ -1,5 +1,5 @@
-import { Chain as GqlChain } from "@/lib/configs/constants";
 import { NetworkConfig } from "../config.types";
+import { GqlChain } from "@/lib/services/api/generated/graphql";
 
 const networkConfig: NetworkConfig = {
   chainId: 8453,
@@ -21,20 +21,22 @@ const networkConfig: NetworkConfig = {
       symbol: "ETH",
       decimals: 18,
     },
-    // supportedWrappers: [
-    //   {
-    //     // stETH/wstETH
-    //     baseToken: "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
-    //     wrappedToken: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
-    //     swapHandler: SupportedWrapHandler.LIDO,
-    //   },
-    // ],
     defaultSwapTokens: {
       tokenIn: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     },
+    popularTokens: {
+      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee": "ETH",
+      "0x4200000000000000000000000000000000000006": "WETH",
+      "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": "USDC",
+      "0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca": "USDbC",
+      "0x50c5725949a6f0c72e6c4a641f24049a917db0cb": "DAI",
+    },
   },
   contracts: {
-    router: "0xa",
+    router: "0xba12222222228d8ba445958a75a0704d566bf2c8",
+    balancer: {
+      vaultV2: "0xba12222222228d8ba445958a75a0704d566bf2c8",
+    },
   },
 };
 

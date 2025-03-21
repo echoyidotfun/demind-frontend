@@ -4,14 +4,15 @@ import { AppLink } from "@/lib/configs/config.types";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { clamp } from "lodash";
 import { useNav } from "./useNav";
-import Link from "next/link";
+import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
 import { useThemeSettings } from "@/lib/services/themes/useThemeSettings";
-import DarkModeToggle from "../common/DarkModeToggle";
+import DarkModeToggle from "../common/btns/DarkModeToggle";
 import { ConnectWallet } from "@/lib/modules/web3/ConnectWallet";
-import { Box } from "@chakra-ui/react";
+import { Box, BoxProps, Button, HStack, Link } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 type Props = {
   mobileNav?: ReactNode;
@@ -51,31 +52,31 @@ function useBoundedScroll(threshold: number) {
 function NavLinks({
   appLinks,
   customLinks,
-  className = "",
-}: {
+  ...props
+}: BoxProps & {
   appLinks: AppLink[];
   customLinks?: ReactNode;
-  className?: string;
 }) {
   const { linkColorFor } = useNav();
 
   return (
-    <div className={`flex items-center font-medium space-x-6 ${className}`}>
+    <HStack fontWeight="medium" spacing="lg" {...props}>
       {appLinks.map((link) => (
-        <div key={link.href} className="animate-fade-in">
+        <Box as={motion.div} key={link.href}>
           <Link
+            as={NextLink}
+            color={linkColorFor(link.href)}
             href={link.href}
-            className={`hover:text-primary-500 ${linkColorFor(link.href)}`}
-            target={link.isExternal ? "_blank" : undefined}
-            rel={link.isExternal ? "noopener noreferrer" : undefined}
+            isExternal={link.isExternal}
             prefetch
+            variant="nav"
           >
             {link.label}
           </Link>
-        </div>
+        </Box>
       ))}
       {/* {customLinks} */}
-    </div>
+    </HStack>
   );
 }
 
@@ -93,29 +94,36 @@ export function NavActions({
     // landing页
     if (pathname === "/") {
       return [
-        {
-          el: hideDarkModeToggle ? null : <DarkModeToggle />,
-          display: { base: "none", lg: "block" },
-        },
+        // {
+        //   el: hideDarkModeToggle ? null : <DarkModeToggle />,
+        //   display: { base: "none", lg: "block" },
+        // },
         {
           el: (
-            <Link
-              href="/swap"
+            <Button
+              as={NextLink}
+              href="/pools"
               prefetch
-              className="inline-flex items-center justify-center px-7 py-2 text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-md"
+              px={7}
+              size="md"
+              variant="primary"
             >
               Launch app
-            </Link>
+            </Button>
           ),
-          display: "block",
+          display: { base: "block", lg: "block" },
         },
       ];
     }
 
     const defaultActions = [
+      // {
+      //   el: <UserSettings />,
+      //   display: { base: 'none', lg: 'block' },
+      // },
       {
         el: hideDarkModeToggle ? null : <DarkModeToggle />,
-        display: "hidden lg:block",
+        display: { base: "none", lg: "block" },
       },
       {
         el: (
@@ -124,7 +132,7 @@ export function NavActions({
             showCreateWalletButton={allowCreateWallet}
           />
         ),
-        display: "block",
+        display: { base: "block", lg: "block" },
       },
     ];
 
@@ -160,12 +168,10 @@ export function NavBar({
   rightSlot,
   disableBlur,
   appLinks,
-  navLogo,
-  mobileNav,
   customLinks,
   allowCreateWallet,
-  className = "",
-}: Props & { className?: string }) {
+  ...rest
+}: Props & BoxProps) {
   const [showShadow, setShowShadow] = useState(false);
 
   useEffect(() => {
@@ -187,50 +193,71 @@ export function NavBar({
   const opacity = 1 - scrollYBoundedProgressDelayed;
 
   return (
-    <div
-      className={`
-        fixed top-0 w-full z-[100] transition-all duration-300 ease-in-out
-        ${showShadow ? "shadow-lg" : ""}
-        ${className}
-      `}
+    <Box
+      _before={{
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        bg: showShadow ? "background.level1" : "none",
+        opacity: 0.5,
+        zIndex: -1,
+      }}
+      as={motion.div}
+      borderColor="border.base"
+      boxShadow={showShadow ? "lg" : "none"}
+      onScroll={(e) => console.log("Navbar scroll:", e)}
+      pos="fixed"
       style={{
-        backdropFilter: disableBlur ? "none" : `blur(${blurEffect}px)`,
+        backdropFilter: disableBlur ? "none" : blurEffect,
         top: disableBlur ? 0 : top,
         opacity: disableBlur ? 1 : opacity,
       }}
-      onScroll={(e) => console.log("Navbar scroll:", e)}
+      top="0"
+      transition="all 0.3s ease-in-out"
+      w="full"
+      zIndex={100}
+      {...rest}
     >
-      <div
-        className="absolute inset-0 -z-10 bg-background-level1 opacity-50"
-        style={{ display: showShadow ? "block" : "none" }}
-      ></div>
-
-      <nav className="flex justify-between items-center p-4 md:p-6">
-        <div
-          className="flex items-center space-x-6 animate-staggered-fade-in"
+      <HStack
+        as="nav"
+        justify="space-between"
+        padding={{ base: "sm", md: "md" }}
+      >
+        <HStack
+          animate="show"
+          as={motion.div}
+          initial="hidden"
           onClick={(e) => e.stopPropagation()}
+          spacing="xl"
+          className="staggered-fade-in"
         >
           {leftSlot || (
             <>
-              {navLogo}
+              {/* {navLogo} */}
               {appLinks && (
                 <NavLinks
                   appLinks={appLinks}
                   customLinks={customLinks}
-                  className="hidden lg:flex"
+                  display={{ base: "none", lg: "flex" }}
                 />
               )}
             </>
           )}
-        </div>
-
-        <div
-          className="flex items-center space-x-4 animate-staggered-fade-in md:order-2"
+        </HStack>
+        <HStack
+          animate="show"
+          as={motion.div}
+          initial="hidden"
           onClick={(e) => e.stopPropagation()}
+          order={{ md: "2" }}
+          className="staggered-fade-in"
         >
           {rightSlot || <NavActions allowCreateWallet={allowCreateWallet} />}
-        </div>
-      </nav>
-    </div>
+        </HStack>
+      </HStack>
+    </Box>
   );
 }

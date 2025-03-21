@@ -1,8 +1,8 @@
 "use client";
 
 import { Chain } from "@rainbow-me/rainbowkit";
-import { base, mainnet, sepolia, sonic } from "wagmi/chains";
-import { Chain as GqlChain } from "@/lib/configs/constants";
+import { arbitrum, base, mainnet, sepolia, sonic } from "wagmi/chains";
+import { GqlChain } from "@/lib/services/api/generated/graphql";
 import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
 import { keyBy } from "lodash";
 import { getBaseUrl } from "@/lib/utils/urls";
@@ -12,6 +12,7 @@ export const rpcFallbacks: Record<GqlChain, string> = {
   [GqlChain.Base]: "https://base.llamarpc.com",
   [GqlChain.Sepolia]: "https://sepolia.gateway.tenderly.co",
   [GqlChain.Sonic]: "https://rpc.soniclabs.com",
+  [GqlChain.Arbitrum]: "https://arbitrum.llamarpc.com",
 };
 
 const baseUrl = getBaseUrl();
@@ -22,6 +23,7 @@ export const rpcOverrides: Record<GqlChain, string | undefined> = {
   [GqlChain.Base]: getPrivateRpcUrl(GqlChain.Base),
   [GqlChain.Sepolia]: getPrivateRpcUrl(GqlChain.Sepolia),
   [GqlChain.Sonic]: getPrivateRpcUrl(GqlChain.Sonic),
+  [GqlChain.Arbitrum]: getPrivateRpcUrl(GqlChain.Arbitrum),
 };
 
 const gqlChainToWagmiChainMap = {
@@ -29,6 +31,7 @@ const gqlChainToWagmiChainMap = {
   [GqlChain.Base]: { iconUrl: "/images/chains/BASE.svg", ...base },
   [GqlChain.Sepolia]: { iconUrl: "/images/chains/SEPOLIA.svg", ...sepolia },
   [GqlChain.Sonic]: { iconUrl: "/images/chains/SONIC.svg", ...sonic },
+  [GqlChain.Arbitrum]: { iconUrl: "/images/chains/ARBITRUM.svg", ...arbitrum },
 } as const satisfies Record<GqlChain, Chain>;
 
 export const supportedNetworks = PROJECT_CONFIG.supportedNetworks;

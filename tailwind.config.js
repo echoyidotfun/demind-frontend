@@ -17,9 +17,9 @@ module.exports = {
           "100%": { opacity: "1" },
         },
       },
-      backgroundColor: {
-        "background-level1": "var(--background-level1)",
-      },
+      // backgroundColor: {
+      //   "background-level1": "var(--background-level1)",
+      // },
       textColor: {
         "primary-500": "var(--primary-500)",
         "primary-600": "var(--primary-600)",

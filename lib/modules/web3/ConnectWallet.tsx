@@ -49,7 +49,7 @@ export function ConnectWallet({
                         disabled={!ready || !mounted || isLoading}
                         onClick={connect}
                         type="button"
-                        variant="surface"
+                        variant="tertiary"
                       >
                         Create wallet
                       </Button>
@@ -62,7 +62,7 @@ export function ConnectWallet({
                 loadingText={connectLabel}
                 onClick={openConnectModal}
                 type="button"
-                variant="surface"
+                variant="primary"
                 {...rest}
               >
                 {connectLabel}
@@ -76,22 +76,22 @@ export function ConnectWallet({
             <Button
               onClick={openChainModal}
               type="button"
-              variant="surface"
+              variant="tertiary"
               {...rest}
             >
-              Unsupported network
+              Wrong network
             </Button>
           );
         }
 
         return (
-          <HStack className="space-x-2">
+          <HStack spacing="sm">
             <Button
               alignItems="center"
               display="flex"
               onClick={openChainModal}
               type="button"
-              variant="surface"
+              variant="tertiary"
               {...rest}
             >
               {chain.hasIcon && (
@@ -112,12 +112,10 @@ export function ConnectWallet({
                   )}
                 </Box>
               )}
-              <Box display={{ base: "none", sm: "block" }}>{chain.name}</Box>
+              {/* <Show above="sm">{chain.name}</Show> */}
             </Button>
-            <Button onClick={openAccountModal} variant="surface" {...rest}>
-              <Box display={{ base: "none", sm: "block" }}>
-                {account.displayName}
-              </Box>
+            <Button onClick={openAccountModal} variant="tertiary" {...rest}>
+              <Show above="sm">{account.displayName}</Show>
             </Button>
           </HStack>
         );
