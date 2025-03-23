@@ -6,25 +6,22 @@ import { ThemeProvider as NextThemeProvider } from "next-themes";
 import { ThemeProvider } from "@/lib/services/chakra/ThemeProvider";
 import { ThemeSettingsProvider } from "@/lib/services/themes/useThemeSettings";
 import { DEFAULT_THEME_COLOR_MODE } from "@/lib/services/chakra/themes/base/foundations";
+import { PropsWithChildren } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
-  title: "ReMind Exchange",
-  description: "swap tokens driven by aggragation router",
+  title: "DeMind",
+  description: "AI driven onchain trading",
   icons: [{ rel: "icon", type: "image/x-icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" className={inter.className}>
-      <body>
+      <body style={{ marginRight: "0px !important" }} suppressHydrationWarning>
         <NextThemeProvider defaultTheme={DEFAULT_THEME_COLOR_MODE}>
           <ThemeProvider>
-            <ThemeSettingsProvider settings={{ hideDarkModeToggle: false }}>
+            <ThemeSettingsProvider settings={{ hideDarkModeToggle: true }}>
               <Providers>{children}</Providers>
             </ThemeSettingsProvider>
           </ThemeProvider>

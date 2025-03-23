@@ -11,8 +11,13 @@ import { useThemeSettings } from "@/lib/services/themes/useThemeSettings";
 import DarkModeToggle from "../common/btns/DarkModeToggle";
 import { ConnectWallet } from "@/lib/modules/web3/ConnectWallet";
 import { Box, BoxProps, Button, HStack, Link } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import {
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 
 type Props = {
   mobileNav?: ReactNode;
@@ -26,25 +31,23 @@ type Props = {
 };
 
 function useBoundedScroll(threshold: number) {
-  const [scrollY, setScrollY] = useState(0);
-  const [scrollYBounded, setScrollYBounded] = useState(0);
-  const [scrollYBoundedProgress, setScrollYBoundedProgress] = useState(0);
+  const { scrollY } = useScroll();
+  const scrollYBounded = useMotionValue(0);
+  const scrollYBoundedProgress = useTransform(
+    scrollYBounded,
+    [0, threshold],
+    [0, 1]
+  );
 
   useEffect(() => {
-    const handleScroll = () => {
-      const current = window.scrollY;
-      const previous = scrollY;
+    return scrollY.on("change", (current) => {
+      const previous = scrollY.getPrevious() ?? 0;
       const diff = current - previous;
-      const newScrollYBounded = clamp(scrollYBounded + diff, 0, threshold);
+      const newScrollYBounded = scrollYBounded.get() + diff;
 
-      setScrollY(current);
-      setScrollYBounded(newScrollYBounded);
-      setScrollYBoundedProgress(newScrollYBounded / threshold);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [scrollY, scrollYBounded, threshold]);
+      scrollYBounded.set(clamp(newScrollYBounded, 0, threshold));
+    });
+  }, [threshold, scrollY, scrollYBounded]);
 
   return { scrollYBounded, scrollYBoundedProgress };
 }
@@ -81,11 +84,7 @@ function NavLinks({
 }
 
 // 导航栏右侧操作按钮
-export function NavActions({
-  allowCreateWallet,
-}: {
-  allowCreateWallet?: boolean;
-}) {
+export function NavActions() {
   const pathname = usePathname();
   const { isConnected } = useUserAccount();
   const { hideDarkModeToggle } = useThemeSettings();
@@ -94,10 +93,10 @@ export function NavActions({
     // landing页
     if (pathname === "/") {
       return [
-        // {
-        //   el: hideDarkModeToggle ? null : <DarkModeToggle />,
-        //   display: { base: "none", lg: "block" },
-        // },
+        {
+          el: hideDarkModeToggle ? null : <DarkModeToggle />,
+          display: { base: "none", lg: "block" },
+        },
         {
           el: (
             <Button
@@ -126,25 +125,10 @@ export function NavActions({
         display: { base: "none", lg: "block" },
       },
       {
-        el: (
-          <ConnectWallet
-            connectLabel={allowCreateWallet ? "Connect" : "Connect wallet"}
-            showCreateWalletButton={allowCreateWallet}
-          />
-        ),
+        el: <ConnectWallet />,
         display: { base: "block", lg: "block" },
       },
     ];
-
-    // if (isConnected) {
-    //   return [
-    //     {
-    //       el: <RecentTransactions />,
-    //       display: 'hidden lg:block',
-    //     },
-    //     ...defaultActions,
-    //   ]
-    // }
 
     return defaultActions;
   }, [pathname, isConnected]);
@@ -169,7 +153,6 @@ export function NavBar({
   disableBlur,
   appLinks,
   customLinks,
-  allowCreateWallet,
   ...rest
 }: Props & BoxProps) {
   const [showShadow, setShowShadow] = useState(false);
@@ -184,13 +167,20 @@ export function NavBar({
   }, []);
 
   const { scrollYBoundedProgress } = useBoundedScroll(72);
-  const scrollYBoundedProgressDelayed =
-    scrollYBoundedProgress < 0.5 ? 0 : (scrollYBoundedProgress - 0.5) / 0.5;
+  const scrollYBoundedProgressDelayed = useTransform(
+    scrollYBoundedProgress,
+    [0, 0.75, 1],
+    [0, 0, 1]
+  );
 
-  // 根据滚动进度计算模糊样式
-  const blurEffect = 10 - scrollYBoundedProgressDelayed * 10;
-  const top = scrollYBoundedProgressDelayed * -72;
-  const opacity = 1 - scrollYBoundedProgressDelayed;
+  const blurEffect = useTransform(
+    scrollYBoundedProgressDelayed,
+    [0, 1],
+    [10, 0]
+  );
+  const backdropFilter = useMotionTemplate`blur(${blurEffect}px)`;
+  const top = useTransform(scrollYBoundedProgressDelayed, [0, 1], [0, -72]);
+  const opacity = useTransform(scrollYBoundedProgressDelayed, [0, 1], [1, 0]);
 
   return (
     <Box
@@ -211,7 +201,7 @@ export function NavBar({
       onScroll={(e) => console.log("Navbar scroll:", e)}
       pos="fixed"
       style={{
-        backdropFilter: disableBlur ? "none" : blurEffect,
+        backdropFilter: disableBlur ? "none" : backdropFilter,
         top: disableBlur ? 0 : top,
         opacity: disableBlur ? 1 : opacity,
       }}
@@ -255,7 +245,7 @@ export function NavBar({
           order={{ md: "2" }}
           className="staggered-fade-in"
         >
-          {rightSlot || <NavActions allowCreateWallet={allowCreateWallet} />}
+          {rightSlot || <NavActions />}
         </HStack>
       </HStack>
     </Box>

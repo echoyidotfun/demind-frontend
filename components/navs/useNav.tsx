@@ -1,7 +1,7 @@
 "use client";
 
-import { useParams, usePathname } from "next/navigation";
 import { AppLink } from "@/lib/configs/config.types";
+import { useParams, usePathname } from "next/navigation";
 
 export function useNav() {
   const pathname = usePathname();

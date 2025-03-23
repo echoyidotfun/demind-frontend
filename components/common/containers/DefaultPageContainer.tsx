@@ -1,28 +1,27 @@
-import React, { PropsWithChildren } from "react";
+import { Box, Container, ContainerProps } from "@chakra-ui/react";
+import { PropsWithChildren } from "react";
 
 type Props = {
   noVerticalPadding?: boolean;
-  bg?: string;
-  className?: string;
 };
 
 export function DefaultPageContainer({
   children,
   noVerticalPadding,
   bg,
-  className = "",
-}: PropsWithChildren & Props) {
+  ...rest
+}: PropsWithChildren & ContainerProps & Props) {
   return (
-    <div
-      className={`${bg || ""}`}
-      style={{ paddingTop: noVerticalPadding ? "0px" : "72px" }}
-    >
-      <div
-        className={`container, mx-auto max-w-7xl overflow-x-hidden md:overflow-visible px4 md:px-6
-                ${noVerticalPadding ? "py-0" : "py-8 md:py-12"} ${className}`}
+    <Box bg={bg} pt={noVerticalPadding ? "0px" : "72px"}>
+      <Container
+        maxW="maxContent"
+        overflowX={{ base: "hidden", md: "visible" }}
+        px={["ms", "md"]}
+        py={noVerticalPadding ? 0 : ["xl", "2xl"]}
+        {...rest}
       >
         {children}
-      </div>
-    </div>
+      </Container>
+    </Box>
   );
 }

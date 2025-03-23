@@ -11,9 +11,8 @@ import { useUserAccount } from "./UserAccountProvider";
 
 export function ConnectWallet({
   connectLabel = "Connect wallet",
-  showCreateWalletButton = false,
   ...rest
-}: { connectLabel?: string; showCreateWalletButton?: boolean } & ButtonProps) {
+}: { connectLabel?: string } & ButtonProps) {
   const { isLoading: isLoadingAccount, isConnected: isConnectedAccount } =
     useUserAccount();
 
@@ -41,22 +40,6 @@ export function ConnectWallet({
         if (!isConnected) {
           return (
             <HStack width="full">
-              {showCreateWalletButton && (
-                <WalletButton.Custom wallet="coinbase">
-                  {({ ready, connect }) => {
-                    return (
-                      <Button
-                        disabled={!ready || !mounted || isLoading}
-                        onClick={connect}
-                        type="button"
-                        variant="tertiary"
-                      >
-                        Create wallet
-                      </Button>
-                    );
-                  }}
-                </WalletButton.Custom>
-              )}
               <Button
                 disabled={isLoading || !mounted}
                 loadingText={connectLabel}
@@ -112,7 +95,7 @@ export function ConnectWallet({
                   )}
                 </Box>
               )}
-              {/* <Show above="sm">{chain.name}</Show> */}
+              <Show above="sm">{chain.name}</Show>
             </Button>
             <Button onClick={openAccountModal} variant="tertiary" {...rest}>
               <Show above="sm">{account.displayName}</Show>

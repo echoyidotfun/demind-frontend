@@ -9,32 +9,27 @@ export const supportedNetworks = [
 
 export const projectConfig: ProjectConfig = {
   projectId: "demind",
-  projectUrl: "https://demind.xyz",
   projectName: "DeMind",
+  projectUrl: "https://demind.xyz",
   projectLogo: "https://demind.xyz/logo.png",
   supportedNetworks: supportedNetworks,
   defaultNetwork: GqlChain.Sonic,
   delegateOwner: "0xaaaaaaaaaa",
 
-  options: {
-    allowCreateWallet: false,
-    isOnSafeAppList: false,
-  },
-
   links: {
     appLinks: [
       {
-        href: "/defai",
-        label: "DeFAI",
+        href: "/mind",
+        label: "Mind",
       },
     ],
     socialLinks: [
       { iconType: "x", href: "https://x.com/echoyidotfun" },
-      { iconType: "Blog", href: "https://echoyi.fun" },
       {
         iconType: "github",
         href: "https://github.com/echoyidotfun/demind-contracts",
       },
+      { iconType: "telegram", href: "https://t.me/echoyidotfun" },
     ],
   },
 };

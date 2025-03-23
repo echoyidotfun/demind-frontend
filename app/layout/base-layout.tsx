@@ -1,5 +1,3 @@
-// app/layouts/base-layout.tsx
-
 import React, { PropsWithChildren } from "react";
 import { Footer } from "@/components/navs/Footer";
 import { NavBarContainer } from "@/components/navs/NavBarContainer";
@@ -16,7 +14,11 @@ export function BaseLayout({ children }: PropsWithChildren) {
       <NextTopLoader color="#7f6ae8" showSpinner={false} />
       <NavBarContainer />
       {children}
-      <Footer />
+      <Footer
+        logoType={<img src="/next.svg" alt="logo" width={180} height={30} />}
+        title="Trade Like You Speak"
+        subTitle="Where aggregated liquidity meets artificial intelligence, creating seamless trading experiences with the power of natural language commands."
+      />
     </div>
   );
 }

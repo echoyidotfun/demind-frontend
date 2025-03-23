@@ -1,6 +1,8 @@
 import { Address } from "viem";
 import { GqlChain } from "@/lib/services/api/generated/graphql";
 import { chains } from "@/lib/modules/web3/ChainConfig";
+import { ReactNode } from "react";
+import { IconType } from "@/components/common/icons/SocialIcon";
 
 export interface TokensConfig {
   addresses: {
@@ -62,13 +64,9 @@ export interface Config {
 export type AppLink = {
   href: string;
   label?: string;
-  iconType?: string;
+  icon?: ReactNode;
+  iconType?: IconType;
   isExternal?: boolean;
-};
-
-type Options = {
-  allowCreateWallet: boolean;
-  isOnSafeAppList: boolean;
 };
 
 type Links = {
@@ -77,13 +75,12 @@ type Links = {
 };
 
 export interface ProjectConfig {
-  projectId: "demind";
+  projectId: string;
   projectUrl: string;
   projectName: string;
   projectLogo: string;
   supportedNetworks: GqlChain[];
   defaultNetwork: GqlChain;
   delegateOwner: Address;
-  options: Options;
   links: Links;
 }

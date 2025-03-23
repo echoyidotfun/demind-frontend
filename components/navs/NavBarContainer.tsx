@@ -1,14 +1,13 @@
 "use client";
-import { NavActions, NavBar } from "./NavBar";
-import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
-import { useNav } from "./useNav";
+
+import { NavBar, NavActions } from "@/components/navs/NavBar";
+import { useNav } from "@/components/navs/useNav";
 import { AnimatePresence, motion } from "framer-motion";
+import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
 
 export function NavBarContainer() {
-  // PROJECT_CONFIG
   const {
-    links: { appLinks, socialLinks },
-    options: { allowCreateWallet },
+    links: { appLinks },
   } = PROJECT_CONFIG;
   const { defaultAppLinks } = useNav();
   const allAppLinks = [...defaultAppLinks, ...appLinks];
@@ -16,13 +15,13 @@ export function NavBarContainer() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         <NavBar
           appLinks={allAppLinks}
-          allowCreateWallet={allowCreateWallet}
+          // navLogo={<NavLogo />}
           rightSlot={<NavActions />}
         />
       </motion.div>

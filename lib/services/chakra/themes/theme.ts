@@ -1,7 +1,7 @@
 import { ChakraTheme } from "@chakra-ui/theme";
 import { colors, primaryTextColor } from "./colors";
 import { getComponents } from "./base/components";
-import { config, fonts, styles } from "./base/foundations";
+import { themeConfig, fonts, styles } from "./base/foundations";
 import { getSemanticTokens } from "./base/semantic-tokens";
 import { proseTheme } from "./base/prose";
 import { getBeetsTokens } from "./tokens";
@@ -20,16 +20,16 @@ components.Button.variants.buttonGroupActive._dark.color = "#363636";
 
 export const beetsTheme = {
   config: {
-    ...config,
+    ...themeConfig,
     initialColorMode: "dark",
   },
   fonts,
   styles: {
     global: {
       ...styles.global,
-      // body: {
-      //   background: "linear-gradient(90deg, #111111 0%, #333333 100%)",
-      // },
+      body: {
+        background: "linear-gradient(90deg, #111111 0%, #333333 100%)",
+      },
     },
   },
   colors,

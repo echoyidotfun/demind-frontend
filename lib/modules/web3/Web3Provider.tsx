@@ -1,5 +1,6 @@
 "use client";
 
+import "@rainbow-me/rainbowkit/styles.css";
 import { WagmiProvider } from "wagmi";
 import { UserAccountProvider } from "./UserAccountProvider";
 import { useWagmiConfig } from "./WagmiConfigProvider";
@@ -36,7 +37,6 @@ export function Web3Provider({ children }: PropsWithChildren) {
       actionButton: radii.md,
       menuButton: radii.md,
       modal: radii.md,
-      modalMobile: radii.md,
     },
     shadows: {
       connectButton: shadows.md,
@@ -67,9 +67,9 @@ export function Web3Provider({ children }: PropsWithChildren) {
       // generalBorderDim: '...',
       // menuItemBackground: '...',
       // modalBackdrop: '...',
-      // modalBackground: semanticTokens.colors.background.level0[colorModeKey],
+      modalBackground: semanticTokens.colors.background.level0[colorModeKey],
       // modalBorder: '...',
-      // modalText: semanticTokens.colors.font.primary[colorModeKey],
+      modalText: semanticTokens.colors.font.primary[colorModeKey],
       // modalTextDim: '...',
       // modalTextSecondary: '...',
       // profileAction: '...',
@@ -88,7 +88,7 @@ export function Web3Provider({ children }: PropsWithChildren) {
     ...sharedConfig,
   } as Theme);
 
-  const customTheme = _lightTheme;
+  const customTheme = _darkTheme;
 
   return (
     <ReactQueryClientProvider>
