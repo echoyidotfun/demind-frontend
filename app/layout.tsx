@@ -9,9 +9,12 @@ import { DEFAULT_THEME_COLOR_MODE } from "@/lib/services/chakra/themes/base/foun
 import { PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
-  title: "DeMind",
+  title: {
+    template: "%s | DeMind",
+    default: "DeMind",
+  },
   description: "AI driven onchain trading",
-  icons: [{ rel: "icon", type: "image/png", url: "/favicon.png" }],
+  icons: [{ rel: "icon", type: "image/x-icon", url: "./favicon.ico" }],
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {

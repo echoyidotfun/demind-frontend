@@ -3,6 +3,12 @@ import SwapLayout from "../layouts/SwapLayout";
 import { SwapProviderProps } from "@/lib/modules/swap/SwapProvider";
 import { getSwapPathParams } from "@/components/swap/getSwapPathParams";
 import { DefaultPageContainer } from "@/components/common/containers/DefaultPageContainer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Trade",
+  description: "trade like you speak",
+};
 
 type Props = PropsWithChildren<{
   params: { slug?: string[] };
