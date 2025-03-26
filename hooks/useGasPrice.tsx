@@ -31,11 +31,7 @@ export function GasPriceCard({
 }) {
   const { gasPrice, isHighGasPrice } = useGasPriceQuery(chain);
 
-  const gasPriceColor = isHighGasPrice
-    ? "red.500"
-    : inConnectWallect
-      ? "green.200"
-      : "grayText";
+  const gasPriceColor = isHighGasPrice ? "red.500" : "grayText";
 
   if (inConnectWallect) {
     return (
@@ -47,7 +43,7 @@ export function GasPriceCard({
       >
         <HStack spacing="xs">
           <GasIcon size={16} />
-          <Text color={gasPriceColor} fontSize="sm" fontWeight="bold">
+          <Text variant="primaryGradient" fontSize="sm" fontWeight="bold">
             {gasPrice ? gasPrice.toString() : "-"}
           </Text>
         </HStack>

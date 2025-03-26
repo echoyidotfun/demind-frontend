@@ -93,6 +93,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           color: "input.fontDefault",
           fontWeight: "medium",
           px: "3",
+          transition: "all 0.2s ease-in-out",
           // caretColor: 'input.caret', // Not working
           "::placeholder": {
             color: "input.fontPlaceholder",
@@ -106,6 +107,8 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             bg: "input.bgFocus",
             borderColor: "input.borderFocus",
             color: "white",
+            boxShadow: "0 0 0 1px rgba(100, 100, 250, 0.4)",
+            transform: "scale(1.01)",
           },
           _focusVisible: {
             color: "input.fontFocus",
@@ -401,12 +404,12 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           background: "background.button.primary",
           backgroundPosition: "100% 0",
           backgroundSize: "100% 100%",
-          transition: "0.3s ease-in-out",
+          transition: "all 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67)",
           boxShadow: "0 3px 20px hsla(245, 97%, 76%, 0.4)",
           _hover: {
             shadow: "sm",
-            backgroundSize: "120% 100%",
-            boxShadow: "0 3px 20px hsla(9, 85%, 71%, 0.4)",
+            backgroundSize: "120% 120%",
+            boxShadow: "0 6px 20px rgba(161, 124, 247, 0.3)",
             _disabled: {
               boxShadow: "none",
             },
@@ -425,14 +428,15 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           },
         },
         tertiary: {
-          background: "background.level3",
+          background: "background.level2",
           color: "font.primary",
           shadow: "md",
           _hover: {
+            background: "background.level3",
             shadow: "sm",
           },
           _active: {
-            background: "background.level2",
+            background: "background.button.secondary",
             shadow: "none",
           },
         },

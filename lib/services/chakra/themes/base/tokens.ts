@@ -153,7 +153,7 @@ export function getTokens(colors: any, primaryTextColor: string) {
           labelError: colors.red["400"],
 
           fontDefault: "brown.200",
-          fontFocus: "white",
+          fontFocus: "gray.400",
           fontPlaceholder: tinycolor(colors.gray["500"]).setAlpha(0.8),
           fontError: colors.red["200"],
           fontHint: "gray.400",

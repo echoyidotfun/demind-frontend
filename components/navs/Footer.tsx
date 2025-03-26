@@ -188,7 +188,7 @@ export function Footer({ logoType, title, subTitle }: FooterProps) {
   } = PROJECT_CONFIG;
 
   return (
-    <Box as="footer" background="background.level0" shadow="innerLg">
+    <Box as="footer" background="background.level0WithOpacity" shadow="innerLg">
       <DefaultPageContainer py="md">
         <VStack align="start" pt="md" spacing="md" py="0">
           <HStack

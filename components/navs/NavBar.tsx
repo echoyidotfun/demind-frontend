@@ -232,7 +232,7 @@ export function NavBar({
             fontSize="4xl"
             fontWeight="400"
             letterSpacing="-0.5px"
-            variant="secondary"
+            variant="special"
           >
             {navType}
           </Text>

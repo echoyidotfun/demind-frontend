@@ -7,8 +7,11 @@ export function BaseLayout({ children }: PropsWithChildren) {
   return (
     <div
       style={{
-        backgroundImage: "url(/images/misc/pattern-sml-7@2x.webp)",
-        backgroundSize: "8%",
+        backgroundImage: "url(/images/misc/16358469_rm309-aew-014-a.svg)",
+        backgroundBlendMode: "overlay", //
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
       }}
     >
       <NextTopLoader color="#7f6ae8" showSpinner={false} />

@@ -235,14 +235,8 @@ export function getSemanticTokens(tokens: any, colors: any) {
 
       // Text colors
       font: {
-        primary: {
-          default: tokens.colors.light.text.primary,
-          _dark: tokens.colors.dark.text.primary,
-        },
-        secondary: {
-          default: tokens.colors.light.text.secondary,
-          _dark: tokens.colors.dark.text.secondary,
-        },
+        primary: tokens.colors.dark.text.primary,
+        secondary: tokens.colors.dark.text.secondary,
         secondaryAlpha50: {
           default: tokens.colors.light.text.secondaryAlpha50,
           _dark: tokens.colors.dark.text.secondaryAlpha50,

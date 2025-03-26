@@ -228,7 +228,7 @@ export function SwapForm() {
                   onClick={() => !isDisabled && previewModalDisclosure.onOpen()}
                   ref={nextBtn}
                   size="lg"
-                  variant="secondary"
+                  variant="primary"
                   w="full"
                 >
                   Next

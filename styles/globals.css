@@ -1,6 +1,13 @@
 :root {
   --ease-out-cubic: cubic-bezier(0.22, 0.61, 0.36, 1);
-  /* --font-family: "Poppins", sans-serif; */
+  --magpie-purple: #8a5cf6;
+  --magpie-blue: #6464fa;
+  --magpie-dark-blue: #0a0a14;
+  --magpie-dark-purple: #171728;
+  --magpie-card-bg: #1e1e2e;
+  --magpie-input-bg: #252536;
+  --magpie-border: #323245;
+  --magpie-gradient: linear-gradient(90deg, #6464fa 0%, #f8d458 100%);
 }
 
 :focus,
@@ -17,8 +24,6 @@ html,
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* font-family: var(--font-family); */
-  /* overscroll-behavior: none; */
   overflow-x: clip;
 }
 
@@ -114,31 +119,6 @@ div[id^="bkln"] {
   }
 }
 
-.ripple {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  pointer-events: none;
-  animation: ripple 4s ease-in-out 3 both;
-  will-change: transform, opacity;
-}
-
-.ripple-1 {
-  background-color: rgb(255 255 255 / 15%);
-  animation-delay: 0s;
-}
-
-.ripple-2 {
-  background-color: rgb(255 255 255 / 10%);
-  animation-delay: 1s;
-}
-
-.ripple-3 {
-  background-color: rgb(255 255 255 / 5%);
-  animation-delay: 2s;
-}
-
 /* Featured pools animation */
 
 @keyframes rotate-path {
@@ -183,4 +163,22 @@ div[id^="bkln"] {
   height: 75px;
   margin-top: -75px;
   visibility: hidden;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(30, 30, 46, 0.5);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(161, 124, 247, 0.5);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(161, 124, 247, 0.8);
 }

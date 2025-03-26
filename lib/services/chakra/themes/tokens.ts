@@ -1,7 +1,7 @@
 import tinycolor from "tinycolor2";
 import { getTokens } from "./base/tokens";
 
-export function getBeetsTokens(colors: any, primaryTextColor: any) {
+export function getDemindTokens(colors: any, primaryTextColor: any) {
   const baseTokens = getTokens(colors, primaryTextColor);
 
   return {
@@ -57,37 +57,49 @@ export function getBeetsTokens(colors: any, primaryTextColor: any) {
         ...baseTokens.colors.dark,
         background: {
           ...baseTokens.colors.dark.background,
-          level0: "#363636",
-          level1: "#3d3d3d",
-          level2: "#454545",
-          level3: "#4c4c4c",
-          level4: "#545454",
-          level0WithOpacity: "rgba(30, 30, 30, 0.96)",
+          level0: "#0A0A14", // 最深背景色（页面背景）
+          level1: "#1E1E2E", // 卡片背景
+          level2: "#252536", // 输入框背景
+          level3: "#2E2E42", // 悬停状态背景
+          level4: "#323245", // 边框色/分隔线
+          level0WithOpacity: "rgba(10, 10, 20, 0.85)",
+          base: "#171728", // 基础背景色
+          baseWithOpacity: "rgba(23, 23, 40, 0.75)",
+          special: "linear-gradient(135deg, #0A0A14 0%, #171728 100%)",
         },
         border: {
           ...baseTokens.colors.dark.border,
-          divider: "#040E01",
-          subduedZen: "hsla(83, 81%, 80%, 0.03)",
+          base: "#323245", // 与level4保持一致
+          divider: "#2A2A3D",
+          subduedZen: "rgba(100, 100, 250, 0.1)", // 更淡的紫色
         },
         button: {
           ...baseTokens.colors.dark.button,
           background: {
-            primary: "linear-gradient(90deg, #91E2C1 0%, #05D690 100%)",
-            secondary: "#05D690",
+            primary: "linear-gradient(135deg,  #F8D458 0%, #6464FA 100%)",
+            secondary: "#A17CF7", // 使用主紫色
           },
         },
         text: {
           ...baseTokens.colors.dark.text,
           primary: "#FFFFFF",
-          secondary: "#DDDDDD",
-          link: "#91e2c1",
-          linkHover: "#91e2c1",
-          special: "linear-gradient(90deg, #78EABC 0%, #18B575 100%)",
-          highlight: "#05D690",
+          secondary: "#A0A0B0",
+          link: "#A17CF7", // 与secondary按钮色保持一致
+          linkHover: "#A17CF7", // 与渐变起始色保持一致
+          special: "linear-gradient(135deg,  #F8D458 0%, #6464FA 100%)", // 与按钮渐变一致
+          highlight: "#A17CF7", // 与link颜色保持一致
         },
         input: {
           ...baseTokens.colors.dark.input,
-          borderHover: "#91e2c1",
+          fontDefault: "#FFFFFF", // 与text.primary保持一致
+          fontPlaceholder: "#808090",
+          fontError: "#FF6B9E", // 调整为更鲜明的错误色
+          borderDefault: "#323245", // 与border.base保持一致
+          borderHover: "#A17CF7", // 与secondary按钮色保持一致
+          borderFocus: "#6464FA", // 与渐变起始色保持一致
+          bgDefault: "#252536", // 与background.level2保持一致
+          bgHover: "#2E2E42", // 与background.level3保持一致
+          bgFocus: "#252536", // 与background.level2保持一致
         },
       },
     },

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import {
@@ -6,6 +5,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalOverlay,
   ModalProps,
 } from "@chakra-ui/react";
 import { RefObject, useEffect, useRef } from "react";
@@ -16,9 +16,7 @@ import { capitalize } from "lodash";
 import { ActionModalFooter } from "./ActionModalFooter";
 import { TransactionModalHeader } from "./TransactionModalHeader";
 import { chainToSlugMap } from "@/lib/utils/urls";
-// eslint-disable-next-line max-len
 import { getStylesForModalContentWithStepTracker } from "@/lib/modules/transactions/step-tracker/step-tracker.utils";
-import { SuccessOverlay } from "@/components/swap/modal/SuccessOverlay";
 import { useOnUserAccountChanged } from "@/lib/modules/web3/useOnUserAccountChanged";
 import { SwapSummary } from "./SwapSummary";
 import { useSwapReceipt } from "@/lib/modules/transactions/receipts/receipt.hooks";
@@ -94,7 +92,7 @@ export function SwapPreviewModal({
       trapFocus={!isSuccess}
       {...rest}
     >
-      <SuccessOverlay startAnimation={!!swapTxHash && hasQuoteContext} />
+      <ModalOverlay />
 
       <ModalContent {...getStylesForModalContentWithStepTracker()}>
         {hasQuoteContext && (
