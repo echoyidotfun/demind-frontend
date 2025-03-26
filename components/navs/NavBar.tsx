@@ -10,7 +10,7 @@ import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
 import { useThemeSettings } from "@/lib/services/themes/useThemeSettings";
 import DarkModeToggle from "../common/btns/DarkModeToggle";
 import { ConnectWallet } from "@/lib/modules/web3/ConnectWallet";
-import { Box, BoxProps, Button, HStack, Link } from "@chakra-ui/react";
+import { Box, BoxProps, Button, HStack, Link, Text } from "@chakra-ui/react";
 import {
   motion,
   useMotionTemplate,
@@ -18,10 +18,12 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import { gochihandFont } from "@/lib/assets/fonts/gochihand/gochihand";
 
 type Props = {
   mobileNav?: ReactNode;
   navLogo?: ReactNode;
+  navType?: string;
   appLinks?: AppLink[];
   leftSlot?: ReactNode;
   rightSlot?: ReactNode;
@@ -153,6 +155,7 @@ export function NavBar({
   disableBlur,
   appLinks,
   customLinks,
+  navType,
   ...rest
 }: Props & BoxProps) {
   const [showShadow, setShowShadow] = useState(false);
@@ -224,9 +227,17 @@ export function NavBar({
           spacing="xl"
           className="staggered-fade-in"
         >
+          <Text
+            className={gochihandFont.className}
+            fontSize="4xl"
+            fontWeight="400"
+            letterSpacing="-0.5px"
+            variant="secondary"
+          >
+            {navType}
+          </Text>
           {leftSlot || (
             <>
-              {/* {navLogo} */}
               {appLinks && (
                 <NavLinks
                   appLinks={appLinks}

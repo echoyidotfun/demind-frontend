@@ -8,7 +8,8 @@ type Props = PropsWithChildren<{
   params: { slug?: string[] };
 }>;
 
-export default function Layout({ params: { slug }, children }: Props) {
+export default async function Layout({ params, children }: Props) {
+  const { slug } = await params;
   const pathParams = getSwapPathParams(slug);
   const swapProps: SwapProviderProps = {
     pathParams,

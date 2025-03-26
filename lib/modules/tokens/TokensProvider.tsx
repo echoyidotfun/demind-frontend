@@ -23,7 +23,6 @@ import {
   getWrappedNativeAssetAddress,
 } from "@/lib/configs/app.config";
 import { mins } from "@/lib/utils/time";
-import mainnetNetworkConfig from "@/lib/configs/networks/mainnet";
 import { ApiToken } from "./token.types";
 
 export type UseTokensResult = ReturnType<typeof _useTokens>;
@@ -67,10 +66,6 @@ export function _useTokens(
   const prices =
     tokenPricesData?.tokenPrices || initTokenPricesData.tokenPrices;
 
-  /*
-    It can return undefined when the token address belongs to a pool token (not included in the provided tokens)
-    // TODO: should we avoid calling getToken with pool tokens?
-   */
   function getToken(
     address: string,
     chain: GqlChain | number
@@ -160,37 +155,6 @@ export function _useTokens(
       return priceForAddress(address, chain);
     }
   }
-
-  //   const calcWeightForBalance = useCallback(
-  //     (
-  //       tokenAddress: Address | string,
-  //       tokenBalance: string,
-  //       totalLiquidity: string,
-  //       chain: GqlChain
-  //     ): string => {
-  //       const tokenPrice = priceFor(tokenAddress, chain);
-
-  //       return bn(tokenPrice).times(tokenBalance).div(totalLiquidity).toString();
-  //     },
-  //     []
-  //   );
-
-  //   const calcTotalUsdValue = useCallback(
-  //     (poolTokens: PoolToken[], chain: GqlChain) => {
-  //       return poolTokens
-  //         .reduce((total, token) => {
-  //           return total.plus(
-  //             bn(priceFor(token.address, chain)).times(token.balance)
-  //           );
-  //         }, bn(0))
-  //         .toString();
-  //     },
-  //     []
-  //   );
-
-  //   const vebalBptToken = tokens.find(
-  //     (t) => t.address === mainnetNetworkConfig.tokens.addresses.veBalBpt
-  //   );
 
   return {
     tokens,

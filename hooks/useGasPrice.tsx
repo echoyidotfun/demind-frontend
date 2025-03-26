@@ -7,7 +7,6 @@ import { secs } from "@/lib/utils/time";
 import { Box, Button, HStack, Link, Text } from "@chakra-ui/react";
 import { GasIcon } from "@/components/common/icons/GasIcon";
 import { onlyExplicitRefetch } from "@/lib/utils/queries";
-import { injectedWallet } from "@rainbow-me/rainbowkit/wallets";
 
 function getGasPrice(chain: GqlChain) {
   const client = getViemClient(chain);

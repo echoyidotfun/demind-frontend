@@ -15,8 +15,8 @@ export function BaseLayout({ children }: PropsWithChildren) {
       <NavBarContainer />
       {children}
       <Footer
-        logoType={<img src="/next.svg" alt="logo" width={180} height={30} />}
-        title="Trade Like You Speak"
+        logoType="DeMind"
+        title='"Trade Like You Speak"'
         subTitle="Where aggregated liquidity meets artificial intelligence, creating seamless trading experiences with the power of natural language commands."
       />
     </div>

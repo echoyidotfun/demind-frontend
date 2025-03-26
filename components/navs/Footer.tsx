@@ -22,6 +22,7 @@ import { AppLink } from "@/lib/configs/config.types";
 import { ReactNode } from "react";
 import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
 import { SocialIcon } from "@/components/common/icons/SocialIcon";
+import { gochihandFont } from "@/lib/assets/fonts/gochihand/gochihand";
 
 type CardContentProps = {
   logoType: ReactNode;
@@ -40,12 +41,22 @@ function CardContent({ logoType, title, subTitle }: CardContentProps) {
       maxW={{ base: "100%", md: "35%" }}
     >
       <VStack align="start" color="font.primary" spacing="lg" width="100%">
-        <Box w="120px">{logoType}</Box>
         <VStack align="start" spacing="sm">
           <Text
-            fontSize="4xl"
+            className={gochihandFont.className}
+            fontSize="5xl"
             fontWeight="500"
-            letterSpacing="-0.4px"
+            letterSpacing="-0.5px"
+            variant="secondary"
+            marginBottom="-4"
+          >
+            {logoType}
+          </Text>
+          <Text
+            className={gochihandFont.className}
+            fontSize="2xl"
+            fontWeight="400"
+            letterSpacing="-0.5px"
             variant="secondary"
           >
             {title}

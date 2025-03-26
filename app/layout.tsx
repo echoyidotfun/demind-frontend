@@ -11,7 +11,7 @@ import { PropsWithChildren } from "react";
 export const metadata: Metadata = {
   title: "DeMind",
   description: "AI driven onchain trading",
-  icons: [{ rel: "icon", type: "image/x-icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", type: "image/png", url: "/favicon.png" }],
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
