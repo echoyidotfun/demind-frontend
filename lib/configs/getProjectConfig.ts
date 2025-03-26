@@ -1,11 +1,7 @@
 import { ProjectConfig } from "./config.types";
 import { GqlChain } from "../services/api/generated/graphql";
 
-export const supportedNetworks = [
-  GqlChain.Sonic,
-  GqlChain.Base,
-  GqlChain.Arbitrum,
-];
+export const supportedNetworks = [GqlChain.Sonic];
 
 export const projectConfig: ProjectConfig = {
   projectId: "demind",

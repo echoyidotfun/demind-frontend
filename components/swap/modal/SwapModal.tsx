@@ -12,7 +12,6 @@ import { RefObject, useEffect, useRef } from "react";
 import { DesktopStepTracker } from "../transactions/transaction-steps/DesktopStepTracker";
 import { useSwap } from "@/lib/modules/swap/SwapProvider";
 import { SwapTimeout } from "./SwapTimeout";
-import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { capitalize } from "lodash";
 import { ActionModalFooter } from "./ActionModalFooter";
 import { TransactionModalHeader } from "./TransactionModalHeader";
@@ -40,7 +39,6 @@ export function SwapPreviewModal({
   finalFocusRef,
   ...rest
 }: Props & Omit<ModalProps, "children">) {
-  const { isDesktop } = useBreakpoints();
   const initialFocusRef = useRef(null!);
   const { userAddress } = useUserAccount();
   const { stopTokenPricePolling } = useTokens();
@@ -98,12 +96,8 @@ export function SwapPreviewModal({
     >
       <SuccessOverlay startAnimation={!!swapTxHash && hasQuoteContext} />
 
-      <ModalContent
-        {...getStylesForModalContentWithStepTracker(
-          isDesktop && hasQuoteContext
-        )}
-      >
-        {isDesktop && hasQuoteContext && (
+      <ModalContent {...getStylesForModalContentWithStepTracker()}>
+        {hasQuoteContext && (
           <DesktopStepTracker
             chain={selectedChain}
             transactionSteps={transactionSteps}

@@ -7,7 +7,6 @@ export function useNav() {
   const pathname = usePathname();
   const { chain } = useParams();
   const swapHref = chain ? "/swap/" + chain : "/swap";
-  const defaiHref = chain ? "/defai/" + chain : "/defai";
 
   const defaultAppLinks: AppLink[] = [
     {
@@ -17,7 +16,7 @@ export function useNav() {
   ];
 
   function linkColorFor(path: string) {
-    return pathname === path ? "font.highlight" : "font.primary";
+    return pathname.includes(path) ? "font.highlight" : "font.primary";
   }
 
   return {

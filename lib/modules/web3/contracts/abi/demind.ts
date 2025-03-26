@@ -65,6 +65,38 @@ export const demindRouterAbi = [
   },
   {
     type: 'function',
+    inputs: [{ name: '_executor', internalType: 'address', type: 'address' }],
+    name: 'addExecutor',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_trustedToken', internalType: 'address', type: 'address' },
+    ],
+    name: 'addTrustedToken',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_executor', internalType: 'address', type: 'address' }],
+    name: 'deleteExecutor',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_trustedToken', internalType: 'address', type: 'address' },
+    ],
+    name: 'deleteTrustedToken',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
     inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     name: 'executors',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
@@ -379,6 +411,19 @@ export const demindRouterAbi = [
     anonymous: false,
     inputs: [
       {
+        name: '_trustedToken',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'TrustedTokenRemoved',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
         name: '_oldMinFee',
         internalType: 'uint256',
         type: 'uint256',
@@ -438,14 +483,6 @@ export const demindRouterAbi = [
     ],
     name: 'UpdatedTrustedTokens',
   },
-  { type: 'error', inputs: [], name: 'FromWrappedNative' },
-  { type: 'error', inputs: [], name: 'InsufficientAmountOut' },
-  { type: 'error', inputs: [], name: 'InsufficientFees' },
-  {
-    type: 'error',
-    inputs: [{ name: '_maxSteps', internalType: 'uint256', type: 'uint256' }],
-    name: 'InvalidMaxSteps',
-  },
   {
     type: 'error',
     inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
@@ -456,12 +493,6 @@ export const demindRouterAbi = [
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'OwnableUnauthorizedAccount',
   },
-  {
-    type: 'error',
-    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
-    name: 'SafeERC20FailedOperation',
-  },
-  { type: 'error', inputs: [], name: 'ToWrappedNative' },
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1222,6 +1253,42 @@ export const useWriteDemindRouter = /*#__PURE__*/ createUseWriteContract({
 })
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"addExecutor"`
+ */
+export const useWriteDemindRouterAddExecutor =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: demindRouterAbi,
+    functionName: 'addExecutor',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"addTrustedToken"`
+ */
+export const useWriteDemindRouterAddTrustedToken =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: demindRouterAbi,
+    functionName: 'addTrustedToken',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"deleteExecutor"`
+ */
+export const useWriteDemindRouterDeleteExecutor =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: demindRouterAbi,
+    functionName: 'deleteExecutor',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"deleteTrustedToken"`
+ */
+export const useWriteDemindRouterDeleteTrustedToken =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: demindRouterAbi,
+    functionName: 'deleteTrustedToken',
+  })
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"renounceOwnership"`
  */
 export const useWriteDemindRouterRenounceOwnership =
@@ -1317,6 +1384,42 @@ export const useWriteDemindRouterTransferOwnership =
 export const useSimulateDemindRouter = /*#__PURE__*/ createUseSimulateContract({
   abi: demindRouterAbi,
 })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"addExecutor"`
+ */
+export const useSimulateDemindRouterAddExecutor =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: demindRouterAbi,
+    functionName: 'addExecutor',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"addTrustedToken"`
+ */
+export const useSimulateDemindRouterAddTrustedToken =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: demindRouterAbi,
+    functionName: 'addTrustedToken',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"deleteExecutor"`
+ */
+export const useSimulateDemindRouterDeleteExecutor =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: demindRouterAbi,
+    functionName: 'deleteExecutor',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"deleteTrustedToken"`
+ */
+export const useSimulateDemindRouterDeleteTrustedToken =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: demindRouterAbi,
+    functionName: 'deleteTrustedToken',
+  })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link demindRouterAbi}__ and `functionName` set to `"renounceOwnership"`
@@ -1430,6 +1533,15 @@ export const useWatchDemindRouterSwappedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: demindRouterAbi,
     eventName: 'Swapped',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link demindRouterAbi}__ and `eventName` set to `"TrustedTokenRemoved"`
+ */
+export const useWatchDemindRouterTrustedTokenRemovedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: demindRouterAbi,
+    eventName: 'TrustedTokenRemoved',
   })
 
 /**

@@ -1,11 +1,11 @@
-import { Path, Slippage, Swap, TokenApi } from "@balancer/sdk";
+import { Path, Slippage, TokenApi } from "@balancer/sdk";
 import { GqlChain, GqlSorSwapType } from "@/lib/services/api/generated/graphql";
 import {
   DemindRouterBuildSwapInputs,
   DemindRouterSimulateSwapResponse,
   SimulateSwapInputs,
 } from "../swap.types";
-import { demindRouterAbi, yakRouterAbi } from "../../web3/contracts/abi/demind";
+import { demindRouterAbi } from "../../web3/contracts/abi/demind";
 import {
   getChainId,
   getNetworkConfig,
@@ -13,7 +13,6 @@ import {
 } from "@/lib/configs/app.config";
 import { Address, encodeFunctionData, formatUnits } from "viem";
 import { getViemClient } from "@/lib/services/viem/viem.client";
-import { useTokens } from "../../tokens/TokensProvider";
 import { bn } from "@/lib/utils/numbers";
 import { TransactionConfig } from "../../web3/contracts/contract.types";
 import { isNativeAsset } from "../../tokens/tokenHelper";
@@ -21,39 +20,19 @@ import { SwapHandler } from "./Swap.handler";
 import { ApolloClient } from "@apollo/client";
 import { ApiToken } from "../../tokens/token.types";
 
-// {
-//   type: 'function',
-//   inputs: [
-//     {
-//       name: '_trade',
-//       internalType: 'struct TradeSummary',
-//       type: 'tuple',
-//       components: [
-//         { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
-//         { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
-//         { name: 'path', internalType: 'address[]', type: 'address[]' },
-//         { name: 'executors', internalType: 'address[]', type: 'address[]' },
-//       ],
-//     },
-//     { name: '_to', internalType: 'address', type: 'address' },
-//     { name: 'fee', internalType: 'uint256', type: 'uint256' },
-//   ],
-//   name: 'swapNoSplit',
-//   outputs: [],
-//   stateMutability: 'nonpayable',
-// },
-
 type TradeSummary = {
   amountIn: bigint;
   amountOut: bigint;
   path: Address[];
-  adapters: Address[];
+  executors: Address[];
 };
 
 type AllowableSwapFunction =
   | "swapNoSplit"
-  | "swapNoSplitFromAVAX"
-  | "swapNoSplitToAVAX";
+  | "swapNoSplitFromNative"
+  | "swapNoSplitToNative";
+
+type validMaxHops = 1 | 2 | 3 | 4;
 
 export class DemindRouterSwapHandler implements SwapHandler {
   name = "DemindRouterSwapHandler";
@@ -89,28 +68,33 @@ export class DemindRouterSwapHandler implements SwapHandler {
       tokenOut = getWrappedNativeAssetAddress(chain) as Address;
     }
 
+    const maxHops: validMaxHops = 4;
+    console.log("tokenIn: ", tokenIn);
+    console.log("tokenOut: ", tokenOut);
+    console.log("swapScaledAmount: ", swapScaledAmount);
+
     const bestPath = await publicClient.readContract({
       address: routerAddress,
-      abi: yakRouterAbi,
+      abi: demindRouterAbi,
       functionName: "findBestPath",
       args: [
         swapScaledAmount,
         tokenIn,
         tokenOut,
-        BigInt(4), // 最大跳数指swap路径中经过token的最大数量
+        BigInt(maxHops), // 最大跳数指swap路径中经过executors的最大数量
       ],
     });
 
-    const { amounts, path, adapters } = bestPath;
-    if (adapters.length === 0)
+    const { amounts, path, executors } = bestPath;
+    if (executors.length === 0)
       throw new Error("No router found in swap query output");
 
-    const hasBestPath = adapters.length > 0;
+    const hasBestPath = executors.length > 0;
     const inputAmount = amounts[0];
     const outputAmount = hasBestPath ? amounts[amounts.length - 1] : BigInt(0);
-    const hopCount: number = adapters.length;
+    const hopCount: number = executors.length;
 
-    this.inPathExecutors = adapters as Address[];
+    this.inPathExecutors = executors as Address[];
 
     const sdkPath: Path = {
       tokens: path.map((address) => {
@@ -182,17 +166,19 @@ export class DemindRouterSwapHandler implements SwapHandler {
       amountIn,
       amountOut: minAmountOut,
       path: path.tokens.map((token) => token.address),
-      adapters: this.inPathExecutors,
+      executors: this.inPathExecutors,
     } as TradeSummary;
 
     let functionName: AllowableSwapFunction = "swapNoSplit";
     let value = 0n;
     if (isNativeIn) {
-      functionName = "swapNoSplitFromAVAX";
+      functionName = "swapNoSplitFromNative";
       value = amountIn;
     } else if (isNativeOut) {
-      functionName = "swapNoSplitToAVAX";
+      functionName = "swapNoSplitToNative";
     }
+
+    console.log("executors: ", this.inPathExecutors);
 
     return {
       account,
@@ -210,7 +196,7 @@ export class DemindRouterSwapHandler implements SwapHandler {
     fee: number
   ) {
     return encodeFunctionData({
-      abi: yakRouterAbi,
+      abi: demindRouterAbi,
       functionName: functionName,
       args: [trade, recipient, BigInt(fee)],
     });

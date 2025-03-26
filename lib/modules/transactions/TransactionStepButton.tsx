@@ -63,7 +63,7 @@ export function TransactionStepButton({ step }: Props) {
   }
 
   return (
-    <VStack width="full">
+    <VStack width="full" paddingTop="sm">
       {transactionState === TransactionState.Error && (
         <TransactionError step={step} />
       )}
@@ -81,6 +81,7 @@ export function TransactionStepButton({ step }: Props) {
           variant="primary"
           w="full"
           width="full"
+          py="lg"
         >
           <LabelWithIcon icon="gas">{getButtonLabel()}</LabelWithIcon>
         </Button>

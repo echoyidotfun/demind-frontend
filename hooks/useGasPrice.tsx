@@ -4,9 +4,10 @@ import { getViemClient } from "@/lib/services/viem/viem.client";
 import { formatUnits } from "viem";
 import { bn, fNum } from "@/lib/utils/numbers";
 import { secs } from "@/lib/utils/time";
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Link, Text } from "@chakra-ui/react";
 import { GasIcon } from "@/components/common/icons/GasIcon";
 import { onlyExplicitRefetch } from "@/lib/utils/queries";
+import { injectedWallet } from "@rainbow-me/rainbowkit/wallets";
 
 function getGasPrice(chain: GqlChain) {
   const client = getViemClient(chain);
@@ -14,7 +15,7 @@ function getGasPrice(chain: GqlChain) {
 }
 
 function formatGasPrice(gasPrice: bigint): string {
-  return fNum("integer", formatUnits(gasPrice, 9));
+  return fNum("fiat", formatUnits(gasPrice, 9));
 }
 
 function highGasPriceFor(chain: GqlChain) {
@@ -22,10 +23,38 @@ function highGasPriceFor(chain: GqlChain) {
   return 500;
 }
 
-export function GasPriceCard({ chain }: { chain: GqlChain }) {
+export function GasPriceCard({
+  chain,
+  inConnectWallect = false,
+}: {
+  chain: GqlChain;
+  inConnectWallect?: boolean;
+}) {
   const { gasPrice, isHighGasPrice } = useGasPriceQuery(chain);
 
-  const gasPriceColor = isHighGasPrice ? "red.500" : "grayText";
+  const gasPriceColor = isHighGasPrice
+    ? "red.500"
+    : inConnectWallect
+      ? "green.200"
+      : "grayText";
+
+  if (inConnectWallect) {
+    return (
+      <Button
+        alignItems="center"
+        display="flex"
+        variant="tertiary"
+        color={gasPriceColor}
+      >
+        <HStack spacing="xs">
+          <GasIcon size={16} />
+          <Text color={gasPriceColor} fontSize="sm" fontWeight="bold">
+            {gasPrice ? gasPrice.toString() : "-"}
+          </Text>
+        </HStack>
+      </Button>
+    );
+  }
 
   return (
     <Box

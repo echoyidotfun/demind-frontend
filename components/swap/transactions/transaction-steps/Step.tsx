@@ -25,7 +25,7 @@ export function Step(props: StepProps) {
     <HStack alignItems="flex-start">
       <StepIndicator transaction={transaction} {...props} />
       <VStack alignItems="start" spacing="0">
-        <Text color={color} fontWeight="bold" mt={isActive ? -0.3 : 0}>
+        <Text color={color} fontWeight="medium" mt={isActive ? -0.3 : 0}>
           {title}
         </Text>
         {<NestedInfo color={color} details={props.step.details} />}
@@ -82,7 +82,7 @@ function NestedInfo({
 }) {
   return (
     <Box mb="0" mt="0" p="1" pl="0">
-      <Text color={color} fontSize="sm" lineHeight="1">
+      <Text color={color} fontSize="xs" lineHeight="1">
         {details?.gasless ? "Free signature" : "Gas transaction"}
       </Text>
 

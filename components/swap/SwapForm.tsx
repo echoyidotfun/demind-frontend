@@ -124,7 +124,7 @@ export function SwapForm() {
         position="relative"
         w={["100vw", "full"]}
       >
-        <Card rounded="xl">
+        <Card rounded="lg">
           <CardHeader as={HStack} justify="space-between" w="full" zIndex={11}>
             <span>{capitalize(swapAction)}</span>
             <HStack>

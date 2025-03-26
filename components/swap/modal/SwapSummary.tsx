@@ -1,4 +1,3 @@
-import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { Card, HStack, Text } from "@chakra-ui/react";
 import { SwapTokenRow } from "../tokens/TokenRow/SwapTokenRow";
 import { SwapDetails } from "../SwapDetails";
@@ -18,12 +17,10 @@ export function SwapSummary({
   sentToken,
   error,
 }: SwapReceiptResult) {
-  const { isMobile } = useBreakpoints();
   const { userAddress, isLoading: isUserAddressLoading } = useUserAccount();
   const {
     tokenIn,
     tokenOut,
-    transactionSteps,
     selectedChain,
     isWrap,
     swapTxHash,

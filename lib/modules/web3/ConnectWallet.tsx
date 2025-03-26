@@ -1,4 +1,4 @@
-import { ConnectButton, WalletButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   Box,
   Button,
@@ -8,6 +8,8 @@ import {
   Show,
 } from "@chakra-ui/react";
 import { useUserAccount } from "./UserAccountProvider";
+import { GasPriceCard } from "@/hooks/useGasPrice";
+import { getGqlChain } from "@/lib/configs/app.config";
 
 export function ConnectWallet({
   connectLabel = "Connect wallet",
@@ -67,8 +69,11 @@ export function ConnectWallet({
           );
         }
 
+        const gqlChain = getGqlChain(chain.id);
+
         return (
           <HStack spacing="sm">
+            <GasPriceCard chain={gqlChain} inConnectWallect={true} />
             <Button
               alignItems="center"
               display="flex"

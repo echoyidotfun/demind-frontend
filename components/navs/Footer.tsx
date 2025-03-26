@@ -121,7 +121,16 @@ function FAQ() {
                   transition={{ duration: 1, ease: "easeOut" } as any}
                   maxH="300px" // 限制最大高度
                 >
-                  <Box sx={{ textWrap: "balance" }} fontSize="sm">
+                  <Box
+                    sx={{
+                      wordBreak: "break-word",
+                      whiteSpace: "normal",
+                      lineHeight: "md",
+                      maxWidth: "90%",
+                    }}
+                    fontSize="sm"
+                    textAlign="left"
+                  >
                     {item.answer}
                   </Box>
                 </Box>

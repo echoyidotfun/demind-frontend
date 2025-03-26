@@ -21,12 +21,11 @@ export function DesktopStepTracker({
     <Card padding={0} position="absolute" right="-274px" width="250px">
       <VStack alignItems="flex-start" w="full">
         <HStack justify="space-between" p="sm" pb="0" w="full">
-          <Heading fontWeight="bold" size="h6">
+          <Heading fontWeight="medium" size="h6">
             Steps
           </Heading>
           <GasPriceCard chain={chain} />
         </HStack>
-
         <Divider p="0" />
         <Box p="sm" pb="md">
           <Steps isTxBatch={isTxBatch} transactionSteps={transactionSteps} />

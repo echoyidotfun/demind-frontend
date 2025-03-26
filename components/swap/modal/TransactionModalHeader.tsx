@@ -50,7 +50,7 @@ export function TransactionModalHeader({
                 <Center
                   bg="green.500"
                   color="white"
-                  fontWeight="bold"
+                  fontWeight="medium"
                   h={10}
                   rounded="full"
                   w={10}

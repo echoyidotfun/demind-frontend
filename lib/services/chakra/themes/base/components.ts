@@ -13,7 +13,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           button: {
             px: "5",
             py: "6",
-            fontWeight: "bold",
+            fontWeight: "medium",
             fontSize: "1.25rem",
             rounded: "lg",
             borderWidth: 0,
@@ -167,7 +167,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
     },
     Heading: {
       baseStyle: {
-        fontWeight: "bold",
+        fontWeight: "medium",
         display: "block",
         width: "fit-content",
         background: "font.primary",
@@ -286,7 +286,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
         eyebrow: {
           textTransform: "uppercase",
           fontSize: "xs",
-          fontWeight: "semibold",
+          fontWeight: "medium",
           letterSpacing: "1px",
           width: "fit-content",
         },
@@ -327,7 +327,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
       baseStyle: {
         field: {
           background: "background.level1",
-          fontWeight: "bold",
+          fontWeight: "medium",
           color: "font.primary",
           shadow: "md",
           border: "0px solid transparent",
@@ -344,7 +344,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             background: "background.button.secondary",
             py: "sm",
             fontSize: "md",
-            fontWeight: "bold",
+            fontWeight: "medium",
             pl: "2",
             pr: "1",
           },
@@ -359,6 +359,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
         borderRadius: "lg",
         color: "text-body",
         letterSpacing: "-0.02em",
+        fontWeight: "medium",
         _disabled: {
           background: "background.level3",
           border: "1px solid",
@@ -457,7 +458,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           py: "1.5",
           fontSize: "xs",
           color: "font.secondary",
-          fontWeight: "bold",
+          fontWeight: "medium",
           borderRadius: "4px",
           _hover: {
             color: "font.highlight",
@@ -489,7 +490,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           py: "1.5",
           fontSize: "xs",
           color: "gray.700",
-          fontWeight: "bold",
+          fontWeight: "medium",
           borderRadius: "4px",
           _hover: {
             transform: "none",
@@ -511,6 +512,8 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           rounded: "full",
         },
         header: {
+          fontWeight: "medium",
+          fontSize: "xl",
           color: "font.primary",
           letterSpacing: "-0.04rem",
         },
@@ -583,7 +586,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             background: "background.level2",
             borderColor: "transparent",
             color: "grayText",
-            fontWeight: "bold",
+            fontWeight: "medium",
             shadow: "3xl",
           },
           body: {
@@ -626,7 +629,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           padding: "none",
           paddingBottom: "md",
           fontSize: "2xl",
-          fontWeight: "bold",
+          fontWeight: "medium",
           color: "font.primary",
         },
         body: {
@@ -652,7 +655,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             padding: "none",
             paddingBottom: "md",
             color: "font.primary",
-            fontWeight: "bold",
+            fontWeight: "medium",
             fontSize: "sm",
           },
         },
@@ -670,7 +673,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             padding: "none",
             paddingBottom: "md",
             color: "font.primary",
-            fontWeight: "bold",
+            fontWeight: "medium",
             fontSize: "sm",
           },
         },
@@ -733,7 +736,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           borderWidth: "1px",
           borderRadius: "full",
           color: "font.primary",
-          fontWeight: "semibold",
+          fontWeight: "medium",
           fontSize: "14px",
           _hover: {
             color: "white",

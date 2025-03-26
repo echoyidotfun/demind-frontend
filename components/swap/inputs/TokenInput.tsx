@@ -87,11 +87,11 @@ function TokenInputSelector({
         </Box>
       )}
       {tokenConfig && tokenConfig.label}
-      {weight && (
+      {/* {weight && (
         <Text fontSize="sm" fontWeight="normal" ml="sm">
           {fNum("weight", weight)}
         </Text>
-      )}
+      )} */}
       {onToggleTokenClicked && (
         <Box ml="sm">
           <GoChevronDown size={16} />
@@ -252,6 +252,7 @@ export const TokenInput = forwardRef(
       weight,
       onToggleTokenClicked,
     });
+
     const footer = hideFooter
       ? undefined
       : TokenInputFooter({
@@ -302,7 +303,7 @@ export const TokenInput = forwardRef(
                 bg="transparent"
                 border="0px solid transparent"
                 boxShadow="none"
-                fontSize="3xl"
+                fontSize="2xl"
                 fontWeight="medium"
                 isDisabled={!token}
                 min={0}

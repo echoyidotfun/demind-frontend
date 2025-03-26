@@ -69,14 +69,21 @@ export function SwapTimeout() {
 
   return (
     !shouldFreezeQuote && (
-      <HStack fontSize="sm" fontWeight="normal" spacing="xs">
-        <Text color="grayText">Quote refresh in</Text>
+      <HStack fontWeight="normal" spacing="xs">
+        <Text fontSize="sm" color="grayText">
+          Quote refresh in
+        </Text>
         <HStack spacing="none">
-          <NumberText color="grayText" fontWeight="bold" textAlign="right">
+          <NumberText
+            fontSize="sm"
+            color="grayText"
+            fontWeight="bold"
+            textAlign="right"
+          >
             {secondsToRefetch}
           </NumberText>
-          <Text color="grayText" fontWeight="bold">
-            s
+          <Text fontSize="sm" color="grayText" fontWeight="medium">
+            &nbsp;s
           </Text>
         </HStack>
       </HStack>

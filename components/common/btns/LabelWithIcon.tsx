@@ -11,7 +11,7 @@ export function LabelWithIcon({ children, icon }: PropsWithChildren<Props>) {
   return (
     <HStack spacing="sm" width="100%">
       <HStack justifyContent="center" spacing="sm" width="100%">
-        <Text color="font.primaryGradient" fontWeight="bold">
+        <Text color="font.primaryGradient" fontWeight="medium">
           {children}
         </Text>
       </HStack>

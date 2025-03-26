@@ -32,7 +32,7 @@ const networkConfig: NetworkConfig = {
     },
   },
   contracts: {
-    router: "0xba12222222228d8ba445958a75a0704d566bf2c8",
+    router: "0x50663d063b7c61c9917a87353a8584077fa89796",
     balancer: {
       vaultV2: "0xba12222222228d8ba445958a75a0704d566bf2c8",
     },
