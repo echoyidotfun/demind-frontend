@@ -103,13 +103,13 @@ export function NavActions() {
           el: (
             <Button
               as={NextLink}
-              href="/pools"
+              href="/swap"
               prefetch
               px={7}
               size="md"
               variant="primary"
             >
-              Launch app
+              Launch App
             </Button>
           ),
           display: { base: "block", lg: "block" },
@@ -227,15 +227,22 @@ export function NavBar({
           spacing="xl"
           className="staggered-fade-in"
         >
-          <Text
-            className={gochihandFont.className}
-            fontSize="4xl"
-            fontWeight="400"
-            letterSpacing="-0.5px"
-            variant="special"
+          <Link
+            as={NextLink}
+            href="/"
+            prefetch
+            _hover={{ transform: "scale(1.05) rotate(-0.5deg)" }}
           >
-            {navType}
-          </Text>
+            <Text
+              className={gochihandFont.className}
+              fontSize="4xl"
+              fontWeight="400"
+              letterSpacing="-0.5px"
+              variant="special"
+            >
+              {navType}
+            </Text>
+          </Link>
           {leftSlot || (
             <>
               {appLinks && (

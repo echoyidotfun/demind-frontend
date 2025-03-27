@@ -7,7 +7,7 @@ import { PropsWithChildren } from "react";
 
 export const metadata: Metadata = {
   title: "Trade",
-  description: "trade like you speak",
+  description: "Where Mind Meets Momentum",
 };
 
 export default async function Layout({

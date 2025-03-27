@@ -6,8 +6,8 @@ export const supportedNetworks = [GqlChain.Sonic];
 export const projectConfig: ProjectConfig = {
   projectId: "demind",
   projectName: "DeMind",
-  projectUrl: "https://demind.xyz",
-  projectLogo: "https://demind.xyz/logo.png",
+  projectUrl: "https://demind.fun",
+  projectLogo: "https://demind.fun/images/icons/logo.png",
   supportedNetworks: supportedNetworks,
   defaultNetwork: GqlChain.Sonic,
   delegateOwner: "0xaaaaaaaaaa",

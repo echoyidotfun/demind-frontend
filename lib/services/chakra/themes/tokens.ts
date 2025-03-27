@@ -58,13 +58,13 @@ export function getDemindTokens(colors: any, primaryTextColor: any) {
         background: {
           ...baseTokens.colors.dark.background,
           level0: "#0A0A14", // 最深背景色（页面背景）
-          level1: "#1E1E2E", // 卡片背景
+          level1: "#1E1E38", // 卡片背景
           level2: "#252536", // 输入框背景
           level3: "#575767", // 悬停状态背景
           level4: "#323245", // 边框色/分隔线
           level0WithOpacity: "rgba(10, 10, 20, 0.85)",
           base: "#171728", // 基础背景色
-          baseWithOpacity: "rgba(23, 23, 40, 0.75)",
+          baseWithOpacity: "rgba(23, 23, 48, 0.85)", // 调整为更深的蓝紫色调，增加透明度
           special: "#8163C7",
         },
         border: {

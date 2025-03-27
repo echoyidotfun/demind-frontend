@@ -38,7 +38,7 @@ function CardContent({ logoType, title, subTitle }: CardContentProps) {
       py={{ base: "sm", lg: "md" }}
       spacing={{ base: "xl", lg: "md" }}
       w="full"
-      maxW={{ base: "100%", md: "35%" }}
+      maxW={{ base: "100%", md: "36%" }}
     >
       <VStack align="start" color="font.primary" spacing="lg" width="100%">
         <VStack align="start" spacing="sm">
@@ -75,22 +75,22 @@ function FAQ() {
     {
       question: "What is DeMind?",
       answer:
-        "DeMind is an personal-built AI-driven aggregator that serves as a gateway to DeFi. My roadmap includes integrating AI agents to enable intent-driven trading through natural language interfaces and optimized DeFi strategies, making crypto interactions more intuitive and efficient.",
+        "DeMind is an AI-powered DeFi aggregator that enhances trading intents into intelligent actions. By combining aggregated liquidity with momentum-driven strategies, we create an intuitive trading experience where your trading intentions are seamlessly transformed into optimized DeFi strategies.",
     },
     {
-      question: "Why I build DeMind?",
+      question: "Why build DeMind?",
       answer:
-        "This project emerged from a passion to learn full-stack Web3 development and contribute to the decentralized ecosystem. It represents both a personal journey into blockchain development and a commitment to exploring the future of DeFi while preserving the cypherpunk ethos of privacy, self-sovereignty, and censorship resistance. Also I'm currently searching for a job about full-stack Web3 development, so I need to build a project to show my skills.",
+        "DeMind emerged from a vision to revolutionize DeFi trading through the fusion of AI and momentum-based strategies. While showcasing full-stack Web3 development capabilities, it represents our commitment to making DeFi more accessible while preserving the core values of privacy, self-sovereignty, and censorship resistance.",
     },
     {
       question: "How can I contribute?",
       answer:
-        "All frontend code and smart contracts are open-source. All contributions, issues, or discussions are welcome.",
+        "DeMind is an open-source project welcoming contributions from the community. Whether you're interested in AI integration, DeFi strategies, or frontend development, your ideas and contributions can help shape the future of intent-driven trading.",
     },
     {
       question: "Disclaimer",
       answer:
-        "DeMind is released under MIT and GPL-3.0 licenses. This project is currently for educational and experimental purposes. While we strive for security and reliability, use at your own risk. The code is provided 'as is' without warranty of any kind. Always do your own research before interacting with any smart contracts.",
+        "DeMind is released under MIT and GPL-3.0 licenses. This project is currently for educational and experimental purposes. While we strive for security and reliability, use at your own risk. The code is provided 'as is' without warranty of any kind. Always DYOR before interacting with any smart contracts.",
     },
   ];
 
