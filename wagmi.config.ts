@@ -11,10 +11,6 @@ export default defineConfig({
       name: "erc20",
       abi: erc20Abi,
     },
-    {
-      name: "yakRouter",
-      abi: yakRouterAbi as Abi,
-    },
   ],
   plugins: [
     foundry({

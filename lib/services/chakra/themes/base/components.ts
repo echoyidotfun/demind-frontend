@@ -510,7 +510,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
     Modal: {
       baseStyle: {
         dialog: {
-          background: "background.level0",
+          background: "background.level2",
         },
         closeButton: {
           top: 3,

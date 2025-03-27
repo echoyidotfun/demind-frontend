@@ -16,7 +16,6 @@ import { TokenSelectList } from "./TokenSelectList";
 import { GqlChain } from "@/lib/services/api/generated/graphql";
 import { TokenSelectPopular } from "./TokenSelectPopular";
 import { SearchInput } from "@/components/swap/inputs/SearchInput";
-import { getChainShortName } from "@/lib/configs/app.config";
 import { Address } from "viem";
 import { ApiToken } from "@/lib/modules/tokens/token.types";
 
@@ -31,6 +30,7 @@ type Props = {
   onOpen(): void;
   finalFocusRef?: RefObject<HTMLInputElement>;
   onTokenSelect: (token: ApiToken) => void;
+  tokenSelectKey: "tokenIn" | "tokenOut";
 };
 
 export function TokenSelectModal({
@@ -43,9 +43,12 @@ export function TokenSelectModal({
   onClose,
   finalFocusRef,
   onTokenSelect,
+  tokenSelectKey,
   ...rest
 }: Props & Omit<ModalProps, "children">) {
   const [searchTerm, setSearchTerm] = useState("");
+
+  const headerPrefix = tokenSelectKey === "tokenIn" ? "Swap from " : "Swap to";
 
   function closeOnSelect(token: ApiToken) {
     onTokenSelect(token);
@@ -68,9 +71,7 @@ export function TokenSelectModal({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader color="font.primary">
-          Select a token: {getChainShortName(chain)}
-        </ModalHeader>
+        <ModalHeader color="font.primary">{headerPrefix}</ModalHeader>
         <ModalCloseButton />
         <ModalBody p={0}>
           <VStack align="start" spacing="md" w="full">

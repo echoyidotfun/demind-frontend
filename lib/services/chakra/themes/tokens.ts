@@ -65,7 +65,7 @@ export function getDemindTokens(colors: any, primaryTextColor: any) {
           level0WithOpacity: "rgba(10, 10, 20, 0.85)",
           base: "#171728", // 基础背景色
           baseWithOpacity: "rgba(23, 23, 40, 0.75)",
-          special: "linear-gradient(135deg, #0A0A14 0%, #171728 100%)",
+          special: "#8163C7",
         },
         border: {
           ...baseTokens.colors.dark.border,
@@ -77,7 +77,7 @@ export function getDemindTokens(colors: any, primaryTextColor: any) {
           ...baseTokens.colors.dark.button,
           background: {
             primary: "linear-gradient(135deg,  #F8D458 0%, #6464FA 100%)",
-            secondary: "#A17CF7", // 使用主紫色
+            secondary: "#8163C7", // 使用主紫色
             tertiary: "#BDA3F9", // 浅一些的紫色
           },
         },
@@ -85,22 +85,22 @@ export function getDemindTokens(colors: any, primaryTextColor: any) {
           ...baseTokens.colors.dark.text,
           primary: "#FFFFFF",
           secondary: "#A0A0B0",
-          link: "#A17CF7", // 与secondary按钮色保持一致
-          linkHover: "#A17CF7", // 与渐变起始色保持一致
+          link: "#8163C7", // 与secondary按钮色保持一致
+          linkHover: "#8163C7", // 与渐变起始色保持一致
           special: "linear-gradient(135deg,  #F8D458 0%, #6464FA 100%)", // 与按钮渐变一致
-          highlight: "#A17CF7", // 与link颜色保持一致
+          highlight: "#8163C7", // 与link颜色保持一致
         },
         input: {
           ...baseTokens.colors.dark.input,
           fontDefault: "#BDA3F9",
-          fontPlaceholder: "#808090",
-          fontError: "#FF6B9E", // 调整为更鲜明的错误色
-          borderDefault: "#323245", // 与border.base保持一致
-          borderHover: "#A17CF7", // 与secondary按钮色保持一致
-          borderFocus: "#6464FA", // 与渐变起始色保持一致
-          bgDefault: "#252536", // 与background.level2保持一致
-          bgHover: "#575767", // 与background.level3保持一致
-          bgFocus: "#FFFFFF", // 与background.level2保持一致
+          // fontPlaceholder: "#808090",
+          // fontError: "#FF6B9E", // 调整为更鲜明的错误色
+          // borderDefault: "#323245", // 与border.base保持一致
+          // borderHover: "#8163C7", // 与secondary按钮色保持一致
+          // borderFocus: "#6464FA", // 与渐变起始色保持一致
+          // bgDefault: "#575767", // 与background.level2保持一致
+          // bgHover: "#252536", // 与background.level3保持一致
+          // bgFocus: "#1E1E2E", // 与background.level2保持一致
         },
       },
     },

@@ -13,7 +13,6 @@ type Props = {
   token: ApiToken;
   userBalance?: TokenAmount;
   isBalancesLoading?: boolean;
-  active?: boolean;
   isCurrentToken?: boolean;
 };
 
@@ -21,7 +20,6 @@ export function TokenSelectListRow({
   token,
   userBalance,
   isBalancesLoading = true,
-  active = false,
   isCurrentToken = false,
   ...rest
 }: Props & BoxProps) {
@@ -38,20 +36,16 @@ export function TokenSelectListRow({
       : "-";
 
   const boxStyles: BoxProps = {
-    bg: active ? "background.level2" : "transparent",
+    bg: isCurrentToken ? "background.special" : "transparent",
     border: "1px solid",
-    borderColor: active ? "transparent" : "transparent",
+    borderColor: "transparent",
     py: "sm",
     px: "md",
     cursor: isCurrentToken ? "not-allowed" : "pointer",
-    opacity: isCurrentToken ? 0.5 : 1,
+    opacity: 1,
     rounded: "md",
     mb: "sm",
-    _hover: isCurrentToken
-      ? {}
-      : {
-          bg: active ? "background.level3" : "background.level2",
-        },
+    _hover: { bg: "background.level3" },
     transition: "all 0.2s var(--ease-out-cubic)",
   };
 
@@ -77,10 +71,7 @@ export function TokenSelectListRow({
             spacing="none"
           >
             <HStack spacing="xxs">
-              <Text
-                color={active ? "font.link" : "font.primary"}
-                fontWeight="bold"
-              >
+              <Text color="font.primary" fontWeight="bold">
                 {token.symbol}
               </Text>
               <Box onClick={(e) => e.stopPropagation()}>
@@ -107,7 +98,7 @@ export function TokenSelectListRow({
         {isConnected && tokenBalance !== "0" && (
           <VStack align="end" justify="center" spacing="none">
             <Text
-              color={active ? "font.link" : "font.primary"}
+              color="font.primary"
               fontWeight="bold"
               title={userBalance?.amount.toString()}
             >

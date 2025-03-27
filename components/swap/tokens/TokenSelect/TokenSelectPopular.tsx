@@ -33,7 +33,7 @@ export function TokenSelectPopular({
       ?.map((token) => getToken(token, chain))
       .filter(Boolean) as GqlToken[];
     return excludeNativeAsset
-      ? tokens.filter(nativeAssetFilter(chain))
+      ? tokens.filter((token) => !nativeAssetFilter(chain)(token))
       : tokens;
   }, [popularTokens, excludeNativeAsset, chain]);
 

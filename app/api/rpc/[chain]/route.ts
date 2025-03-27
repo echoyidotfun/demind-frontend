@@ -1,9 +1,9 @@
 import { GqlChain } from "@/lib/services/api/generated/graphql";
 
 type Params = {
-  params: {
+  params: Promise<{
     chain: string;
-  };
+  }>;
 };
 
 const DRPC_KEY = process.env.NEXT_PRIVATE_DRPC_KEY;
@@ -37,8 +37,8 @@ export async function POST(request: Request, { params }: Params) {
       }
     );
   }
-
   const { chain } = await params;
+
   const rpcUrl = getRpcUrl(chain);
   const rpcBody = await request.json();
 

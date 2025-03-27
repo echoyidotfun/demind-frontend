@@ -264,6 +264,7 @@ export function SwapForm() {
         onOpen={tokenSelectDisclosure.onOpen}
         onTokenSelect={handleTokenSelect}
         tokens={tokens}
+        tokenSelectKey={tokenSelectKey}
       />
 
       <SwapPreviewModal

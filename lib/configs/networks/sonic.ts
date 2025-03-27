@@ -25,6 +25,7 @@ const networkConfig: NetworkConfig = {
       tokenIn: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     },
     popularTokens: {
+      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee": "S",
       "0x039e2fb66102314ce7b64ce5ce3e5183bc94ad38": "wS",
       "0xe5da20f15420ad15de0fa650600afc998bbe3955": "stS",
       "0x29219dd400f2bf60e5a23d13be72b486d4038894": "USDC.e",

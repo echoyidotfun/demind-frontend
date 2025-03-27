@@ -5,7 +5,7 @@ import { TokenSelectListRow } from "./TokenSelectListRow";
 import { GqlChain } from "@/lib/services/api/generated/graphql";
 import { useTokenBalances } from "@/lib/modules/tokens/TokenBalancesProvider";
 import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useTokenSelectList } from "@/lib/modules/tokens/useTokenSelectList";
 import { GroupedVirtuoso, GroupedVirtuosoHandle } from "react-virtuoso";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -100,7 +100,6 @@ interface TokenRowProps {
   balanceFor: (token: ApiToken) => any;
   isBalancesLoading: boolean;
   isLoadingTokenPrices: boolean;
-  activeIndex: number;
   isCurrentToken: (token: ApiToken) => boolean;
   onTokenSelect: (token: ApiToken) => void;
 }
@@ -112,7 +111,6 @@ function TokenRow({
   balanceFor,
   isBalancesLoading,
   isLoadingTokenPrices,
-  activeIndex,
   isCurrentToken,
   onTokenSelect,
 }: TokenRowProps) {
@@ -120,7 +118,6 @@ function TokenRow({
 
   return (
     <TokenSelectListRow
-      active={index === activeIndex}
       isBalancesLoading={isBalancesLoading || isLoadingTokenPrices}
       isCurrentToken={isCurrentToken(token)}
       onClick={() => !isCurrentToken(token) && onTokenSelect(token)}
@@ -132,7 +129,6 @@ function TokenRow({
 
 function renderTokenRow(
   index: number,
-  activeIndex: number,
   balanceFor: (token: ApiToken) => any,
   isBalancesLoading: boolean,
   isConnected: boolean,
@@ -143,7 +139,6 @@ function renderTokenRow(
 ) {
   return (
     <TokenRow
-      activeIndex={activeIndex}
       balanceFor={balanceFor}
       index={index}
       isBalancesLoading={isBalancesLoading}
@@ -168,7 +163,6 @@ export function TokenSelectList({
   ...rest
 }: Props & BoxProps) {
   const ref = useRef<GroupedVirtuosoHandle>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
   const { balanceFor, isBalancesLoading } = useTokenBalances();
   const { isLoadingTokenPrices } = useTokens();
   const { isConnected } = useUserAccount();
@@ -203,10 +197,6 @@ export function TokenSelectList({
   ];
   const groupCounts = [tokensWithBalance.length, tokensWithoutBalance.length];
 
-  useEffect(() => {
-    ref.current?.scrollIntoView({ index: activeIndex, behavior: "auto" });
-  }, [activeIndex]);
-
   return (
     <Box height={listHeight} {...rest}>
       {tokensToShow.length === 0 ? (
@@ -228,7 +218,6 @@ export function TokenSelectList({
           itemContent={(index) =>
             renderTokenRow(
               index,
-              activeIndex,
               balanceFor,
               isBalancesLoading,
               isConnected,
@@ -238,7 +227,6 @@ export function TokenSelectList({
               tokensToShow
             )
           }
-          ref={ref}
           style={{ height: listHeight }}
         />
       )}
