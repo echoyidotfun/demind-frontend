@@ -12,9 +12,10 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiArrowUpRight } from "react-icons/fi";
 import Link from "next/link";
 import { gochihandFont } from "@/lib/assets/fonts/gochihand/gochihand";
+import { SocialIcon } from "@/components/common/icons/SocialIcon";
 
 // 动画变体
 const containerVariants = {
@@ -235,6 +236,25 @@ export default function Home() {
                 variant="primary"
               >
                 Launch App
+              </Button>
+              <Button
+                as={Link}
+                href="https://github.com/echoyidotfun/demind-contracts"
+                size="lg"
+                rightIcon={
+                  <>
+                    <SocialIcon iconType="github" />
+
+                    <FiArrowUpRight />
+                  </>
+                }
+                _hover={{
+                  transform: "translateY(-1px) scale(1.05)",
+                  backgroundSize: "120% 100%",
+                }}
+                variant="primary"
+              >
+                Contribute
               </Button>
             </HStack>
           </VStack>

@@ -16,7 +16,7 @@ import {
   AccordionIcon,
 } from "@chakra-ui/react";
 import { staggeredFadeIn } from "@/lib/utils/animations";
-import { easeOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { DefaultPageContainer } from "@/components/common/containers/DefaultPageContainer";
 import { AppLink } from "@/lib/configs/config.types";
 import { ReactNode } from "react";
