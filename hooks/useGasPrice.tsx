@@ -4,7 +4,16 @@ import { getViemClient } from "@/lib/services/viem/viem.client";
 import { formatUnits } from "viem";
 import { bn, fNum } from "@/lib/utils/numbers";
 import { secs } from "@/lib/utils/time";
-import { Box, Button, HStack, Link, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  Link,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from "@chakra-ui/react";
 import { GasIcon } from "@/components/common/icons/GasIcon";
 import { onlyExplicitRefetch } from "@/lib/utils/queries";
 
@@ -32,22 +41,42 @@ export function GasPriceCard({
   const { gasPrice, isHighGasPrice } = useGasPriceQuery(chain);
 
   const gasPriceColor = isHighGasPrice ? "red.500" : "grayText";
+  const gasPriceTrackerColor = isHighGasPrice ? "red.500" : "purple.300";
 
   if (inConnectWallect) {
     return (
-      <Button
-        alignItems="center"
-        display="flex"
-        variant="tertiary"
-        color={gasPriceColor}
-      >
-        <HStack spacing="xs">
-          <GasIcon size={16} />
-          <Text variant="primaryGradient" fontSize="sm" fontWeight="bold">
-            {gasPrice ? gasPrice.toString() : "-"}
-          </Text>
-        </HStack>
-      </Button>
+      <Popover trigger="hover">
+        <PopoverTrigger>
+          <Button
+            alignItems="center"
+            display="flex"
+            color={gasPriceTrackerColor}
+            variant="tertiary"
+            cursor="default"
+          >
+            <HStack spacing="xs">
+              <GasIcon size={16} />
+              <Text
+                color={gasPriceTrackerColor}
+                fontSize="sm"
+                fontWeight="bold"
+              >
+                {gasPrice ? gasPrice.toString() : "-"}
+              </Text>
+            </HStack>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent p="sm" w="fit-content">
+          <HStack>
+            <Text variant="primary" fontSize="sm">
+              {`Gas Price on ${chain}:`}
+            </Text>
+            <Text color={gasPriceTrackerColor} fontSize="sm">
+              {` ${gasPrice} Gwei`}
+            </Text>
+          </HStack>
+        </PopoverContent>
+      </Popover>
     );
   }
 

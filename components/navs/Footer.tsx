@@ -47,7 +47,7 @@ function CardContent({ logoType, title, subTitle }: CardContentProps) {
             fontSize="5xl"
             fontWeight="500"
             letterSpacing="-0.5px"
-            variant="secondary"
+            variant="special"
             marginBottom="-4"
           >
             {logoType}
@@ -96,7 +96,12 @@ function FAQ() {
 
   return (
     <VStack align="start" width={{ base: "100%", md: "60%" }} spacing="md">
-      <Text fontSize="lg" fontWeight="bold" variant="secondary" align="left">
+      <Text
+        fontSize="xl"
+        fontWeight="semibold"
+        variant="secondary"
+        align="left"
+      >
         FAQ
       </Text>
       <Box position="relative" w="100%" minH="200px">
@@ -104,7 +109,6 @@ function FAQ() {
           allowToggle
           w="100%"
           onChange={(index) => {
-            // 当展开时，确保滚动到可见区域
             if (index !== -1) {
               setTimeout(() => {
                 const el = document.getElementById(`faq-item-${index}`);
@@ -117,7 +121,11 @@ function FAQ() {
           {faqItems.map((item, index) => (
             <AccordionItem key={index} border="none">
               <h2>
-                <AccordionButton px="2" py="3" _hover={{ bg: "transparent" }}>
+                <AccordionButton
+                  px="2"
+                  py="3"
+                  _hover={{ color: "font.linkHover" }}
+                >
                   <Box as="span" flex="1" textAlign="left" fontWeight="medium">
                     {item.question}
                   </Box>

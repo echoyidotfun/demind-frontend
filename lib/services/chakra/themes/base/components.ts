@@ -44,8 +44,8 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           container: {
             border: "none",
             borderWidth: 0,
-            background: "background.level1",
-            shadow: "md",
+            background: "background.level2",
+            // shadow: "md",
             rounded: "md",
           },
           root: {
@@ -88,7 +88,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
     Input: {
       baseStyle: {
         field: {
-          shadow: "input.innerBase",
+          // shadow: "input.innerBase",
           border: "1px solid",
           color: "input.fontDefault",
           fontWeight: "medium",
@@ -120,7 +120,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             border: "1px solid",
             borderColor: "input.borderError", // Not working
             bg: "input.bgError", // Working
-            shadow: "input.innerError", // Not working
+            // shadow: "input.innerError", // Not working
             color: "input.fontError",
           },
           _disabled: {
@@ -322,7 +322,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
         tertiary: {
           background: "background.elevation1",
           color: "font.button.tertiary",
-          boxShadow: "btnTertiary",
+          // boxShadow: "btnTertiary",
         },
       },
     },
@@ -332,7 +332,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           background: "background.level1",
           fontWeight: "medium",
           color: "font.primary",
-          shadow: "md",
+          // shadow: "md",
           border: "0px solid transparent",
           borderColor: "transparent",
           outline: "none",
@@ -408,8 +408,8 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           boxShadow: "0 3px 20px hsla(245, 97%, 76%, 0.4)",
           _hover: {
             shadow: "sm",
-            backgroundSize: "120% 120%",
-            boxShadow: "0 6px 20px rgba(161, 124, 247, 0.3)",
+            backgroundSize: "120% 100%",
+            boxShadow: "0 3px 20px hsla(32, 43%, 82%, 0.5)",
             _disabled: {
               boxShadow: "none",
             },
@@ -421,6 +421,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
           boxShadow: "0 3px 20px hsla(33, 58%, 76%, 0.4)",
           _hover: {
             shadow: "sm",
+            background: "background.button.tertiary",
             boxShadow: "0 3px 20px hsla(32, 43%, 82%, 0.5)",
             _disabled: {
               boxShadow: "none",
@@ -430,10 +431,11 @@ export function getComponents(tokens: any, primaryTextColor: string) {
         tertiary: {
           background: "background.level2",
           color: "font.primary",
-          shadow: "md",
+          // shadow: "md",
           _hover: {
             background: "background.level3",
-            shadow: "sm",
+            color: "font.primary",
+            // shadow: "sm",
           },
           _active: {
             background: "background.button.secondary",
@@ -556,7 +558,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
       baseStyle: {
         content: {
           bg: "background.level3",
-          shadow: "3xl",
+          // shadow: "3xl",
           border: "1px solid",
           borderColor: "border.base",
         },
@@ -575,10 +577,10 @@ export function getComponents(tokens: any, primaryTextColor: string) {
         header: {
           borderBottomWidth: "1px",
           borderBottomColor: "border.divider",
-          boxShadow: "0px 1px 0px 0px rgba(255, 255, 255, 1)",
-          _dark: {
-            boxShadow: "0px 1px 0px 0px rgba(255, 255, 255, 0.15)",
-          },
+          // boxShadow: "0px 1px 0px 0px rgba(255, 255, 255, 1)",
+          // _dark: {
+          //   boxShadow: "0px 1px 0px 0px rgba(255, 255, 255, 0.15)",
+          // },
           paddingInlineStart: 0,
           paddingInlineEnd: 0,
           marginInline: 3,
@@ -591,7 +593,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             borderColor: "transparent",
             color: "grayText",
             fontWeight: "medium",
-            shadow: "3xl",
+            // shadow: "3xl",
           },
           body: {
             background: "background.level2",
@@ -613,7 +615,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             border: "none",
             borderColor: "transparent",
             rounded: "md",
-            shadow: "3xl",
+            // shadow: "3xl",
           },
         },
       },
@@ -622,12 +624,13 @@ export function getComponents(tokens: any, primaryTextColor: string) {
       baseStyle: {
         container: {
           background: "background.level2",
-          rounded: "lg",
+          rounded: "xl",
           borderWidth: "1px",
           borderColor: "transparent",
-          shadow: "xl",
+          // shadow: "xl",
           width: "full",
           padding: ["sm", "md"],
+          opacity: 0.8,
         },
         header: {
           padding: "none",
@@ -650,7 +653,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             background: "background.level3",
             borderWidth: "1px",
             borderColor: "border.base",
-            shadow: "sm",
+            // shadow: "sm",
             padding: "md",
             width: "full",
             rounded: "md",
@@ -668,7 +671,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             background: "background.level2",
             borderWidth: "1px",
             borderColor: "border.base",
-            shadow: "sm",
+            // shadow: "sm",
             padding: "md",
             width: "full",
             rounded: "md",
@@ -735,7 +738,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
       baseStyle: {
         container: {
           background: "background.level1",
-          shadow: "md",
+          // shadow: "md",
           borderColor: "border.base",
           borderWidth: "1px",
           borderRadius: "full",
@@ -769,16 +772,16 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             },
           },
           _hover: {
-            boxShadow: "0 0 0 2px var(--chakra-colors-green-600)",
-            _dark: {
-              boxShadow: "0 0 0 2px var(--chakra-colors-green-500)",
-            },
+            // boxShadow: "0 0 0 2px var(--chakra-colors-green-600)",
+            // _dark: {
+            //   boxShadow: "0 0 0 2px var(--chakra-colors-green-500)",
+            // },
           },
           _focus: {
-            boxShadow: "0 0 0 2px var(--chakra-colors-green-600)",
-            _dark: {
-              boxShadow: "0 0 0 2px var(--chakra-colors-green-500)",
-            },
+            // boxShadow: "0 0 0 2px var(--chakra-colors-green-600)",
+            // _dark: {
+            //   boxShadow: "0 0 0 2px var(--chakra-colors-green-500)",
+            // },
           },
           _disabled: {
             border: "1px solid",
@@ -804,16 +807,16 @@ export function getComponents(tokens: any, primaryTextColor: string) {
             },
           },
           _hover: {
-            boxShadow: "0 0 0 2px var(--chakra-colors-green-600)",
-            _dark: {
-              boxShadow: "0 0 0 2px var(--chakra-colors-green-500)",
-            },
+            // boxShadow: "0 0 0 2px var(--chakra-colors-green-600)",
+            // _dark: {
+            //   boxShadow: "0 0 0 2px var(--chakra-colors-green-500)",
+            // },
           },
           _focus: {
-            boxShadow: "0 0 0 2px var(--chakra-colors-green-600)",
-            _dark: {
-              boxShadow: "0 0 0 2px var(--chakra-colors-green-500)",
-            },
+            // boxShadow: "0 0 0 2px var(--chakra-colors-green-600)",
+            // _dark: {
+            //   boxShadow: "0 0 0 2px var(--chakra-colors-green-500)",
+            // },
           },
           _disabled: {
             border: "1px solid",
@@ -831,7 +834,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
         },
         thumb: {
           borderColor: "background.highlight",
-          boxShadow: "md",
+          // boxShadow: "md",
         },
       },
       variants: {
@@ -869,9 +872,9 @@ export function getComponents(tokens: any, primaryTextColor: string) {
       baseStyle: {
         borderColor: "border.divider",
         borderWidth: "1px",
-        boxShadow: "0px 1px 0px 0px rgba(255, 255, 255, 1)",
+        // boxShadow: "0px 1px 0px 0px rgba(255, 255, 255, 1)",
         _dark: {
-          boxShadow: "0px 1px 0px 0px rgba(255, 255, 255, 0.15)",
+          // boxShadow: "0px 1px 0px 0px rgba(255, 255, 255, 0.15)",
         },
       },
     },
@@ -954,7 +957,7 @@ export function getComponents(tokens: any, primaryTextColor: string) {
         meta: {
           background: "background.level3",
           color: "font.secondary",
-          shadow: "sm",
+          // shadow: "sm",
           py: 1,
           px: 2,
           textTransform: "capitalize",

@@ -52,7 +52,7 @@ export function OrderRoute() {
             </Box>
           </PopoverTrigger>
           <PopoverContent maxW="300px" p="sm" w="auto">
-            <Text fontSize="sm" variant="secondary">
+            <Text fontSize="sm" variant="primary">
               Number of swap hops
             </Text>
           </PopoverContent>
@@ -150,7 +150,7 @@ export function SwapDetails() {
               )}
             </PopoverTrigger>
             <PopoverContent p="sm">
-              <Text fontSize="sm" variant="secondary">
+              <Text fontSize="sm" variant="primary">
                 This is the negative price impact of the swap based on the
                 current market prices of the token in vs token out.
               </Text>
@@ -173,7 +173,7 @@ export function SwapDetails() {
               </Box>
             </PopoverTrigger>
             <PopoverContent p="sm">
-              <Text fontSize="sm" variant="secondary">
+              <Text fontSize="sm" variant="primary">
                 {slippageLabel}
               </Text>
             </PopoverContent>
@@ -198,7 +198,7 @@ export function SwapDetails() {
               </Box>
             </PopoverTrigger>
             <PopoverContent p="sm">
-              <Text fontSize="sm" variant="secondary">
+              <Text fontSize="sm" variant="primary">
                 {limitTooltip}
               </Text>
             </PopoverContent>

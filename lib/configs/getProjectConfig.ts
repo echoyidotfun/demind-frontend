@@ -13,12 +13,7 @@ export const projectConfig: ProjectConfig = {
   delegateOwner: "0xaaaaaaaaaa",
 
   links: {
-    appLinks: [
-      {
-        href: "/mind",
-        label: "Mind",
-      },
-    ],
+    appLinks: [],
     socialLinks: [
       { iconType: "x", href: "https://x.com/echoyidotfun" },
       {

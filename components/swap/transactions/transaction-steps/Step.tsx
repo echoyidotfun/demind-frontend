@@ -14,7 +14,6 @@ import { FiCheck } from "react-icons/fi";
 import { ManagedResult, StepDetails } from "@/lib/modules/transactions/lib";
 import { useTransactionState } from "@/lib/modules/transactions/TransactionStateProvider";
 import { indexToLetter } from "@/lib/utils/labels";
-//   import { hasSomePendingNestedTxInBatch } from '../safe/safe.helpers'
 
 export function Step(props: StepProps) {
   const { getTransaction } = useTransactionState();

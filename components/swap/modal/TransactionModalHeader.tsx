@@ -48,7 +48,7 @@ export function TransactionModalHeader({
                 }}
               >
                 <Center
-                  bg="green.500"
+                  bg="font.link"
                   color="white"
                   fontWeight="medium"
                   h={10}

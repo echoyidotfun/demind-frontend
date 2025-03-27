@@ -60,7 +60,7 @@ export function getDemindTokens(colors: any, primaryTextColor: any) {
           level0: "#0A0A14", // 最深背景色（页面背景）
           level1: "#1E1E2E", // 卡片背景
           level2: "#252536", // 输入框背景
-          level3: "#2E2E42", // 悬停状态背景
+          level3: "#575767", // 悬停状态背景
           level4: "#323245", // 边框色/分隔线
           level0WithOpacity: "rgba(10, 10, 20, 0.85)",
           base: "#171728", // 基础背景色
@@ -78,6 +78,7 @@ export function getDemindTokens(colors: any, primaryTextColor: any) {
           background: {
             primary: "linear-gradient(135deg,  #F8D458 0%, #6464FA 100%)",
             secondary: "#A17CF7", // 使用主紫色
+            tertiary: "#BDA3F9", // 浅一些的紫色
           },
         },
         text: {
@@ -91,15 +92,15 @@ export function getDemindTokens(colors: any, primaryTextColor: any) {
         },
         input: {
           ...baseTokens.colors.dark.input,
-          fontDefault: "#FFFFFF", // 与text.primary保持一致
+          fontDefault: "#BDA3F9",
           fontPlaceholder: "#808090",
           fontError: "#FF6B9E", // 调整为更鲜明的错误色
           borderDefault: "#323245", // 与border.base保持一致
           borderHover: "#A17CF7", // 与secondary按钮色保持一致
           borderFocus: "#6464FA", // 与渐变起始色保持一致
           bgDefault: "#252536", // 与background.level2保持一致
-          bgHover: "#2E2E42", // 与background.level3保持一致
-          bgFocus: "#252536", // 与background.level2保持一致
+          bgHover: "#575767", // 与background.level3保持一致
+          bgFocus: "#FFFFFF", // 与background.level2保持一致
         },
       },
     },

@@ -80,7 +80,7 @@ function NavLinks({
           </Link>
         </Box>
       ))}
-      {/* {customLinks} */}
+      {customLinks}
     </HStack>
   );
 }

@@ -131,6 +131,10 @@ export function SwapForm() {
               <Tooltip label={copiedDeepLink ? "Copied!" : "Copy swap link"}>
                 <Button
                   color="grayText"
+                  _hover={{
+                    color: "font.primary",
+                    background: "background.level3",
+                  }}
                   onClick={copyDeepLink}
                   size="sm"
                   variant="tertiary"

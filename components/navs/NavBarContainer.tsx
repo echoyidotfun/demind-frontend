@@ -5,6 +5,9 @@ import { useNav } from "@/components/navs/useNav";
 import { AnimatePresence, motion } from "framer-motion";
 import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
 import { gochihandFont } from "@/lib/assets/fonts/gochihand/gochihand";
+import { Box } from "@chakra-ui/react";
+import { fadeIn } from "@/lib/utils/animations";
+import { MindLink } from "./MindLink";
 
 export function NavBarContainer() {
   const {
@@ -22,6 +25,11 @@ export function NavBarContainer() {
       >
         <NavBar
           appLinks={allAppLinks}
+          customLinks={
+            <Box as={motion.div} variants={fadeIn}>
+              <MindLink />
+            </Box>
+          }
           navType="DeMind"
           rightSlot={<NavActions />}
         />

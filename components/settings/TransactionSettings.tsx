@@ -30,16 +30,23 @@ export function TransactionSettings(props: ButtonProps) {
   return (
     <Popover isLazy placement="bottom-end">
       <PopoverTrigger>
-        <Button variant="tertiary" {...props}>
-          <HStack textColor="grayText">
-            <Text color="grayText" fontSize="xs">
+        <Button color="grayText" variant="tertiary" {...props}>
+          <HStack spacing={2}>
+            <Text color="inherit" fontSize="xs">
               {fNum("slippage", slippage)}
             </Text>
             <FiSettings size={16} />
           </HStack>
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent
+        willChange="transform, opacity"
+        style={{
+          transformOrigin: "var(--popper-transform-origin)",
+          transitionProperty: "transform, opacity",
+          transitionDuration: "100ms",
+        }}
+      >
         <PopoverArrow bg="background.level3" />
         <PopoverCloseButton />
         <PopoverHeader>

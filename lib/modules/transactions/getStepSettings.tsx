@@ -96,8 +96,8 @@ function isLoading(status: StepStatus, transaction?: ManagedResult): boolean {
     We show different colors depending on the step status and other variables like the step flow state
   */
 const completeColor = {
-  dark: "grayText",
-  light: "grayText",
+  dark: "font.highlight",
+  light: "font.highlight",
 };
 
 const incompleteColor = {
@@ -112,6 +112,6 @@ const activeColor = {
 
 // When the current step tx is waiting for wallet confirmation
 const activeConfirmingColor = {
-  dark: "orange.300",
-  light: "orange.300",
+  dark: "font.link",
+  light: "font.link",
 };

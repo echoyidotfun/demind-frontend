@@ -89,7 +89,7 @@ export function UserSettings() {
   return (
     <Popover isLazy>
       <PopoverTrigger>
-        <Button p="0" variant="tertiary">
+        <Button p="0" variant="secondary">
           <FiSettings size={18} />
         </Button>
       </PopoverTrigger>
