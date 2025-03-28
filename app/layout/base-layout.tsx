@@ -35,7 +35,7 @@ export function BaseLayout({
         bottom: 0,
         background: "url('/images/misc/noise.png')",
         backgroundSize: "250px 250px",
-        opacity: 0.35,
+        opacity: 0.2,
         mixBlendMode: "soft-light",
         pointerEvents: "none",
         zIndex: -1,
