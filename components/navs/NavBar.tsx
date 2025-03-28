@@ -10,7 +10,7 @@ import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
 import { useThemeSettings } from "@/lib/services/themes/useThemeSettings";
 import DarkModeToggle from "../common/btns/DarkModeToggle";
 import { ConnectWallet } from "@/lib/modules/web3/ConnectWallet";
-import { Box, BoxProps, Button, HStack, Link, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Button, HStack, Link } from "@chakra-ui/react";
 import {
   motion,
   useMotionTemplate,
@@ -18,12 +18,10 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { gochihandFont } from "@/lib/assets/fonts/gochihand/gochihand";
 
 type Props = {
   mobileNav?: ReactNode;
-  navLogo?: ReactNode;
-  navType?: string;
+  NavLogo?: ReactNode;
   appLinks?: AppLink[];
   leftSlot?: ReactNode;
   rightSlot?: ReactNode;
@@ -86,7 +84,7 @@ function NavLinks({
 }
 
 // 导航栏右侧操作按钮
-export function NavActions() {
+export function NavActions({ mobileNav }: { mobileNav?: ReactNode }) {
   const pathname = usePathname();
   const { isConnected } = useUserAccount();
   const { hideDarkModeToggle } = useThemeSettings();
@@ -114,14 +112,14 @@ export function NavActions() {
           ),
           display: { base: "block", lg: "block" },
         },
+        {
+          el: mobileNav,
+          display: { base: "block", lg: "none" },
+        },
       ];
     }
 
     const defaultActions = [
-      // {
-      //   el: <UserSettings />,
-      //   display: { base: 'none', lg: 'block' },
-      // },
       {
         el: hideDarkModeToggle ? null : <DarkModeToggle />,
         display: { base: "none", lg: "block" },
@@ -129,6 +127,10 @@ export function NavActions() {
       {
         el: <ConnectWallet />,
         display: { base: "block", lg: "block" },
+      },
+      {
+        el: mobileNav,
+        display: { base: "block", lg: "none" },
       },
     ];
 
@@ -155,7 +157,8 @@ export function NavBar({
   disableBlur,
   appLinks,
   customLinks,
-  navType,
+  NavLogo,
+  mobileNav,
   ...rest
 }: Props & BoxProps) {
   const [showShadow, setShowShadow] = useState(false);
@@ -227,24 +230,9 @@ export function NavBar({
           spacing="xl"
           className="staggered-fade-in"
         >
-          <Link
-            as={NextLink}
-            href="/"
-            prefetch
-            _hover={{ transform: "scale(1.05) rotate(-0.5deg)" }}
-          >
-            <Text
-              className={gochihandFont.className}
-              fontSize="4xl"
-              fontWeight="400"
-              letterSpacing="-0.5px"
-              variant="special"
-            >
-              {navType}
-            </Text>
-          </Link>
           {leftSlot || (
             <>
+              {NavLogo}
               {appLinks && (
                 <NavLinks
                   appLinks={appLinks}
@@ -263,7 +251,7 @@ export function NavBar({
           order={{ md: "2" }}
           className="staggered-fade-in"
         >
-          {rightSlot || <NavActions />}
+          {rightSlot || <NavActions mobileNav={mobileNav} />}
         </HStack>
       </HStack>
     </Box>

@@ -22,7 +22,8 @@ import { AppLink } from "@/lib/configs/config.types";
 import { ReactNode } from "react";
 import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
 import { SocialIcon } from "@/components/common/icons/SocialIcon";
-import { gochihandFont } from "@/lib/assets/fonts/gochihand/gochihand";
+import NextLink from "next/link";
+import { exoFont } from "@/lib/assets/fonts/exo/exo";
 
 type CardContentProps = {
   logoType: ReactNode;
@@ -43,9 +44,9 @@ function CardContent({ logoType, title, subTitle }: CardContentProps) {
       <VStack align="start" color="font.primary" spacing="lg" width="100%">
         <VStack align="start" spacing="sm">
           <Text
-            className={gochihandFont.className}
+            className={exoFont.className}
             fontSize="5xl"
-            fontWeight="500"
+            fontWeight="medium"
             letterSpacing="-0.5px"
             variant="special"
             marginBottom="-4"
@@ -53,7 +54,7 @@ function CardContent({ logoType, title, subTitle }: CardContentProps) {
             {logoType}
           </Text>
           <Text
-            className={gochihandFont.className}
+            className={exoFont.className}
             fontSize="2xl"
             fontWeight="400"
             letterSpacing="-0.5px"
@@ -84,13 +85,29 @@ function FAQ() {
     },
     {
       question: "How can I contribute?",
-      answer:
-        "DeMind is an open-source project welcoming contributions from the community. Whether you're interested in AI integration, DeFi strategies, or frontend development, your ideas and contributions can help shape the future of intent-driven trading.",
+      answer: (
+        <Text>
+          Simply create a PR to our&nbsp;
+          {
+            <Link
+              as={NextLink}
+              href="https://github.com/echoyidotfun/demind-contracts"
+              target="_blank"
+            >
+              GitHub
+            </Link>
+          }
+          . DeMind is an open-source project welcoming contributions from the
+          community. Whether you're interested in AI integration, DeFi
+          strategies, or frontend development, your ideas and contributions can
+          help shape the future of intent-driven trading.
+        </Text>
+      ),
     },
     {
       question: "Disclaimer",
       answer:
-        "DeMind is released under MIT and GPL-3.0 licenses. This project is currently for educational and experimental purposes. While we strive for security and reliability, use at your own risk. The code is provided 'as is' without warranty of any kind. Always DYOR before interacting with any smart contracts.",
+        "DeMind is released under MIT licenses. This project is currently for educational and experimental purposes. While we strive for security and reliability, use at your own risk. The code is provided 'as is' without warranty of any kind. Always DYOR before interacting with any smart contracts.",
     },
   ];
 
@@ -229,6 +246,20 @@ export function Footer({ logoType, title, subTitle }: FooterProps) {
             w="full"
           >
             <SocialLinks socialLinks={socialLinks} />
+            <HStack spacing={4}>
+              <Text variant="secondary" fontSize="sm">
+                © 2025 DeMind. All rights reserved.
+              </Text>
+              <Text
+                className={exoFont.className}
+                variant="special"
+                fontSize="lg"
+                fontWeight="500"
+                mt={0.5}
+              >
+                DeMind
+              </Text>
+            </HStack>
           </Stack>
         </VStack>
       </DefaultPageContainer>

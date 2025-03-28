@@ -86,7 +86,7 @@ export function getDemindTokens(colors: any, primaryTextColor: any) {
           primary: "#FFFFFF",
           secondary: "#A0A0B0",
           link: "#8163C7", // 与secondary按钮色保持一致
-          linkHover: "#8163C7", // 与渐变起始色保持一致
+          linkHover: "#BDA3F9", // 与渐变起始色保持一致
           special: "linear-gradient(135deg,  #F8D458 0%, #6464FA 100%)", // 与按钮渐变一致
           highlight: "#8163C7", // 与link颜色保持一致
         },
