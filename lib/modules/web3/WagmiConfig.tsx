@@ -3,11 +3,10 @@
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
   coinbaseWallet,
-  injectedWallet,
   metaMaskWallet,
+  okxWallet,
   rabbyWallet,
   rainbowWallet,
-  safeWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
 import { createConfig } from "wagmi";
@@ -27,11 +26,11 @@ const connectors = connectorsForWallets(
       wallets: [
         // metaMaskWallet must appear above injectedWallet to avoid random disconnection issues
         metaMaskWallet,
-        safeWallet,
+        okxWallet,
         rabbyWallet,
         coinbaseWallet,
         rainbowWallet,
-        injectedWallet,
+        // injectedWallet,
       ],
     },
   ],
