@@ -18,12 +18,25 @@ export function LandingHeroImg() {
 
   return (
     <Box
-      bottom={0}
-      h="1200px"
-      left={-10}
       position="absolute"
-      top={-150}
-      w="100%"
+      top={{ base: "-50px", md: "-200px" }}
+      left={{ base: "-70%", md: "-5%" }}
+      right={{ base: "50%", md: 0 }}
+      h={{ base: "150vh", md: "1200px" }}
+      overflow="hidden"
+      zIndex={1}
+      w={{ base: "200%", md: "100%" }}
+      _after={{
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backdropFilter: "blur(0.1px)",
+        mixBlendMode: "multiply",
+        zIndex: 2,
+      }}
     >
       <AnimatePresence>
         <motion.div
@@ -33,19 +46,25 @@ export function LandingHeroImg() {
           ref={ref}
           style={{
             position: "absolute",
-            top: -50,
+            top: 0,
             left: 0,
             right: 0,
             bottom: 0,
+            width: "100%",
+            height: "100%",
           }}
           transition={{ duration: 2, ease: "easeInOut" }}
         >
           <Image
             alt="background"
-            sizes="120vw"
             src="/images/misc/LandingHeroBg.png"
-            filter="brightness(0.9) contrast(0.9)"
-            style={{ objectFit: "cover", objectPosition: "center" }}
+            filter="brightness(0.8) contrast(0.8) saturate(1.1)"
+            style={{
+              width: "120%",
+              height: "120%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
         </motion.div>
       </AnimatePresence>

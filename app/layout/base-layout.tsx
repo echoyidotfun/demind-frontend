@@ -2,16 +2,43 @@ import React, { PropsWithChildren } from "react";
 import { Footer } from "@/components/navs/Footer";
 import { NavBarContainer } from "@/components/navs/NavBarContainer";
 import NextTopLoader from "nextjs-toploader";
+import { Box } from "@chakra-ui/react";
 
-export function BaseLayout({ children }: PropsWithChildren) {
+export function BaseLayout({
+  bgsrc = "/images/misc/basic-bg.svg",
+  children,
+}: PropsWithChildren & { bgsrc?: string }) {
   return (
-    <div
-      style={{
-        backgroundImage: "url(/images/misc/16358469_rm309-aew-014-a.svg)",
-        backgroundBlendMode: "overlay", //
+    <Box
+      position="relative"
+      _before={{
+        content: '""',
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: `url(${bgsrc})`,
+        backgroundBlendMode: "overlay",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
-        backgroundAttachment: "fixed",
+        backgroundAttachment: "scroll",
+        filter: "blur(1px) brightness(0.8)",
+        zIndex: -2,
+      }}
+      _after={{
+        content: '""',
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "url('/images/misc/noise.svg')",
+        backgroundSize: "250px 250px",
+        opacity: 0.035,
+        mixBlendMode: "soft-light",
+        pointerEvents: "none",
+        zIndex: -1,
       }}
     >
       <NextTopLoader color="#7f6ae8" showSpinner={false} />
@@ -22,6 +49,6 @@ export function BaseLayout({ children }: PropsWithChildren) {
         title="Where Mind Meets Momentum"
         subTitle="DeMind is your AI companion that enhances trading intents into intelligent actions, powered by aggregated liquidity and momentum-driven strategies."
       />
-    </div>
+    </Box>
   );
 }
