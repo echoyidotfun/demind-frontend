@@ -59,6 +59,7 @@ function CardContent({ logoType, title, subTitle }: CardContentProps) {
             fontWeight="400"
             letterSpacing="-0.5px"
             variant="secondary"
+            marginBottom="4"
           >
             {title}
           </Text>
@@ -255,7 +256,6 @@ export function Footer({ logoType, title, subTitle }: FooterProps) {
                 variant="special"
                 fontSize="lg"
                 fontWeight="500"
-                mt={0.5}
               >
                 DeMind
               </Text>
