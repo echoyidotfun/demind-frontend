@@ -29,6 +29,7 @@ export function LandingHeroSection() {
     <Box
       position="relative"
       minH={{ base: "100vh", lg: "100vh" }}
+      maxW="container.xl"
       pt={{ base: "80px", md: "100px" }}
       display="flex"
       alignItems="center"
@@ -59,7 +60,7 @@ export function LandingHeroSection() {
               className={exoFont.className}
               bgGradient="linear-gradient(135deg, #F8D458 0%, #6464FA 100%)"
               bgClip="text"
-              fontSize={{ base: "4xl", md: "6xl" }}
+              fontSize={{ base: "2xl", md: "6xl" }}
               fontWeight="medium"
               display="inline-flex"
               alignItems="center"
@@ -71,7 +72,7 @@ export function LandingHeroSection() {
                   words={["Momentum", "Markets", "Yield"]}
                   typingSpeed={100}
                   pauseTime={3000}
-                  fontSize={{ base: "4xl", md: "6xl" }}
+                  fontSize={{ base: "2xl", md: "6xl" }}
                   bgGradient="linear-gradient(135deg, #BDA3F9 0%, #6464FA 100%)"
                 />
               </Box>
