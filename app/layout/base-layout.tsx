@@ -23,7 +23,7 @@ export function BaseLayout({
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundAttachment: "scroll",
-        filter: "blur(1px) brightness(0.8)",
+        filter: "blur(1px) brightness(0.8) contrast(0.9)",
         zIndex: -2,
       }}
       _after={{
@@ -33,9 +33,9 @@ export function BaseLayout({
         left: 0,
         right: 0,
         bottom: 0,
-        background: "url('/images/misc/noise.svg')",
+        background: "url('/images/misc/noise.png')",
         backgroundSize: "250px 250px",
-        opacity: 0.035,
+        opacity: 0.35,
         mixBlendMode: "soft-light",
         pointerEvents: "none",
         zIndex: -1,
