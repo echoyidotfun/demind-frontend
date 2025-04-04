@@ -8,7 +8,6 @@ import {
   Box,
   Button,
   HStack,
-  Link,
   Popover,
   PopoverContent,
   PopoverTrigger,

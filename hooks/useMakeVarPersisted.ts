@@ -1,5 +1,3 @@
-// adapted from https://github.com/apollographql/apollo-cache-persist/issues/361#issuecomment-912545495
-
 "use client";
 
 import { makeVar } from "@apollo/client";

@@ -3,7 +3,6 @@ import { Address } from "viem";
 import { useRecentTransactions } from "@/lib/modules/transactions/RecentTransactionsProvider";
 import { TransactionLabels } from "@/lib/modules/transactions/lib";
 import { GqlChain } from "@/lib/services/api/generated/graphql";
-import { AnalyticsEvent, trackEvent } from "@/lib/services/fathom/Fathom";
 
 type NewTrackedTransactionRequest = {
   labels: TransactionLabels;
@@ -23,7 +22,6 @@ export function useOnTransactionSubmission({
   // on successful submission to chain, add tx to cache
   useEffect(() => {
     if (hash) {
-      trackEvent(AnalyticsEvent.TransactionSubmitted);
       addTrackedTransaction({
         hash,
         chain,

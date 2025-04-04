@@ -50,10 +50,8 @@ import { isDisabledWithReason } from "@/lib/utils/functions";
 import { LABELS } from "@/lib/utils/labels";
 import { useMandatoryContext } from "@/lib/utils/contexts";
 import { useTransactionSteps } from "../transactions/useTransactionSteps";
-import { useRouter } from "next/router";
 import { useAggRouter } from "@/hooks/useAggRouter";
 import { DemindRouterSwapHandler } from "./handlers/DemindRouterSwap.handler";
-import { useVault } from "@/hooks/useVault";
 
 export type UseSwapResponse = ReturnType<typeof _useSwap>;
 export const SwapContext = createContext<UseSwapResponse | null>(null);
