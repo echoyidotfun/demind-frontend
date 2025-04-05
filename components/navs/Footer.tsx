@@ -247,15 +247,15 @@ export function Footer({ logoType, title, subTitle }: FooterProps) {
             w="full"
           >
             <SocialLinks socialLinks={socialLinks} />
-            <HStack spacing={4}>
+            <HStack spacing={2}>
               <Text variant="secondary" fontSize="sm">
-                © 2025 DeMind. All rights reserved.
+                © 2025.
               </Text>
               <Text
                 className={exoFont.className}
                 variant="special"
-                fontSize="lg"
-                fontWeight="500"
+                fontSize="md"
+                fontWeight="400"
               >
                 DeMind
               </Text>
