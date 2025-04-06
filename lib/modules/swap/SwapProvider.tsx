@@ -29,7 +29,6 @@ import { usePriceImpact } from "../price-impact/PriceImpactProvider";
 import { useDisclosure } from "@chakra-ui/react";
 import { ApiToken } from "../tokens/token.types";
 import { SwapHandler } from "./handlers/Swap.handler";
-import { DefaultSwapHandler } from "./handlers/DefaultSwap.handler";
 import {
   getWrapperForBaseToken,
   getWrapType,

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { TokenInput } from "@/components/swap/inputs/TokenInput";

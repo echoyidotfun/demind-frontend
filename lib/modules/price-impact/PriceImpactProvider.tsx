@@ -1,3 +1,5 @@
+"use client";
+
 import { FiAlertTriangle, FiXOctagon } from "react-icons/fi";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { useMandatoryContext } from "@/lib/utils/contexts";

@@ -4,10 +4,7 @@ import { useIsMounted } from "@/hooks/useIsMounted";
 import { createContext } from "react";
 import { Address } from "viem";
 import { useAccount, useAccountEffect, useDisconnect } from "wagmi";
-import {
-  useMandatoryContext,
-  useSafeAppConnectionGuard,
-} from "@/lib/utils/contexts";
+import { useMandatoryContext } from "@/lib/utils/contexts";
 
 export const emptyAddress = "" as Address;
 
@@ -26,8 +23,6 @@ export function _useUserAccount() {
     connector: isMounted ? query.connector : undefined,
     isWCConnector: isMounted ? query.connector?.id === "walletConnect" : false,
   };
-
-  useSafeAppConnectionGuard(result.connector, result.chainId);
 
   useAccountEffect({
     onDisconnect: () => {

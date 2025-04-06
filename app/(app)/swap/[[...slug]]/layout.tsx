@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Where Mind Meets Momentum",
 };
 
-export default async function Layout({
+export default function Layout({
   params,
   children,
 }: { params: Promise<{ slug: string[] }> } & PropsWithChildren) {
