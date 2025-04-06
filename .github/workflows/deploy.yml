@@ -14,6 +14,12 @@ jobs:
       NEXT_PRIVATE_DRPC_KEY: ${{ secrets.NEXT_PRIVATE_DRPC_KEY }}
     steps:
       - uses: actions/checkout@v3
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_APP_ENV=dev" >> .env
+          echo "NEXT_PUBLIC_BALANCER_API_URL=${{ secrets.NEXT_PUBLIC_BALANCER_API_URL }}" >> .env
+          echo "NEXT_PUBLIC_WALLET_CONNECT_ID=${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_ID }}" >> .env
+          echo "NEXT_PRIVATE_DRPC_KEY=${{ secrets.NEXT_PRIVATE_DRPC_KEY }}" >> .env
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
