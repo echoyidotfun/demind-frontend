@@ -57,6 +57,7 @@ export function LandingHeroSection() {
             textAlign="center"
           >
             <Text
+              as="div"
               className={exoFont.className}
               bgGradient="linear-gradient(135deg, #F8D458 0%, #6464FA 100%)"
               bgClip="text"
@@ -79,7 +80,7 @@ export function LandingHeroSection() {
             </Text>
           </Heading>
           <Text
-            as={motion.p}
+            as={motion.div}
             variants={itemVisibleVariants}
             fontSize={{ base: "lg", md: "xl" }}
             color="font.secondary"

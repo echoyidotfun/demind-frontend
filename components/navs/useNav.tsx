@@ -5,7 +5,9 @@ import { useParams, usePathname } from "next/navigation";
 
 export function useNav() {
   const pathname = usePathname();
-  const { chain } = useParams();
+  const params = useParams();
+  const chain =
+    params && typeof params.chain === "string" ? params.chain : undefined;
   const swapHref = chain ? "/swap/" + chain : "/swap";
 
   const defaultAppLinks: AppLink[] = [
@@ -16,7 +18,7 @@ export function useNav() {
   ];
 
   function linkColorFor(path: string) {
-    return pathname.includes(path) ? "font.highlight" : "font.primary";
+    return pathname?.includes(path) ? "font.highlight" : "font.primary";
   }
 
   return {

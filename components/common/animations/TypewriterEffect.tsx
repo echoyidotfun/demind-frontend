@@ -50,7 +50,12 @@ export const TypewriterEffect = ({
   }, [text, isTyping, currentWord, words, typingSpeed, pauseTime]);
 
   return (
-    <Box display="inline-flex" alignItems="center" position="relative">
+    <Box
+      as="span"
+      display="inline-flex"
+      alignItems="center"
+      position="relative"
+    >
       <Text
         as="span"
         bgGradient={bgGradient}
@@ -60,7 +65,7 @@ export const TypewriterEffect = ({
       >
         {text}
       </Text>
-      <motion.div
+      <motion.span
         animate={{ opacity: [1, 0] }}
         transition={{
           duration: 0.5,
