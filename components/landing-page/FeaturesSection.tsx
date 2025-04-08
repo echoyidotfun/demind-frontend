@@ -1,16 +1,8 @@
 import { FeatureCard } from "./FeatureCard";
-import {
-  SimpleGrid,
-  Container,
-  VStack,
-  HStack,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { SimpleGrid, Container, VStack, Heading, Text } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { itemVisibleVariants, containerVariants } from "./LandingHeroSection";
-import { ContributeButton, LaunchAppButton } from "./LaunchButtons";
+import { containerVariants } from "./LandingHeroSection";
 
 export function FeaturesSection() {
   return (
@@ -49,15 +41,6 @@ export function FeaturesSection() {
               description="Leverage momentum-based strategies for enhanced DeFi yield performance"
             />
           </SimpleGrid>
-          <HStack
-            as={motion.div}
-            variants={itemVisibleVariants}
-            spacing="4"
-            pt="6"
-          >
-            <LaunchAppButton />
-            <ContributeButton />
-          </HStack>
         </VStack>
       </Container>
     </Box>

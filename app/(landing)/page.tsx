@@ -5,6 +5,7 @@ import { LandingHeroImg } from "@/components/landing-page/LandingHeroImg";
 import { LandingHeroSection } from "@/components/landing-page/LandingHeroSection";
 import { FeaturesSection } from "@/components/landing-page/FeaturesSection";
 import { SmoothSection } from "@/components/landing-page/SmoothSection";
+import { RoadmapSection } from "@/components/landing-page/RoadmapSection";
 
 export default function Home() {
   return (
@@ -19,6 +20,8 @@ export default function Home() {
       <SmoothSection />
       {/* Features Section */}
       <FeaturesSection />
+      {/* Roadmap Section */}
+      <RoadmapSection />
     </Box>
   );
 }

@@ -29,10 +29,10 @@ export function LandingHeroSection() {
     <Box
       position="relative"
       minH={{ base: "100vh", lg: "100vh" }}
-      maxW="container.xl"
-      pt={{ base: "80px", md: "100px" }}
+      width="100%"
       display="flex"
       alignItems="center"
+      justifyContent="center"
     >
       <Container
         maxW="container.xl"
@@ -45,7 +45,7 @@ export function LandingHeroSection() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          spacing="8"
+          spacing={{ base: "6", md: "8" }}
           align="center"
           textAlign="center"
         >
@@ -65,7 +65,10 @@ export function LandingHeroSection() {
               fontWeight="medium"
               display="inline-flex"
               alignItems="center"
+              justifyContent="center"
               whiteSpace="pre"
+              flexWrap={{ base: "wrap", md: "nowrap" }}
+              width="100%"
             >
               Where Mind Meets{" "}
               <Box as="span" display="inline-flex" alignItems="center">
@@ -84,7 +87,8 @@ export function LandingHeroSection() {
             variants={itemVisibleVariants}
             fontSize={{ base: "lg", md: "xl" }}
             color="font.secondary"
-            maxW="2xl"
+            maxW={{ base: "100%", md: "2xl" }}
+            textAlign="center"
           >
             DeMind is your AI companion that enhances trading intents into
             intelligent actions, powered by aggregated liquidity and
@@ -94,7 +98,9 @@ export function LandingHeroSection() {
             as={motion.div}
             variants={itemVisibleVariants}
             spacing="4"
-            pt="6"
+            pt={{ base: "4", md: "6" }}
+            justifyContent="center"
+            width="100%"
           >
             <LaunchAppButton />
           </HStack>
