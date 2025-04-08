@@ -35,10 +35,10 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
-const MotionHeading = motion(Heading);
-const MotionText = motion(Text);
+const MotionBox = motion.create(Box);
+const MotionFlex = motion.create(Flex);
+const MotionHeading = motion.create(Heading);
+const MotionText = motion.create(Text);
 
 type RoadmapFeature = {
   name: string;
@@ -80,8 +80,9 @@ const roadmapData: RoadmapData[] = [
   {
     time: "Q4 2025",
     features: [
-      { name: "Support new non-EVM chains", isFinished: false },
+      { name: "Integrate restaking & lending protocols", isFinished: false },
       { name: "AI-based yield optimization", isFinished: false },
+      { name: "Support new non-EVM chains", isFinished: false },
     ],
   },
 ];
@@ -144,8 +145,8 @@ export function RoadmapSection() {
           {/* roadmap title and progress bar */}
           <Flex
             position={{ base: "relative", lg: "sticky" }}
-            top="50px"
-            width={{ base: "100%", lg: "68%" }}
+            top="20px"
+            width={{ base: "100%", lg: "70%" }}
             direction={{ base: "column", lg: "row" }}
             height={{ base: "auto", lg: "80vh" }}
             mb={{ base: 10, lg: 0 }}
@@ -156,11 +157,11 @@ export function RoadmapSection() {
               flex={{ lg: "0.8" }}
               display="flex"
               flexDirection="column"
-              justifyContent="center"
+              justifyContent="top"
               variants={containerVariants}
               initial="hidden"
               animate={controls}
-              pr={{ lg: "8" }}
+              mt={{ base: "10", lg: "55" }}
             >
               <MotionHeading
                 as="h2"
@@ -179,7 +180,7 @@ export function RoadmapSection() {
                 variants={itemVariants}
                 fontSize={{ base: "md", md: "lg" }}
                 color="font.secondary"
-                mb="8"
+                mb="6"
               >
                 View our vision on DeFi future
               </MotionText>
