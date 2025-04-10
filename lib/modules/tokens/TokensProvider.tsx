@@ -1,21 +1,22 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import {
-  GetTokenPricesDocument,
-  GetTokenPricesQuery,
-  GetTokensDocument,
-  GetTokensQuery,
-  GetTokensQueryVariables,
-  GqlChain,
-  GqlToken,
-} from "@/lib/services/api/generated/graphql";
+  TokenPrice,
+  MagpieTokenApiVariables,
+  MagpieNetworkToGlobalChainMap,
+} from "@/lib/services/api/magpie/api.types";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { isSameAddress } from "@/lib/utils/addresses";
 import { useMandatoryContext } from "@/lib/utils/contexts";
 import { bn, fNum, Numberish } from "@/lib/utils/numbers";
-import { useQuery } from "@apollo/client";
 import { Dictionary, zipObject } from "lodash";
-import { createContext, PropsWithChildren, useCallback } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useState,
+  useEffect,
+} from "react";
 import { Address } from "viem";
 import { useSkipInitialQuery } from "@/hooks/useSkipInitialQuery";
 import {
@@ -23,53 +24,119 @@ import {
   getWrappedNativeAssetAddress,
 } from "@/lib/configs/app.config";
 import { mins } from "@/lib/utils/time";
-import { ApiToken } from "./token.types";
+import { GlobalToken } from "./token.types";
+import { useQuery } from "@tanstack/react-query";
 
 export type UseTokensResult = ReturnType<typeof _useTokens>;
 export const TokensContext = createContext<UseTokensResult | null>(null);
 
 export type GetTokenFn = (
   address: string,
-  chain: GqlChain
-) => ApiToken | undefined;
+  chain: GlobalChain
+) => GlobalToken | undefined;
+
+// 从API获取代币数据
+const fetchTokens = async (
+  variables: MagpieTokenApiVariables
+): Promise<GlobalToken[]> => {
+  // 在SSR环境下返回空数组，避免服务端请求
+  if (typeof window === "undefined") {
+    console.log("Running on server, skipping token fetch");
+    return [];
+  }
+
+  try {
+    const response = await fetch("/api/tokens", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(variables),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch tokens: ${response.status}`);
+    }
+
+    const tokensData = await response.json();
+    return tokensData.map((token: any) => ({
+      ...token,
+      chain: token.network?.name
+        ? MagpieNetworkToGlobalChainMap[token.network.name]
+        : undefined,
+      chainId: token.network?.chainId,
+    }));
+  } catch (error) {
+    console.error("Error fetching tokens:", error);
+    return []; // 返回空数组而不是抛出错误，避免中断渲染
+  }
+};
 
 export function _useTokens(
-  initTokenData: GetTokensQuery,
-  initTokenPricesData: GetTokenPricesQuery,
-  variables: GetTokensQueryVariables
+  initTokenData: GlobalToken[],
+  variables: MagpieTokenApiVariables
 ) {
-  const skipQuery = useSkipInitialQuery(variables);
-  const pollInterval = mins(3).toMs();
-
-  // skip initial fetch on mount so that initialData is used
-  const { data: tokensData } = useQuery(GetTokensDocument, {
-    variables,
-    skip: skipQuery,
-  });
+  const skipInitialQuery = useSkipInitialQuery(variables);
+  const pollInterval = mins(1).toMs();
+  const [isPolling, setIsPolling] = useState(false);
 
   const {
-    data: tokenPricesData,
-    loading: isLoadingTokenPrices,
-    startPolling,
-    stopPolling,
-  } = useQuery(GetTokenPricesDocument, {
-    variables,
-    // The server provides us with an initial data set, but we immediately reload the potentially
-    // stale data to ensure the prices we show are up to date. Every 3 mins, we requery token prices
-    initialFetchPolicy: "no-cache",
-    nextFetchPolicy: "cache-and-network",
-    pollInterval,
-    notifyOnNetworkStatusChange: true,
+    data: tokens = initTokenData,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["tokens", variables],
+    queryFn: () => fetchTokens(variables),
+    enabled: typeof window !== "undefined" && !skipInitialQuery,
+    refetchInterval: isPolling ? pollInterval : false,
+    initialData: initTokenData,
+    meta: {
+      source: "token-service",
+      context: {
+        extra: {
+          variables,
+        },
+      },
+    },
+    staleTime: mins(1).toMs(),
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
-  const tokens = tokensData?.tokens || initTokenData.tokens;
-  const prices =
-    tokenPricesData?.tokenPrices || initTokenPricesData.tokenPrices;
+  // 从tokens直接计算prices，保持数据一致性
+  const prices: TokenPrice[] = tokens.map((token) => ({
+    price: parseFloat(token.usdPrice),
+    address: token.address,
+    chain: token.chain,
+  }));
+
+  // 启动轮询
+  const startTokenPricePolling = useCallback(() => {
+    if (typeof window !== "undefined") {
+      setIsPolling(true);
+    }
+  }, []);
+
+  // 停止轮询
+  const stopTokenPricePolling = useCallback(() => {
+    if (typeof window !== "undefined") {
+      setIsPolling(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // 当isPolling变为true时，立即触发一次refetch
+    if (isPolling) {
+      refetch();
+    }
+  }, [isPolling, refetch]);
 
   function getToken(
     address: string,
-    chain: GqlChain | number
-  ): ApiToken | undefined {
+    chain: GlobalChain | number
+  ): GlobalToken | undefined {
     const chainKey = typeof chain === "number" ? "chainId" : "chain";
     return tokens.find(
       (token) =>
@@ -77,16 +144,16 @@ export function _useTokens(
     );
   }
 
-  function getNativeAssetToken(chain: GqlChain | number) {
+  function getNativeAssetToken(chain: GlobalChain | number) {
     return getToken(getNativeAssetAddress(chain), chain);
   }
 
-  function getWrappedNativeAssetToken(chain: GqlChain | number) {
+  function getWrappedNativeAssetToken(chain: GlobalChain | number) {
     return getToken(getWrappedNativeAssetAddress(chain), chain);
   }
 
   const getTokensByChain = useCallback(
-    (chain: number | GqlChain): GqlToken[] => {
+    (chain: number | GlobalChain): GlobalToken[] => {
       const chainKey = typeof chain === "number" ? "chainId" : "chain";
       return tokens.filter((token) => token[chainKey] === chain);
     },
@@ -94,7 +161,7 @@ export function _useTokens(
   );
 
   const getPricesForChain = useCallback(
-    (chain: GqlChain): GetTokenPricesQuery["tokenPrices"] => {
+    (chain: GlobalChain): TokenPrice[] => {
       return prices.filter((price) => price.chain === chain);
     },
     [prices]
@@ -102,15 +169,15 @@ export function _useTokens(
 
   function getTokensByTokenAddress(
     tokenAddresses: Address[],
-    chain: GqlChain
-  ): Dictionary<GqlToken> {
+    chain: GlobalChain
+  ): Dictionary<GlobalToken> {
     return zipObject(
       tokenAddresses,
-      tokenAddresses.map((t) => getToken(t, chain) as GqlToken)
+      tokenAddresses.map((t) => getToken(t, chain) as GlobalToken)
     );
   }
 
-  function priceForToken(token: ApiToken): number {
+  function priceForToken(token: GlobalToken): number {
     const price = getPricesForChain(token.chain).find((price) =>
       isSameAddress(price.address, token.address)
     );
@@ -119,7 +186,7 @@ export function _useTokens(
     return price.price;
   }
 
-  function priceForAddress(address: string, chain: GqlChain): number {
+  function priceForAddress(address: string, chain: GlobalChain): number {
     const price = getPricesForChain(chain).find((price) =>
       isSameAddress(price.address, address)
     );
@@ -128,7 +195,7 @@ export function _useTokens(
     return price.price;
   }
 
-  function usdValueForToken(token: ApiToken | undefined, amount: Numberish) {
+  function usdValueForToken(token: GlobalToken | undefined, amount: Numberish) {
     if (!token) return "0";
     if (amount === "") return "0";
     return bn(amount).times(priceForToken(token)).toFixed();
@@ -146,7 +213,7 @@ export function _useTokens(
     return symbol + formattedAmount;
   }
 
-  function priceFor(address: string, chain: GqlChain): number {
+  function priceFor(address: string, chain: GlobalChain): number {
     const token = getToken(address, chain);
 
     if (token) {
@@ -156,10 +223,15 @@ export function _useTokens(
     }
   }
 
+  // 手动更新token数据的函数
+  const updateTokens = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
   return {
     tokens,
     prices,
-    isLoadingTokenPrices,
+    isLoadingTokenPrices: isLoading,
     getToken,
     getNativeAssetToken,
     getWrappedNativeAssetToken,
@@ -168,24 +240,25 @@ export function _useTokens(
     getTokensByChain,
     getTokensByTokenAddress,
     usdValueForToken,
-    startTokenPricePolling: () => startPolling(pollInterval),
-    stopTokenPricePolling: stopPolling,
+    startTokenPricePolling,
+    stopTokenPricePolling,
     priceForAddress,
     displayUsdValueForToken,
+    updateTokens,
+    isError,
+    error,
   };
 }
 
 export function TokensProvider({
   children,
   tokensData,
-  tokenPricesData,
   variables,
 }: PropsWithChildren & {
-  tokensData: GetTokensQuery;
-  tokenPricesData: GetTokenPricesQuery;
-  variables: GetTokensQueryVariables;
+  tokensData: GlobalToken[];
+  variables: MagpieTokenApiVariables;
 }) {
-  const tokens = _useTokens(tokensData, tokenPricesData, variables);
+  const tokens = _useTokens(tokensData, variables);
 
   return (
     <TokensContext.Provider value={tokens}>{children}</TokensContext.Provider>

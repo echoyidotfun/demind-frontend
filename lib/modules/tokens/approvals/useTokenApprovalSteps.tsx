@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { getChainId, getNativeAssetAddress } from "@/lib/configs/app.config";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { isSameAddress } from "@/lib/utils/addresses";
 import { sentryMetaForWagmiSimulation } from "@/lib/utils/query-errors";
 import { useMemo } from "react";
@@ -21,7 +20,7 @@ import { requiresDoubleApproval } from "../tokenHelper";
 
 export type Params = {
   spenderAddress: Address;
-  chain: GqlChain;
+  chain: GlobalChain;
   approvalAmounts: RawAmount[];
   actionType: ApprovalAction;
   isPermit2?: boolean;

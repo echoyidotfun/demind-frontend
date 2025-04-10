@@ -1,5 +1,5 @@
 import { invert } from "lodash";
-import { GqlChain } from "../services/api/generated/graphql";
+import { GlobalChain } from "../services/api/magpie/api.types";
 
 export function getBaseUrl() {
   if (typeof window === "undefined") {
@@ -34,22 +34,23 @@ export function isValidUrl(maybeUrl?: string): string | true {
 export enum ChainSlug {
   Ethereum = "eth",
   Base = "base",
-  Sepolia = "sepolia",
   Sonic = "sonic",
   Arbitrum = "arb",
 }
 
 // Maps GraphQL chain enum to URL slug
-export const chainToSlugMap: Record<GqlChain, ChainSlug> = {
-  [GqlChain.Mainnet]: ChainSlug.Ethereum,
-  [GqlChain.Base]: ChainSlug.Base,
-  [GqlChain.Sepolia]: ChainSlug.Sepolia,
-  [GqlChain.Sonic]: ChainSlug.Sonic,
-  [GqlChain.Arbitrum]: ChainSlug.Arbitrum,
+export const chainToSlugMap: Record<GlobalChain, ChainSlug> = {
+  [GlobalChain.Ethereum]: ChainSlug.Ethereum,
+  [GlobalChain.Base]: ChainSlug.Base,
+  [GlobalChain.Sonic]: ChainSlug.Sonic,
+  [GlobalChain.Arbitrum]: ChainSlug.Arbitrum,
 };
 
-export function getChainSlug(chainSlug: ChainSlug): GqlChain {
-  const slugToChainMap = invert(chainToSlugMap) as Record<ChainSlug, GqlChain>;
+export function getChainSlug(chainSlug: ChainSlug): GlobalChain {
+  const slugToChainMap = invert(chainToSlugMap) as Record<
+    ChainSlug,
+    GlobalChain
+  >;
   const chain = slugToChainMap[chainSlug];
   if (!chain) throw new Error(`Chain ${chainSlug} is not a valid chainName`);
   return chain;

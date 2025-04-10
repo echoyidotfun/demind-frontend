@@ -3,9 +3,9 @@ import { isSameAddress } from "@/lib/utils/addresses";
 import { safeSum } from "@/lib/utils/numbers";
 import { useCallback } from "react";
 import { HumanTokenAmount } from "./token.types";
-import { ApiToken } from "./token.types";
+import { GlobalToken } from "./token.types";
 
-export function useTotalUsdValue(tokens: ApiToken[]) {
+export function useTotalUsdValue(tokens: GlobalToken[]) {
   const { usdValueForToken } = useTokens();
   const calculateUsdAmountsIn = useCallback(
     (humanAmountsIn: HumanTokenAmount[]) =>

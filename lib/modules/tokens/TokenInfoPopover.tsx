@@ -1,4 +1,4 @@
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import {
   HStack,
   IconButton,
@@ -24,7 +24,7 @@ import {
 
 type Props = {
   tokenAddress: string | Address;
-  chain: GqlChain;
+  chain: GlobalChain;
   isBpt?: boolean;
 };
 

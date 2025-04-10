@@ -13,15 +13,15 @@ import {
 } from "@chakra-ui/react";
 import { RefObject, useState } from "react";
 import { TokenSelectList } from "./TokenSelectList";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { TokenSelectPopular } from "./TokenSelectPopular";
 import { SearchInput } from "@/components/swap/inputs/SearchInput";
 import { Address } from "viem";
-import { ApiToken } from "@/lib/modules/tokens/token.types";
+import { GlobalToken } from "@/lib/modules/tokens/token.types";
 
 type Props = {
-  tokens: ApiToken[];
-  chain: GqlChain;
+  tokens: GlobalToken[];
+  chain: GlobalChain;
   currentToken?: Address;
   excludeNativeAsset?: boolean;
   pinNativeAsset?: boolean;
@@ -29,7 +29,7 @@ type Props = {
   onClose(): void;
   onOpen(): void;
   finalFocusRef?: RefObject<HTMLInputElement>;
-  onTokenSelect: (token: ApiToken) => void;
+  onTokenSelect: (token: GlobalToken) => void;
   tokenSelectKey: "tokenIn" | "tokenOut";
 };
 
@@ -50,7 +50,7 @@ export function TokenSelectModal({
 
   const headerPrefix = tokenSelectKey === "tokenIn" ? "Swap from " : "Swap to";
 
-  function closeOnSelect(token: ApiToken) {
+  function closeOnSelect(token: GlobalToken) {
     onTokenSelect(token);
     closeModal();
   }

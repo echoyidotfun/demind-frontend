@@ -7,10 +7,10 @@ import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
 import { useTokens } from "@/lib/modules/tokens/TokensProvider";
 import { fNum } from "@/lib/utils/numbers";
 import { TokenInfoPopover } from "@/lib/modules/tokens/TokenInfoPopover";
-import { ApiToken } from "@/lib/modules/tokens/token.types";
+import { GlobalToken } from "@/lib/modules/tokens/token.types";
 
 type Props = {
-  token: ApiToken;
+  token: GlobalToken;
   userBalance?: TokenAmount;
   isBalancesLoading?: boolean;
   isCurrentToken?: boolean;

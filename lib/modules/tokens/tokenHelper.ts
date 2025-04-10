@@ -4,7 +4,7 @@ import {
   getWrappedNativeAssetAddress,
 } from "@/lib/configs/app.config";
 import { SupportedChainId } from "@/lib/configs/config.types";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { includesAddress, isSameAddress } from "@/lib/utils/addresses";
 import { Address } from "viem";
 import { HumanTokenAmountWithAddress, TokenBase } from "./token.types";
@@ -12,26 +12,26 @@ import { InputAmount } from "@balancer/sdk";
 
 export function isNativeAsset(
   token: TokenBase | string,
-  chain: GqlChain | SupportedChainId
+  chain: GlobalChain | SupportedChainId
 ) {
   return nativeAssetFilter(chain)(token);
 }
 
 export function isWrappedNativeAsset(
   token: TokenBase | string,
-  chain: GqlChain | SupportedChainId
+  chain: GlobalChain | SupportedChainId
 ) {
   return wrappedNativeAssetFilter(chain)(token);
 }
 
 export function isNativeOrWrappedNative(
   token: TokenBase | string,
-  chain: GqlChain | SupportedChainId
+  chain: GlobalChain | SupportedChainId
 ) {
   return isWrappedNativeAsset(token, chain) || isNativeAsset(token, chain);
 }
 
-export function nativeAssetFilter(chain: GqlChain | SupportedChainId) {
+export function nativeAssetFilter(chain: GlobalChain | SupportedChainId) {
   return (token: TokenBase | string) => {
     const nativeAssetAddress = getNativeAssetAddress(chain);
     if (typeof token === "string") {
@@ -41,7 +41,9 @@ export function nativeAssetFilter(chain: GqlChain | SupportedChainId) {
   };
 }
 
-export function wrappedNativeAssetFilter(chain: GqlChain | SupportedChainId) {
+export function wrappedNativeAssetFilter(
+  chain: GlobalChain | SupportedChainId
+) {
   return (token: TokenBase | string) => {
     const wNativeAssetAddress = getWrappedNativeAssetAddress(chain);
     if (typeof token === "string") {
@@ -51,7 +53,7 @@ export function wrappedNativeAssetFilter(chain: GqlChain | SupportedChainId) {
   };
 }
 
-export function exclNativeAssetFilter(chain: GqlChain | SupportedChainId) {
+export function exclNativeAssetFilter(chain: GlobalChain | SupportedChainId) {
   return (token: TokenBase | string) => {
     const nativeAssetAddress = getNativeAssetAddress(chain);
     if (typeof token === "string") {
@@ -62,7 +64,7 @@ export function exclNativeAssetFilter(chain: GqlChain | SupportedChainId) {
 }
 
 export function exclWrappedNativeAssetFilter(
-  chain: GqlChain | SupportedChainId
+  chain: GlobalChain | SupportedChainId
 ) {
   return (token: TokenBase | string) => {
     const wNativeAssetAddress = getWrappedNativeAssetAddress(chain);
@@ -78,7 +80,7 @@ export function exclWrappedNativeAssetFilter(
   */
 export function swapNativeWithWrapped(
   inputAmounts: InputAmount[],
-  chain: GqlChain
+  chain: GlobalChain
 ) {
   return inputAmounts.map((inputAmount) => {
     if (isNativeAsset(inputAmount.address, chain)) {
@@ -96,7 +98,7 @@ export function swapNativeWithWrapped(
   */
 export function swapWrappedWithNative(
   inputAmounts: HumanTokenAmountWithAddress[],
-  chain: GqlChain
+  chain: GlobalChain
 ) {
   return inputAmounts.map((inputAmount) => {
     if (isWrappedNativeAsset(inputAmount.tokenAddress, chain)) {
@@ -110,7 +112,7 @@ export function swapWrappedWithNative(
 }
 
 export function requiresDoubleApproval(
-  chainId: GqlChain | SupportedChainId,
+  chainId: GlobalChain | SupportedChainId,
   tokenAddress: Address
 ) {
   return includesAddress(

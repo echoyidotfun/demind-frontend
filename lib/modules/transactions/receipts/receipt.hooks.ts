@@ -1,6 +1,6 @@
 import { getChainId } from "@/lib/configs/app.config";
 import { useTokens } from "@/lib/modules/tokens/TokensProvider";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { Address, Hex } from "viem";
 import { useTransaction, useWaitForTransactionReceipt } from "wagmi";
 import { ParseReceipt, parseSwapReceipt } from "./receipt-parsers";
@@ -8,7 +8,7 @@ import { ParseReceipt, parseSwapReceipt } from "./receipt-parsers";
 type BaseReceiptProps = {
   txHash?: Hex;
   userAddress: Address;
-  chain: GqlChain;
+  chain: GlobalChain;
 };
 
 export type ReceiptProps = BaseReceiptProps & { parseReceipt: ParseReceipt };

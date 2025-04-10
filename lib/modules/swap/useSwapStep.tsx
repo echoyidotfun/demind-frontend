@@ -20,7 +20,7 @@ import { useUserAccount } from "../web3/UserAccountProvider";
 // import { useTenderly } from '@lib/modules/web3/useTenderly'
 import { getChainId } from "@/lib/configs/app.config";
 import { DisabledTransactionButton } from "@/lib/modules/transactions/TransactionStepButton";
-import { ApiToken } from "../tokens/token.types";
+import { GlobalToken } from "../tokens/token.types";
 import { useTenderly } from "../web3/useTenderly";
 
 export const swapStepId = "swap";
@@ -28,8 +28,8 @@ export const swapStepId = "swap";
 export type SwapStepParams = BuildSwapQueryParams & {
   swapAction: SwapAction;
   wethIsEth?: boolean;
-  tokenInInfo: ApiToken | undefined;
-  tokenOutInfo: ApiToken | undefined;
+  tokenInInfo: GlobalToken | undefined;
+  tokenOutInfo: GlobalToken | undefined;
 };
 
 export function useSwapStep({

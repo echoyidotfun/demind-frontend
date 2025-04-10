@@ -18,7 +18,7 @@ import {
 } from "./contract.types";
 import { useOnTransactionConfirmation } from "./useOnTransactionConfirmation";
 import { useOnTransactionSubmission } from "./useOnTransactionSubmission";
-import { getGqlChain } from "@/lib/configs/app.config";
+import { getGlobalChain } from "@/lib/configs/app.config";
 import { useChainSwitch } from "../useChainSwitch";
 import {
   captureWagmiExecutionError,
@@ -101,7 +101,7 @@ export function useManagedSendTransaction({
   useOnTransactionSubmission({
     labels,
     hash: txHash,
-    chain: getGqlChain(chainId),
+    chain: getGlobalChain(chainId),
   });
 
   // on confirmation, update tx in tx cache

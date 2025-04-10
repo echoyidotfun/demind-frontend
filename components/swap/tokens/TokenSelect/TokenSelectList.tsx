@@ -2,7 +2,7 @@
 
 import { Box, BoxProps, Button, HStack, Text, Divider } from "@chakra-ui/react";
 import { TokenSelectListRow } from "./TokenSelectListRow";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { useTokenBalances } from "@/lib/modules/tokens/TokenBalancesProvider";
 import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
 import { useRef } from "react";
@@ -14,17 +14,17 @@ import { WalletIcon } from "@/components/common/icons/WalletIcon";
 import { useTokens } from "@/lib/modules/tokens/TokensProvider";
 import { Address } from "viem";
 import { isSameAddress } from "@/lib/utils/addresses";
-import { ApiToken } from "@/lib/modules/tokens/token.types";
+import { GlobalToken } from "@/lib/modules/tokens/token.types";
 
 type Props = {
-  chain: GqlChain;
-  tokens: ApiToken[];
+  chain: GlobalChain;
+  tokens: GlobalToken[];
   excludeNativeAsset?: boolean;
   pinNativeAsset?: boolean;
   listHeight: number;
   searchTerm?: string;
   currentToken?: Address;
-  onTokenSelect: (token: ApiToken) => void;
+  onTokenSelect: (token: GlobalToken) => void;
 };
 function OtherTokens() {
   return (
@@ -95,13 +95,13 @@ function InYourWallet({
 
 interface TokenRowProps {
   index: number;
-  token: ApiToken;
+  token: GlobalToken;
   isConnected: boolean;
-  balanceFor: (token: ApiToken) => any;
+  balanceFor: (token: GlobalToken) => any;
   isBalancesLoading: boolean;
   isLoadingTokenPrices: boolean;
-  isCurrentToken: (token: ApiToken) => boolean;
-  onTokenSelect: (token: ApiToken) => void;
+  isCurrentToken: (token: GlobalToken) => boolean;
+  onTokenSelect: (token: GlobalToken) => void;
 }
 
 function TokenRow({
@@ -129,13 +129,13 @@ function TokenRow({
 
 function renderTokenRow(
   index: number,
-  balanceFor: (token: ApiToken) => any,
+  balanceFor: (token: GlobalToken) => any,
   isBalancesLoading: boolean,
   isConnected: boolean,
-  isCurrentToken: (token: ApiToken) => boolean,
+  isCurrentToken: (token: GlobalToken) => boolean,
   isLoadingTokenPrices: boolean,
-  onTokenSelect: (token: ApiToken) => void,
-  tokensToShow: ApiToken[]
+  onTokenSelect: (token: GlobalToken) => void,
+  tokensToShow: GlobalToken[]
 ) {
   return (
     <TokenRow
@@ -183,7 +183,7 @@ export function TokenSelectList({
   );
   const tokensToShow = [...tokensWithBalance, ...tokensWithoutBalance];
 
-  const isCurrentToken = (token: ApiToken) =>
+  const isCurrentToken = (token: GlobalToken) =>
     !!currentToken && isSameAddress(token.address, currentToken);
 
   const groups = [

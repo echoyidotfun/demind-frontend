@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useUserAccount } from "./UserAccountProvider";
 import { GasPriceCard } from "@/hooks/useGasPrice";
-import { getGqlChain } from "@/lib/configs/app.config";
+import { getGlobalChain } from "@/lib/configs/app.config";
 
 export function ConnectWallet({
   connectLabel = "Connect wallet",
@@ -69,11 +69,11 @@ export function ConnectWallet({
           );
         }
 
-        const gqlChain = getGqlChain(chain.id);
+        const apiChain = getGlobalChain(chain.id);
 
         return (
           <HStack spacing="sm">
-            <GasPriceCard chain={gqlChain} inConnectWallect={true} />
+            <GasPriceCard chain={apiChain} inConnectWallect={true} />
             <Button
               alignItems="center"
               display="flex"

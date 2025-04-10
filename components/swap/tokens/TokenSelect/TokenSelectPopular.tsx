@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { getNetworkConfig } from "@/lib/configs/app.config";
-import { GqlChain, GqlToken } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { HStack, Tag, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import { useTokens } from "@/lib/modules/tokens/TokensProvider";
 import { useMemo } from "react";
@@ -8,12 +8,13 @@ import { TokenIcon } from "@/components/common/icons/TokenIcon";
 import { nativeAssetFilter } from "@/lib/modules/tokens/tokenHelper";
 import { Address } from "viem";
 import { isSameAddress } from "@/lib/utils/addresses";
+import { GlobalToken } from "@/lib/modules/tokens/token.types";
 
 type Props = {
-  chain: GqlChain;
+  chain: GlobalChain;
   currentToken?: Address;
   excludeNativeAsset?: boolean;
-  onTokenSelect: (token: GqlToken) => void;
+  onTokenSelect: (token: GlobalToken) => void;
 };
 
 export function TokenSelectPopular({
@@ -31,13 +32,13 @@ export function TokenSelectPopular({
     const tokens = Object.keys(popularTokens || {})
       .slice(0, 7)
       ?.map((token) => getToken(token, chain))
-      .filter(Boolean) as GqlToken[];
+      .filter(Boolean) as GlobalToken[];
     return excludeNativeAsset
       ? tokens.filter((token) => !nativeAssetFilter(chain)(token))
       : tokens;
   }, [popularTokens, excludeNativeAsset, chain]);
 
-  const isCurrentToken = (token: GqlToken) =>
+  const isCurrentToken = (token: GlobalToken) =>
     currentToken && isSameAddress(token.address, currentToken);
 
   return (

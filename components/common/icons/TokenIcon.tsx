@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { createAvatar } from "@dicebear/core";
 import { identicon } from "@dicebear/collection";
 import { Address } from "viem";
@@ -18,7 +18,7 @@ import { fNum } from "@/lib/utils/numbers";
 
 type Props = {
   address?: Address | string;
-  chain?: GqlChain | number;
+  chain?: GlobalChain | number;
   logoURI?: string | null;
   fallbackSrc?: string;
   alt: string;
@@ -57,7 +57,7 @@ export function TokenIcon({
     if (logoURI) {
       src = logoURI;
     } else if (token) {
-      src = token.logoURI;
+      src = token.logoUrl;
     }
 
     if (!src) return undefined;

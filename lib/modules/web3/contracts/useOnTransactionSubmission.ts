@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { Address } from "viem";
 import { useRecentTransactions } from "@/lib/modules/transactions/RecentTransactionsProvider";
 import { TransactionLabels } from "@/lib/modules/transactions/lib";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 
 type NewTrackedTransactionRequest = {
   labels: TransactionLabels;
-  chain: GqlChain;
+  chain: GlobalChain;
   hash?: Address;
   isConfirmed?: boolean;
 };

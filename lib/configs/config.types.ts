@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { chains } from "@/lib/modules/web3/ChainConfig";
 import { ReactNode } from "react";
 import { IconType } from "@/components/common/icons/SocialIcon";
@@ -44,7 +44,7 @@ export interface NetworkConfig {
   chainId: SupportedChainId;
   name: string;
   shortName: string;
-  chain: GqlChain;
+  chain: GlobalChain;
   iconPath: string;
   rpcUrl?: string;
   blockExplorer: BlockExplorerConfig;
@@ -57,7 +57,7 @@ export interface Config {
   appEnv: "dev" | "prod" | "staging";
   apiUrl: string;
   networks: {
-    [key in GqlChain]: NetworkConfig;
+    [key in GlobalChain]: NetworkConfig;
   };
 }
 
@@ -79,8 +79,8 @@ export interface ProjectConfig {
   projectUrl: string;
   projectName: string;
   projectLogo: string;
-  supportedNetworks: GqlChain[];
-  defaultNetwork: GqlChain;
+  supportedNetworks: GlobalChain[];
+  defaultNetwork: GlobalChain;
   delegateOwner: Address;
   links: Links;
 }

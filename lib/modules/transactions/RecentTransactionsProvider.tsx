@@ -2,7 +2,7 @@
 
 import { getChainId } from "@/lib/configs/app.config";
 import { Toast } from "@/components/common/toasts/Toast";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { useMandatoryContext } from "@/lib/utils/contexts";
 import { ensureError } from "@/lib/utils/errors";
 import { captureFatalError } from "@/lib/utils/query-errors";
@@ -56,7 +56,7 @@ export type TrackedTransaction = {
   toastId?: ToastId;
   timestamp: number;
   init?: string;
-  chain: GqlChain;
+  chain: GlobalChain;
   duration?: number | null;
   poolId?: string;
 };

@@ -93,14 +93,6 @@ export function getDemindTokens(colors: any, primaryTextColor: any) {
         input: {
           ...baseTokens.colors.dark.input,
           fontDefault: "#BDA3F9",
-          // fontPlaceholder: "#808090",
-          // fontError: "#FF6B9E", // 调整为更鲜明的错误色
-          // borderDefault: "#323245", // 与border.base保持一致
-          // borderHover: "#8163C7", // 与secondary按钮色保持一致
-          // borderFocus: "#6464FA", // 与渐变起始色保持一致
-          // bgDefault: "#575767", // 与background.level2保持一致
-          // bgHover: "#252536", // 与background.level3保持一致
-          // bgFocus: "#1E1E2E", // 与background.level2保持一致
         },
       },
     },

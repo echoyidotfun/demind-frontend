@@ -1,4 +1,4 @@
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import {
   Center,
   HStack,
@@ -23,7 +23,7 @@ export function TransactionModalHeader({
 }: {
   label: string;
   txHash?: Hash;
-  chain: GqlChain;
+  chain: GlobalChain;
   timeout?: ReactNode;
   isReceiptLoading?: boolean;
 }) {

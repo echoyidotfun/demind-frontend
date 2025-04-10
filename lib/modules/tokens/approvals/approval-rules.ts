@@ -3,7 +3,7 @@ import { isNativeAsset } from "@/lib/utils/addresses";
 import { Address } from "viem";
 import { MAX_BIGINT } from "@/lib/utils/numbers";
 import { InputAmount } from "@balancer/sdk";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { requiresDoubleApproval } from "../tokenHelper";
 
 export type TokenAmountToApprove = {
@@ -20,7 +20,7 @@ export type RawAmount = Pick<InputAmount, "address" | "rawAmount"> & {
 };
 
 type TokenApprovalParams = {
-  chainId: GqlChain | SupportedChainId | null;
+  chainId: GlobalChain | SupportedChainId | null;
   rawAmounts: RawAmount[];
   allowanceFor: (tokenAddress: Address) => bigint;
   isPermit2?: boolean;
@@ -85,7 +85,7 @@ export function getRequiredTokenApprovals({
  * this and false otherwise.
  */
 function isDoubleApprovalRequired(
-  chainId: GqlChain | SupportedChainId,
+  chainId: GlobalChain | SupportedChainId,
   tokenAddress: Address,
   allowanceFor: (tokenAddress: Address) => bigint
 ): boolean {

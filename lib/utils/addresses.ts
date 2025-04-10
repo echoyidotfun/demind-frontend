@@ -4,7 +4,7 @@ import {
 } from "@/lib/configs/app.config";
 import { SupportedChainId } from "@/lib/configs/config.types";
 import { Address, checksumAddress, isAddress } from "viem";
-import { GqlChain } from "../services/api/generated/graphql";
+import { GlobalChain } from "../services/api/magpie/api.types";
 
 export function isSameAddress(address1: string, address2: string): boolean {
   if (!address1 || !address2) return false;
@@ -12,14 +12,14 @@ export function isSameAddress(address1: string, address2: string): boolean {
 }
 
 export function isNativeAsset(
-  chainId: GqlChain | SupportedChainId,
+  chainId: GlobalChain | SupportedChainId,
   tokenAddress: Address | string
 ) {
   return isSameAddress(getNativeAssetAddress(chainId), tokenAddress);
 }
 
 export function isWrappedNativeAsset(
-  chainId: GqlChain | SupportedChainId,
+  chainId: GlobalChain | SupportedChainId,
   tokenAddress: Address | string
 ) {
   return isSameAddress(getWrappedNativeAssetAddress(chainId), tokenAddress);

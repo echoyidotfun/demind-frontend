@@ -1,8 +1,4 @@
-import {
-  SorGetSwapPathsQuery,
-  GqlChain,
-  GqlSorSwapType,
-} from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import {
   AuraBalSwapQueryOutput,
   ExactInQueryOutput,
@@ -19,30 +15,35 @@ export type SwapTokenInput = {
   scaledAmount: bigint;
 };
 
+export enum SorSwapType {
+  ExactIn = "EXACT_IN",
+  ExactOut = "EXACT_OUT",
+}
+
 export type SwapState = {
   tokenIn: SwapTokenInput;
   tokenOut: SwapTokenInput;
-  swapType: GqlSorSwapType;
-  selectedChain: GqlChain;
+  swapType: SorSwapType;
+  selectedChain: GlobalChain;
 };
 
 export type SimulateSwapInputs = {
-  chain: GqlChain;
+  chain: GlobalChain;
   tokenIn: Address;
   tokenOut: Address;
-  swapType: GqlSorSwapType;
+  swapType: SorSwapType;
   swapAmount: string;
   swapScaledAmount: bigint;
   permit2?: Permit2;
   poolIds?: string[];
 };
 
-type ApiSwapQuery = SorGetSwapPathsQuery["swaps"];
-
-export type SimulateSwapResponse = Pick<
-  ApiSwapQuery,
-  "effectivePrice" | "effectivePriceReversed" | "returnAmount" | "swapType"
->;
+export type SimulateSwapResponse = {
+  effectivePrice: string;
+  effectivePriceReversed: string;
+  returnAmount: string;
+  swapType: SorSwapType;
+};
 
 export interface SdkSimulateSwapResponse extends SimulateSwapResponse {
   swap: Swap;

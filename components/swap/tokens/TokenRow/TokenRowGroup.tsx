@@ -1,6 +1,6 @@
 import { HStack, Skeleton, Text, VStack } from "@chakra-ui/react";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
-import { ApiToken } from "@/lib/modules/tokens/token.types";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
+import { GlobalToken } from "@/lib/modules/tokens/token.types";
 import { HumanTokenAmount } from "@/lib/modules/tokens/token.types";
 import { useTotalUsdValue } from "@/lib/modules/tokens/useTotalUsdValue";
 import TokenRow from "./TokenRow";
@@ -18,9 +18,9 @@ export function TokenRowGroup({
 }: {
   label: string;
   amounts: HumanTokenAmountWithSymbol[];
-  chain: GqlChain;
+  chain: GlobalChain;
   totalUSDValue?: string;
-  tokens?: ApiToken[];
+  tokens?: GlobalToken[];
   isLoading?: boolean;
 }) {
   const { usdValueFor } = useTotalUsdValue(tokens);

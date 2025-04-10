@@ -1,11 +1,11 @@
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { NetworkConfig } from "../config.types";
 
 const networkConfig: NetworkConfig = {
   chainId: 42161,
   name: "Arbitrum One",
   shortName: "Arbitrum",
-  chain: GqlChain.Arbitrum,
+  chain: GlobalChain.Arbitrum,
   iconPath: "/images/chains/ARBITRUM.svg",
   blockExplorer: {
     baseUrl: "https://arbiscan.io",

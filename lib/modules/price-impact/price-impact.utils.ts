@@ -49,7 +49,7 @@ export function calcMarketPriceImpact(usdIn: string, usdOut: string) {
   if (bn(usdIn).isZero() || bn(usdOut).isZero()) return "0";
 
   // priceImpact = 1 - (usdOut / usdIn)
-  const priceImpact = bn(1).minus(bn(usdIn).div(usdOut));
+  const priceImpact = bn(usdOut).div(usdIn).minus(1);
 
   return BigNumber.min(priceImpact, 0).abs().toString();
 }

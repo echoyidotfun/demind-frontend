@@ -1,5 +1,6 @@
 import { Path, Slippage, TokenApi } from "@balancer/sdk";
-import { GqlChain, GqlSorSwapType } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
+import { SorSwapType } from "../swap.types";
 import {
   DemindRouterBuildSwapInputs,
   DemindRouterSimulateSwapResponse,
@@ -17,8 +18,7 @@ import { bn } from "@/lib/utils/numbers";
 import { TransactionConfig } from "../../web3/contracts/contract.types";
 import { isNativeAsset } from "../../tokens/tokenHelper";
 import { SwapHandler } from "./Swap.handler";
-import { ApolloClient } from "@apollo/client";
-import { ApiToken } from "../../tokens/token.types";
+import { GlobalToken } from "../../tokens/token.types";
 
 type TradeSummary = {
   amountIn: bigint;
@@ -38,11 +38,13 @@ export class DemindRouterSwapHandler implements SwapHandler {
   name = "DemindRouterSwapHandler";
 
   private inPathExecutors: Address[] = [];
-  private getToken: (address: Address, chain: GqlChain) => ApiToken | undefined;
+  private getToken: (
+    address: Address,
+    chain: GlobalChain
+  ) => GlobalToken | undefined;
 
   constructor(
-    public apolloClient: ApolloClient<object>,
-    getToken: (address: Address, chain: GqlChain) => ApiToken | undefined
+    getToken: (address: Address, chain: GlobalChain) => GlobalToken | undefined
   ) {
     this.getToken = getToken;
   }
@@ -151,7 +153,7 @@ export class DemindRouterSwapHandler implements SwapHandler {
 
     const slippage = Slippage.fromPercentage(slippagePercent as `${number}`);
     const minAmountOut =
-      swapType === GqlSorSwapType.ExactIn
+      swapType === SorSwapType.ExactIn
         ? slippage.applyTo(amountOut, -1)
         : amountOut;
 

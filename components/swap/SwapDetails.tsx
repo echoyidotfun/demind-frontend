@@ -10,14 +10,15 @@ import {
   PopoverContent,
 } from "@chakra-ui/react";
 import { useSwap } from "@/lib/modules/swap/SwapProvider";
-import { GqlSorSwapType } from "@/lib/services/api/generated/graphql";
 import { useUserSettings } from "@/lib/modules/settings/UserSettingsProvider";
 import { usePriceImpact } from "@/lib/modules/price-impact/PriceImpactProvider";
-import { SdkSimulateSwapResponse } from "@/lib/modules/swap/swap.types";
+import {
+  SdkSimulateSwapResponse,
+  SorSwapType,
+} from "@/lib/modules/swap/swap.types";
 import { useTokens } from "@/lib/modules/tokens/TokensProvider";
 import { NativeWrapHandler } from "@/lib/modules/swap/handlers/NativeWrap.handler";
 import { InfoIcon } from "@/components/common/icons/InfoIcon";
-import { BaseDefaultSwapHandler } from "@/lib/modules/swap/handlers/BaseDefaultSwap.handler";
 import {
   getFullPriceImpactLabel,
   getMaxSlippageLabel,
@@ -70,16 +71,14 @@ export function SwapDetails() {
   const { priceImpactLevel, priceImpactColor, PriceImpactIcon, priceImpact } =
     usePriceImpact();
 
-  const isDefaultSwap =
-    handler instanceof BaseDefaultSwapHandler ||
-    handler instanceof DemindRouterSwapHandler;
+  const isDefaultSwap = handler instanceof DemindRouterSwapHandler;
   const isNativeWrapOrUnwrap = handler instanceof NativeWrapHandler;
 
   const _slippage = isNativeWrapOrUnwrap ? 0 : slippage;
   const _slippageDecimal = isNativeWrapOrUnwrap ? 0 : slippageDecimal;
 
   const returnAmountUsd =
-    swapType === GqlSorSwapType.ExactIn
+    swapType === SorSwapType.ExactIn
       ? usdValueForToken(tokenOutInfo, tokenOut.amount)
       : usdValueForToken(tokenInInfo, tokenIn.amount);
 
@@ -95,7 +94,7 @@ export function SwapDetails() {
     fNum("fiat", maxSlippageUsd, { abbreviated: false })
   );
 
-  const isExactIn = swapType === GqlSorSwapType.ExactIn;
+  const isExactIn = swapType === SorSwapType.ExactIn;
 
   const limitLabel = isExactIn ? "You'll get at least" : "You'll pay at most";
   const limitToken = isExactIn ? tokenOutInfo : tokenInInfo;

@@ -15,7 +15,7 @@ import {
   forwardRef,
   useTheme,
 } from "@chakra-ui/react";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { useTokens } from "@/lib/modules/tokens/TokensProvider";
 import { useTokenBalances } from "../../../lib/modules/tokens/TokenBalancesProvider";
 import { useTokenInput } from "@/lib/modules/tokens/TokenInput/useTokenInput";
@@ -29,11 +29,11 @@ import { useEffect, useState } from "react";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { isNativeAsset } from "@/lib/utils/addresses";
 import { getPriceImpactLabel } from "../../../lib/modules/price-impact/price-impact.utils";
-import { ApiToken } from "../../../lib/modules/tokens/token.types";
+import { GlobalToken } from "../../../lib/modules/tokens/token.types";
 import { useUserAccount } from "../../../lib/modules/web3/UserAccountProvider";
 
 type TokenInputSelectorProps = {
-  token: ApiToken | undefined;
+  token: GlobalToken | undefined;
   weight?: string;
   onToggleTokenClicked?: () => void;
 };
@@ -80,7 +80,7 @@ function TokenInputSelector({
           <TokenIcon
             alt={tokenConfig.label}
             loading="lazy"
-            logoURI={token?.logoURI}
+            logoURI={token?.logoUrl}
             size={22}
           />
         </Box>
@@ -103,7 +103,7 @@ function TokenInputSelector({
 }
 
 type TokenInputFooterProps = {
-  token: ApiToken | undefined;
+  token: GlobalToken | undefined;
   value?: string;
   updateValue: (value: string) => void;
   hasPriceImpact?: boolean;
@@ -195,8 +195,8 @@ function TokenInputFooter({
 
 type Props = {
   address?: string;
-  apiToken?: ApiToken;
-  chain?: GqlChain | number;
+  apiToken?: GlobalToken;
+  chain?: GlobalChain | number;
   weight?: string;
   value?: string;
   hideFooter?: boolean;

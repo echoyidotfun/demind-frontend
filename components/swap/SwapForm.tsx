@@ -1,7 +1,6 @@
 "use client";
 
 import { TokenInput } from "@/components/swap/inputs/TokenInput";
-// import { GqlChain } from "@/lib/services/api/generated/graphql";
 import { HumanAmount } from "@balancer/sdk";
 import {
   Card,
@@ -24,7 +23,6 @@ import { Address } from "viem";
 import { SwapPreviewModal } from "./modal/SwapModal";
 import { TransactionSettings } from "@/components/settings/TransactionSettings";
 import { PriceImpactAccordion } from "./transactions/price-impact/PriceImpactAccordion";
-// import { ChainSelect } from "../chains/ChainSelect";
 import { FiCheckCircle, FiLink, FiRepeat } from "react-icons/fi";
 import { SwapRate } from "./SwapRate";
 import { SwapDetails } from "./SwapDetails";
@@ -34,9 +32,8 @@ import FadeInOnView from "@/components/common/containers/FadeInOnView";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
 import { ConnectWallet } from "@/lib/modules/web3/ConnectWallet";
-// import { SafeAppAlert } from "@/components/common/alerts/SafeAppAlert";
 import { useTokens } from "@/lib/modules/tokens/TokensProvider";
-import { ApiToken } from "@/lib/modules/tokens/token.types";
+import { GlobalToken } from "@/lib/modules/tokens/token.types";
 import { SwapSimulationError } from "@/components/errors/SwapSimulationError";
 
 export function SwapForm() {
@@ -84,7 +81,7 @@ export function SwapForm() {
     setTimeout(() => setCopiedDeepLink(false), 2000);
   }
 
-  function handleTokenSelect(token: ApiToken) {
+  function handleTokenSelect(token: GlobalToken) {
     if (!token) return;
     if (tokenSelectKey === "tokenIn") {
       setTokenIn(token.address as Address);

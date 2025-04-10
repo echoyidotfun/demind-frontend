@@ -3,13 +3,13 @@
 import { HStack, Link, Text } from "@chakra-ui/react";
 import { GoArrowUpRight } from "react-icons/go";
 import { Address } from "viem";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import {
   getBlockExplorerName,
   getBlockExplorerTxUrl,
 } from "@/lib/utils/blockExplorer";
 
-type Props = { transactionHash?: Address; chain: GqlChain };
+type Props = { transactionHash?: Address; chain: GlobalChain };
 
 export function BlockExplorerLink({ chain, transactionHash }: Props) {
   if (!transactionHash) return null;

@@ -3,7 +3,7 @@
 import { useMandatoryContext } from "@/lib/utils/contexts";
 import { PropsWithChildren, createContext, useState } from "react";
 import { Address } from "viem";
-import { ApiToken } from "./token.types";
+import { GlobalToken } from "./token.types";
 
 export function _useTokenInputsValidation() {
   type ValidationErrorsByToken = Record<Address, string>;
@@ -15,11 +15,11 @@ export function _useTokenInputsValidation() {
     setValidationErrors({ ...validationErrors });
   }
 
-  function hasValidationError(token: ApiToken | undefined) {
+  function hasValidationError(token: GlobalToken | undefined) {
     return !!getValidationError(token);
   }
 
-  function getValidationError(token: ApiToken | undefined): string {
+  function getValidationError(token: GlobalToken | undefined): string {
     if (!token) return "";
     const error = validationErrors[token.address as Address];
     if (!error) return "";

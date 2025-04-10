@@ -1,48 +1,51 @@
 "use client";
 
 import { Chain } from "@rainbow-me/rainbowkit";
-import { arbitrum, base, mainnet, sepolia, sonic } from "wagmi/chains";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { arbitrum, base, mainnet, sonic } from "wagmi/chains";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
 import { keyBy } from "lodash";
 import { getBaseUrl } from "@/lib/utils/urls";
 
-export const rpcFallbacks: Record<GqlChain, string> = {
-  [GqlChain.Mainnet]: "https://eth.llamarpc.com",
-  [GqlChain.Base]: "https://base.llamarpc.com",
-  [GqlChain.Sepolia]: "https://sepolia.gateway.tenderly.co",
-  [GqlChain.Sonic]: "https://rpc.soniclabs.com",
-  [GqlChain.Arbitrum]: "https://arbitrum.llamarpc.com",
+export const rpcFallbacks: Record<GlobalChain, string> = {
+  [GlobalChain.Ethereum]: "https://eth.llamarpc.com",
+  [GlobalChain.Base]: "https://base.llamarpc.com",
+  [GlobalChain.Sonic]: "https://rpc.soniclabs.com",
+  [GlobalChain.Arbitrum]: "https://arbitrum.llamarpc.com",
 };
 
 const baseUrl = getBaseUrl();
-const getPrivateRpcUrl = (chain: GqlChain) => `${baseUrl}/api/rpc/${chain}`;
+const getPrivateRpcUrl = (chain: GlobalChain) => `${baseUrl}/api/rpc/${chain}`;
 
-export const rpcOverrides: Record<GqlChain, string | undefined> = {
-  [GqlChain.Mainnet]: getPrivateRpcUrl(GqlChain.Mainnet),
-  [GqlChain.Base]: getPrivateRpcUrl(GqlChain.Base),
-  [GqlChain.Sepolia]: getPrivateRpcUrl(GqlChain.Sepolia),
-  [GqlChain.Sonic]: getPrivateRpcUrl(GqlChain.Sonic),
-  [GqlChain.Arbitrum]: getPrivateRpcUrl(GqlChain.Arbitrum),
+export const rpcOverrides: Record<GlobalChain, string | undefined> = {
+  [GlobalChain.Ethereum]: getPrivateRpcUrl(GlobalChain.Ethereum),
+  [GlobalChain.Base]: getPrivateRpcUrl(GlobalChain.Base),
+  [GlobalChain.Sonic]: getPrivateRpcUrl(GlobalChain.Sonic),
+  [GlobalChain.Arbitrum]: getPrivateRpcUrl(GlobalChain.Arbitrum),
 };
 
-const gqlChainToWagmiChainMap = {
-  [GqlChain.Mainnet]: { iconUrl: "/images/chains/MAINNET.svg", ...mainnet },
-  [GqlChain.Base]: { iconUrl: "/images/chains/BASE.svg", ...base },
-  [GqlChain.Sepolia]: { iconUrl: "/images/chains/SEPOLIA.svg", ...sepolia },
-  [GqlChain.Sonic]: { iconUrl: "/images/chains/SONIC.svg", ...sonic },
-  [GqlChain.Arbitrum]: { iconUrl: "/images/chains/ARBITRUM.svg", ...arbitrum },
-} as const satisfies Record<GqlChain, Chain>;
+const apiChainToWagmiChainMap = {
+  [GlobalChain.Ethereum]: {
+    iconUrl: "/images/chains/MAINNET.svg",
+    ...mainnet,
+  },
+  [GlobalChain.Base]: { iconUrl: "/images/chains/BASE.svg", ...base },
+  [GlobalChain.Sonic]: { iconUrl: "/images/chains/SONIC.svg", ...sonic },
+  [GlobalChain.Arbitrum]: {
+    iconUrl: "/images/chains/ARBITRUM.svg",
+    ...arbitrum,
+  },
+} as const satisfies Record<GlobalChain, Chain>;
 
 export const supportedNetworks = PROJECT_CONFIG.supportedNetworks;
 const chainToFilter = PROJECT_CONFIG.defaultNetwork;
-const customChain = gqlChainToWagmiChainMap[chainToFilter];
+const customChain = apiChainToWagmiChainMap[chainToFilter];
 
 export const chains: readonly [Chain, ...Chain[]] = [
   customChain,
   ...supportedNetworks
     .filter((network) => network !== chainToFilter)
-    .map((network) => gqlChainToWagmiChainMap[network]),
+    .map((network) => apiChainToWagmiChainMap[network]),
 ];
 
 export const chainsByKey = keyBy(chains, (chain) => chain.id);

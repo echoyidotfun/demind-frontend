@@ -1,10 +1,12 @@
 import { getChainId } from "@/lib/configs/app.config";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 
-export function isMainnet(chain: GqlChain | number): boolean {
-  return chain === GqlChain.Mainnet || chain === getChainId(GqlChain.Mainnet);
+export function isMainnet(chain: GlobalChain | number): boolean {
+  return (
+    chain === GlobalChain.Ethereum || chain === getChainId(GlobalChain.Ethereum)
+  );
 }
 
-export function isNotMainnet(chain: GqlChain | number): boolean {
+export function isNotMainnet(chain: GlobalChain | number): boolean {
   return !isMainnet(chain);
 }

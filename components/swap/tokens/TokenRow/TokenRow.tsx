@@ -10,19 +10,19 @@ import {
 } from "@chakra-ui/react";
 import { Address } from "viem";
 import { useTokens } from "@/lib/modules/tokens/TokensProvider";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { ReactNode, useEffect, useState } from "react";
 import { TokenIcon } from "@/components/common/icons/TokenIcon";
 import { Numberish, fNum, isZero } from "@/lib/utils/numbers";
 import { TokenInfoPopover } from "@/lib/modules/tokens/TokenInfoPopover";
 import { FiChevronDown } from "react-icons/fi";
-import { ApiToken } from "@/lib/modules/tokens/token.types";
+import { GlobalToken } from "@/lib/modules/tokens/token.types";
 
 export type TokenInfoProps = {
   address: Address;
   symbol?: string;
-  chain: GqlChain;
-  token?: ApiToken;
+  chain: GlobalChain;
+  token?: GlobalToken;
   disabled?: boolean;
   showSelect?: boolean;
   showInfoPopover?: boolean;
@@ -90,7 +90,7 @@ export type TokenRowProps = {
   label?: string | ReactNode;
   address: Address;
   symbol?: string;
-  chain: GqlChain;
+  chain: GlobalChain;
   value: Numberish;
   actualWeight?: string;
   targetWeight?: string;

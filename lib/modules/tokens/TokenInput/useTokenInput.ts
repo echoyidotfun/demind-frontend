@@ -3,7 +3,7 @@ import { ChangeEvent } from "react";
 import { useTokenBalances } from "../TokenBalancesProvider";
 import { useTokenInputsValidation } from "../TokenInputsValidationProvider";
 import { Address } from "viem";
-import { ApiToken } from "../token.types";
+import { GlobalToken } from "../token.types";
 
 export function overflowProtected(
   value: Numberish,
@@ -19,7 +19,7 @@ export function overflowProtected(
 }
 
 type Params = {
-  token: ApiToken | undefined;
+  token: GlobalToken | undefined;
   disableBalanceValidation?: boolean;
   onChange?: (event: { currentTarget: { value: string } }) => void;
 };

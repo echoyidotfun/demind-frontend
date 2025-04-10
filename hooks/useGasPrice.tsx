@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { getViemClient } from "@/lib/services/viem/viem.client";
 import { formatUnits } from "viem";
 import { bn, fNum } from "@/lib/utils/numbers";
@@ -16,7 +16,7 @@ import {
 import { GasIcon } from "@/components/common/icons/GasIcon";
 import { onlyExplicitRefetch } from "@/lib/utils/queries";
 
-function getGasPrice(chain: GqlChain) {
+function getGasPrice(chain: GlobalChain) {
   const client = getViemClient(chain);
   return client.getGasPrice();
 }
@@ -25,8 +25,8 @@ function formatGasPrice(gasPrice: bigint): string {
   return fNum("fiat", formatUnits(gasPrice, 9));
 }
 
-function highGasPriceFor(chain: GqlChain) {
-  if (chain === GqlChain.Mainnet) return 50;
+function highGasPriceFor(chain: GlobalChain) {
+  if (chain === GlobalChain.Ethereum) return 50;
   return 500;
 }
 
@@ -34,7 +34,7 @@ export function GasPriceCard({
   chain,
   inConnectWallect = false,
 }: {
-  chain: GqlChain;
+  chain: GlobalChain;
   inConnectWallect?: boolean;
 }) {
   const { gasPrice, isHighGasPrice } = useGasPriceQuery(chain);
@@ -97,7 +97,7 @@ export function GasPriceCard({
   );
 }
 
-export function useGasPriceQuery(chain: GqlChain) {
+export function useGasPriceQuery(chain: GlobalChain) {
   const query = useQuery({
     queryKey: ["gasPrice", chain],
     queryFn: () => getGasPrice(chain),

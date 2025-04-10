@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { getGqlChain } from "@/lib/configs/app.config";
+import { getGlobalChain } from "@/lib/configs/app.config";
 import { SupportedChainId } from "@/lib/configs/config.types";
 import { useNetworkConfig } from "@/lib/configs/useNetworkConfig";
 import {
@@ -103,7 +103,7 @@ export function useManagedTransaction({
   useOnTransactionSubmission({
     labels,
     hash: txHash,
-    chain: getGqlChain(chainId as SupportedChainId),
+    chain: getGlobalChain(chainId as SupportedChainId),
   });
 
   // on confirmation, update tx in tx cache

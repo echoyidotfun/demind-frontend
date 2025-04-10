@@ -3,11 +3,11 @@
 import { Card, Box, Divider, HStack, Heading, VStack } from "@chakra-ui/react";
 import { Steps } from "./Steps";
 import { GasPriceCard } from "@/hooks/useGasPrice";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { TransactionStepsResponse } from "@/lib/modules/transactions/useTransactionSteps";
 
 type Props = {
-  chain: GqlChain;
+  chain: GlobalChain;
   transactionSteps: TransactionStepsResponse;
   isTxBatch?: boolean;
 };

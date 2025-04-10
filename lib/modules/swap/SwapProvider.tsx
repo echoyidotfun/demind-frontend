@@ -17,9 +17,10 @@ import {
   SwapState,
 } from "./swap.types";
 import { emptyAddress } from "../web3/contracts/wagmi-helpers";
-import { GqlChain, GqlSorSwapType } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
+import { SorSwapType } from "./swap.types";
 import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
-import { ApolloClient, useApolloClient, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import { useUserAccount } from "../web3/UserAccountProvider";
 import { useNetworkConfig } from "@/lib/configs/useNetworkConfig";
 import { useTokens } from "../tokens/TokensProvider";
@@ -27,7 +28,7 @@ import { useTokenBalances } from "../tokens/TokenBalancesProvider";
 import { useTokenInputsValidation } from "../tokens/TokenInputsValidationProvider";
 import { usePriceImpact } from "../price-impact/PriceImpactProvider";
 import { useDisclosure } from "@chakra-ui/react";
-import { ApiToken } from "../tokens/token.types";
+import { GlobalToken } from "../tokens/token.types";
 import { SwapHandler } from "./handlers/Swap.handler";
 import {
   getWrapperForBaseToken,
@@ -69,15 +70,13 @@ export type ProtocolVersion = 1 | 2 | 3;
 function selectSwapHandler(
   tokenInAddress: Address,
   tokenOutAddress: Address,
-  chain: GqlChain,
-  client: ApolloClient<object>,
-  getToken: (address: Address, chain: GqlChain) => ApiToken | undefined
+  chain: GlobalChain,
+  getToken: (address: Address, chain: GlobalChain) => GlobalToken | undefined
 ): SwapHandler {
   if (isNativeWrap(tokenInAddress, tokenOutAddress, chain)) {
-    return new NativeWrapHandler(client);
+    return new NativeWrapHandler();
   }
-  return new DemindRouterSwapHandler(client, getToken);
-  // return new DefaultSwapHandler(client);
+  return new DemindRouterSwapHandler(getToken);
 }
 
 export type SwapProviderProps = {
@@ -100,19 +99,19 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
         amount: "",
         scaledAmount: BigInt(0),
       },
-      swapType: GqlSorSwapType.ExactIn,
+      swapType: SorSwapType.ExactIn,
       selectedChain: PROJECT_CONFIG.defaultNetwork,
     },
     "swapState",
     shouldDiscardOldPersistedValue
   );
-
   const swapState = useReactiveVar(swapStateVar);
+
   const [needsToAcceptHighPI, setNeedsToAcceptHighPI] = useState(false);
   const [tokenSelectKey, setTokenSelectKey] = useState<"tokenIn" | "tokenOut">(
     "tokenIn"
   );
-  const [initUserChain, setInitUserChain] = useState<GqlChain | undefined>(
+  const [initUserChain, setInitUserChain] = useState<GlobalChain | undefined>(
     undefined
   );
 
@@ -126,13 +125,11 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
   const selectedChain = swapState.selectedChain;
   const previewModalDisclosure = useDisclosure();
 
-  const client = useApolloClient();
   const handler = useMemo(() => {
     return selectSwapHandler(
       swapState.tokenIn.address,
       swapState.tokenOut.address,
       selectedChain,
-      client,
       getToken
     );
   }, [swapState.tokenIn.address, swapState.tokenOut.address, selectedChain]);
@@ -157,7 +154,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
   const getSwapAmount = () => {
     const swapState = swapStateVar();
     return (
-      (swapState.swapType === GqlSorSwapType.ExactIn
+      (swapState.swapType === SorSwapType.ExactIn
         ? swapState.tokenIn.amount
         : swapState.tokenOut.amount) || "0"
     );
@@ -165,7 +162,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
 
   const getSwapScaledAmount = () => {
     const swapState = swapStateVar();
-    return swapState.swapType === GqlSorSwapType.ExactIn
+    return swapState.swapType === SorSwapType.ExactIn
       ? swapState.tokenIn.scaledAmount
       : swapState.tokenOut.scaledAmount;
   };
@@ -214,14 +211,14 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
       swapType,
     });
 
-    if (swapType === GqlSorSwapType.ExactIn) {
+    if (swapType === SorSwapType.ExactIn) {
       setTokenOutAmount(returnAmount, { userTriggered: false });
     } else {
       setTokenInAmount(returnAmount, { userTriggered: false });
     }
   }
 
-  function setSelectedChain(_selectedChain: GqlChain) {
+  function setSelectedChain(_selectedChain: GlobalChain) {
     const defaultTokenState = getDefaultTokenState(_selectedChain);
     swapStateVar(defaultTokenState);
   }
@@ -270,7 +267,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
       ...swapState,
       tokenIn: swapState.tokenOut,
       tokenOut: swapState.tokenIn,
-      swapType: GqlSorSwapType.ExactIn,
+      swapType: SorSwapType.ExactIn,
     });
     setTokenInAmount("", { userTriggered: false });
     setTokenOutAmount("", { userTriggered: false });
@@ -297,7 +294,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
     if (userTriggered) {
       swapStateVar({
         ...newState,
-        swapType: GqlSorSwapType.ExactIn,
+        swapType: SorSwapType.ExactIn,
       });
       setTokenOutAmount("", { userTriggered: false });
     } else {
@@ -330,7 +327,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
     if (userTriggered) {
       swapStateVar({
         ...newState,
-        swapType: GqlSorSwapType.ExactOut,
+        swapType: SorSwapType.ExactOut,
       });
       setTokenInAmount("", { userTriggered: false });
     } else {
@@ -341,7 +338,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
     }
   }
 
-  function getDefaultTokenState(chain: GqlChain) {
+  function getDefaultTokenState(chain: GlobalChain) {
     const swapState = swapStateVar();
     const {
       tokens: { defaultSwapTokens },
@@ -349,7 +346,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
     const { tokenIn, tokenOut } = defaultSwapTokens || {};
 
     return {
-      swapType: GqlSorSwapType.ExactIn,
+      swapType: SorSwapType.ExactIn,
       selectedChain: chain,
       tokenIn: {
         ...swapState.tokenIn,
@@ -404,7 +401,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
       _tokenIn &&
       _tokenOut &&
       tokenIn.amount &&
-      swapType === GqlSorSwapType.ExactIn
+      swapType === SorSwapType.ExactIn
     ) {
       newPath.push(`/${tokenIn.amount}`);
     }
@@ -412,7 +409,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
       _tokenIn &&
       _tokenOut &&
       tokenOut.amount &&
-      swapType === GqlSorSwapType.ExactOut
+      swapType === SorSwapType.ExactOut
     ) {
       newPath.push(`/0/${tokenOut.amount}`);
     }
@@ -420,7 +417,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
     window.history.replaceState({}, "", newPath.join(""));
   }
 
-  function scaleTokenAmount(amount: string, token: ApiToken): bigint {
+  function scaleTokenAmount(amount: string, token: GlobalToken): bigint {
     if (amount === "") return parseUnits("0", 18);
     return parseUnits(amount, token.decimals);
   }
@@ -632,14 +629,14 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
 
   // If token out value changes when swapping exact in, recalculate price impact.
   useEffect(() => {
-    if (swapState.swapType === GqlSorSwapType.ExactIn) {
+    if (swapState.swapType === SorSwapType.ExactIn) {
       calcPriceImpact();
     }
   }, [tokenOutUsd]);
 
   // If token in value changes when swapping exact out, recalculate price impact.
   useEffect(() => {
-    if (swapState.swapType === GqlSorSwapType.ExactOut) {
+    if (swapState.swapType === SorSwapType.ExactOut) {
       calcPriceImpact();
     }
   }, [tokenInUsd]);

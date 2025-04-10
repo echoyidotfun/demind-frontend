@@ -1,15 +1,15 @@
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { useTokens } from "./TokensProvider";
 import { isSameAddress } from "@/lib/utils/addresses";
 import { orderBy } from "lodash";
 import { useTokenBalances } from "./TokenBalancesProvider";
 import { exclNativeAssetFilter, nativeAssetFilter } from "./tokenHelper";
 import { useCallback, useMemo } from "react";
-import { ApiToken } from "./token.types";
+import { GlobalToken } from "./token.types";
 
 export function useTokenSelectList(
-  chain: GqlChain,
-  tokens: ApiToken[],
+  chain: GlobalChain,
+  tokens: GlobalToken[],
   excludeNativeAsset: boolean,
   pinNativeAsset: boolean,
   searchTerm?: string
@@ -17,10 +17,10 @@ export function useTokenSelectList(
   const { usdValueForToken } = useTokens();
   const { balanceFor } = useTokenBalances();
 
-  const symbolMatch = (token: ApiToken, searchTerm: string) =>
+  const symbolMatch = (token: GlobalToken, searchTerm: string) =>
     token.symbol.toLowerCase().includes(searchTerm.toLowerCase());
 
-  const nameMatch = (token: ApiToken, searchTerm: string) =>
+  const nameMatch = (token: GlobalToken, searchTerm: string) =>
     token.name.toLowerCase().includes(searchTerm.toLowerCase());
 
   const getFilteredTokens = useCallback(() => {

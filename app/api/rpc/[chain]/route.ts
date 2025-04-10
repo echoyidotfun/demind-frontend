@@ -1,4 +1,4 @@
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 
 type Params = {
   params: Promise<{
@@ -10,17 +10,16 @@ const DRPC_KEY = process.env.NEXT_PRIVATE_DRPC_KEY;
 const dRpcUrl = (chainName: string) =>
   `https://${chainName}.g.alchemy.com/v2/${DRPC_KEY}`;
 
-const chainToRpcMap: Record<GqlChain, string | undefined> = {
-  [GqlChain.Mainnet]: dRpcUrl("eth-mainnet"),
-  [GqlChain.Base]: dRpcUrl("base-mainnet"),
-  [GqlChain.Sepolia]: dRpcUrl("eth-sepolia"),
-  [GqlChain.Sonic]: dRpcUrl("sonic-mainnet"),
-  [GqlChain.Arbitrum]: dRpcUrl("arb-mainnet"),
+const chainToRpcMap: Record<GlobalChain, string | undefined> = {
+  [GlobalChain.Ethereum]: dRpcUrl("eth-mainnet"),
+  [GlobalChain.Base]: dRpcUrl("base-mainnet"),
+  [GlobalChain.Sonic]: dRpcUrl("sonic-mainnet"),
+  [GlobalChain.Arbitrum]: dRpcUrl("arb-mainnet"),
 };
 
 function getRpcUrl(chain: string) {
   try {
-    const rpc = chainToRpcMap[chain as GqlChain];
+    const rpc = chainToRpcMap[chain as GlobalChain];
     if (!rpc) throw new Error(`Invalid chain: ${chain}`);
     return rpc;
   } catch (error) {

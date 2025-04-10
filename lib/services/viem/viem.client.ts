@@ -1,5 +1,5 @@
 import { createPublicClient } from "viem";
-import { GqlChain } from "../api/generated/graphql";
+import { GlobalChain } from "../api/magpie/api.types";
 import { getNetworkConfig } from "@/lib/configs/app.config";
 import { chains, chainsByKey } from "@/lib/modules/web3/ChainConfig";
 import { Chain } from "viem";
@@ -11,7 +11,7 @@ function getViemChain(chainId: number): Chain {
   return chain;
 }
 
-export function getViemClient(chain: GqlChain) {
+export function getViemClient(chain: GlobalChain) {
   const { chainId } = getNetworkConfig(chain);
 
   return createPublicClient({

@@ -2,7 +2,7 @@
 
 import { Chain } from "@rainbow-me/rainbowkit";
 import { fallback, http } from "wagmi";
-import { getGqlChain } from "@/lib/configs/app.config";
+import { getGlobalChain } from "@/lib/configs/app.config";
 import { SupportedChainId } from "@/lib/configs/config.types";
 import {
   chains,
@@ -12,9 +12,9 @@ import {
 } from "./ChainConfig";
 
 export function getTransports(chain: Chain) {
-  const gqlChain = getGqlChain(chain.id as SupportedChainId);
-  const overrideRpcUrl = rpcOverrides[gqlChain];
-  const fallbackRpcUrl = rpcFallbacks[gqlChain];
+  const apiChain = getGlobalChain(chain.id as SupportedChainId);
+  const overrideRpcUrl = rpcOverrides[apiChain];
+  const fallbackRpcUrl = rpcFallbacks[apiChain];
   if (overrideRpcUrl)
     return fallback([http(overrideRpcUrl), http(fallbackRpcUrl), http()]);
   return fallback([http(), http(fallbackRpcUrl)]);
@@ -25,10 +25,10 @@ export const transports = Object.fromEntries(
 ) as Record<number, ReturnType<typeof getTransports>>;
 
 export function getRpcUrl(chainId: number): string {
-  const gqlChain = getGqlChain(chainId);
+  const apiChain = getGlobalChain(chainId);
   return (
-    rpcOverrides[gqlChain] ||
-    rpcFallbacks[gqlChain] ||
+    rpcOverrides[apiChain] ||
+    rpcFallbacks[apiChain] ||
     getDefaultRpcUrl(chainId)
   );
 }

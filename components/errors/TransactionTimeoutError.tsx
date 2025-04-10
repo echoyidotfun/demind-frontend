@@ -2,11 +2,11 @@
 
 import { AlertProps, Text } from "@chakra-ui/react";
 import { Address } from "viem";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { BlockExplorerLink } from "../common/BlockExplorerLink";
 import { ErrorAlert } from "./ErrorAlert";
 
-type Props = AlertProps & { transactionHash?: Address; chain: GqlChain };
+type Props = AlertProps & { transactionHash?: Address; chain: GlobalChain };
 
 export function TransactionTimeoutError({
   transactionHash,

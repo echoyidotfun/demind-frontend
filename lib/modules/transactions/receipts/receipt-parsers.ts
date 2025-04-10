@@ -2,7 +2,7 @@ import {
   getNativeAssetAddress,
   getNetworkConfig,
 } from "@/lib/configs/app.config";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { bn } from "@/lib/utils/numbers";
 import { HumanAmount } from "@balancer/sdk";
 import {
@@ -15,14 +15,14 @@ import {
 } from "viem";
 import { HumanTokenAmount } from "@/lib/modules/tokens/token.types";
 import { emptyAddress } from "@/lib/modules/web3/contracts/wagmi-helpers";
-import { ApiToken } from "@/lib/modules/tokens/token.types";
+import { GlobalToken } from "@/lib/modules/tokens/token.types";
 
 type ParseProps = {
   receiptLogs: Log[];
-  chain: GqlChain;
+  chain: GlobalChain;
   userAddress?: Address;
   txValue: bigint;
-  getToken: (address: Address, chain: GqlChain) => ApiToken | undefined;
+  getToken: (address: Address, chain: GlobalChain) => GlobalToken | undefined;
 };
 
 export type ParseReceipt = typeof parseSwapReceipt;
@@ -125,7 +125,7 @@ function getIncomingLogs(logs: Log[], userAddress?: Address) {
 
 function getIncomingWithdrawals(
   logs: Log[],
-  chain: GqlChain,
+  chain: GlobalChain,
   userAddress?: Address
 ) {
   if (!userAddress) return [];

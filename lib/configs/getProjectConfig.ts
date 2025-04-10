@@ -1,7 +1,7 @@
 import { ProjectConfig } from "./config.types";
-import { GqlChain } from "../services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 
-export const supportedNetworks = [GqlChain.Sonic];
+export const supportedNetworks = [GlobalChain.Sonic];
 
 export const projectConfig: ProjectConfig = {
   projectId: "demind",
@@ -9,7 +9,7 @@ export const projectConfig: ProjectConfig = {
   projectUrl: "https://demind.fun",
   projectLogo: "https://demind.fun/images/icons/logo.png",
   supportedNetworks: supportedNetworks,
-  defaultNetwork: GqlChain.Sonic,
+  defaultNetwork: GlobalChain.Sonic,
   delegateOwner: "0xaaaaaaaaaa",
 
   links: {

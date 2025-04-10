@@ -5,7 +5,7 @@ import {
   SimulateSwapResponse,
   SimulateSwapInputs,
 } from "../swap.types";
-import { ApiToken } from "../../tokens/token.types";
+import { GlobalToken } from "../../tokens/token.types";
 
 /**
  * SwapHandler is an interface that defines the methods that must be implemented by a handler.
@@ -13,7 +13,7 @@ import { ApiToken } from "../../tokens/token.types";
  */
 export interface SwapHandler {
   apolloClient?: ApolloClient<object>;
-  tokens?: ApiToken[];
+  tokens?: GlobalToken[];
   name: string;
 
   simulate(inputs: SimulateSwapInputs): Promise<SimulateSwapResponse>;

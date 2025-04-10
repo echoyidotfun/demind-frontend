@@ -1,7 +1,7 @@
 import { VStack, HStack, Text } from "@chakra-ui/react";
 import { Address } from "viem";
 import TokenRow from "./TokenRow";
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { HumanAmount } from "@balancer/sdk";
 import { useSwap } from "@/lib/modules/swap/SwapProvider";
 import { slippageDiffLabel } from "@/lib/utils/slippage";
@@ -11,7 +11,7 @@ export function ReceiptTokenOutRow({
   actualReceivedTokenAmount,
   tokenAddress,
 }: {
-  chain: GqlChain;
+  chain: GlobalChain;
   actualReceivedTokenAmount: HumanAmount;
   tokenAddress: string;
 }) {
@@ -39,7 +39,7 @@ export function SwapTokenRow({
   tokenAddress,
 }: {
   label: string;
-  chain: GqlChain;
+  chain: GlobalChain;
   tokenAmount: string;
   tokenAddress: string;
   rightLabel?: string;

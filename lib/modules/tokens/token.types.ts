@@ -1,10 +1,16 @@
-import { GetTokensQuery, GqlToken } from "@/lib/services/api/generated/graphql";
+import {
+  GlobalChain,
+  MagpieApiToken,
+} from "@/lib/services/api/magpie/api.types";
 import { Address, HumanAmount } from "@balancer/sdk";
 
-export type TokenBase = Pick<
-  GqlToken,
-  "address" | "name" | "symbol" | "decimals" | "chainId"
->;
+export type TokenBase = {
+  address: string;
+  name: string;
+  symbol: string;
+  decimals: number;
+  chainId: number;
+};
 
 export interface TokenAmount {
   address: string;
@@ -48,15 +54,11 @@ export interface AmountHumanReadableMap {
   [address: string]: AmountHumanReadable;
 }
 
-export type ApiToken = Omit<GetTokensQuery["tokens"][0], "__typename"> & {
-  index?: number; // Only used in add/remove to have access to the wrapped token from the underlying token
-  wrappedToken?: ApiToken; // Only used in add/remove to have access to the wrapped token from the underlying token
-  underlyingToken?: ApiToken;
-  useWrappedForAddRemove?: boolean;
-  useUnderlyingForAddRemove?: boolean;
-  weight?: string;
-};
-
 export type BalanceForFn = (
   token: TokenBase | string
 ) => TokenAmount | undefined;
+
+export type GlobalToken = MagpieApiToken & {
+  chain: GlobalChain;
+  chainId: number;
+};

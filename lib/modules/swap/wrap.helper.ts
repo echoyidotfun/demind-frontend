@@ -1,4 +1,4 @@
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { Address } from "viem";
 import { isNativeAsset, isWrappedNativeAsset } from "../tokens/tokenHelper";
 import { getNetworkConfig } from "@/lib/configs/app.config";
@@ -9,7 +9,7 @@ import { OWrapType, SupportedWrapHandler, WrapType } from "./swap.types";
 export function isNativeWrap(
   tokenIn: Address,
   tokenOut: Address,
-  chain: GqlChain
+  chain: GlobalChain
 ) {
   const tokenInIsNative =
     isNativeAsset(tokenIn, chain) || isWrappedNativeAsset(tokenIn, chain);
@@ -22,7 +22,7 @@ export function isNativeWrap(
 export function isSupportedWrap(
   tokenIn: Address,
   tokenOut: Address,
-  chain: GqlChain
+  chain: GlobalChain
 ) {
   const networkConfig = getNetworkConfig(chain);
   const supportedWrappers = networkConfig.tokens.supportedWrappers || [];
@@ -37,7 +37,7 @@ export function isSupportedWrap(
 export function isWrapOrUnwrap(
   tokenIn: Address,
   tokenOut: Address,
-  chain: GqlChain
+  chain: GlobalChain
 ) {
   return (
     isNativeWrap(tokenIn, tokenOut, chain) ||
@@ -48,7 +48,7 @@ export function isWrapOrUnwrap(
 export function getWrapType(
   tokenIn: Address,
   tokenOut: Address,
-  chain: GqlChain
+  chain: GlobalChain
 ): WrapType | null {
   if (isNativeAsset(tokenIn, chain) && isWrappedNativeAsset(tokenOut, chain)) {
     return OWrapType.WRAP;
@@ -62,7 +62,7 @@ export function getWrapType(
   return null;
 }
 
-export function getWrapperForBaseToken(baseToken: Address, chain: GqlChain) {
+export function getWrapperForBaseToken(baseToken: Address, chain: GlobalChain) {
   const networkConfig = getNetworkConfig(chain);
   const supportedWrappers = networkConfig.tokens.supportedWrappers || [];
   return supportedWrappers.find((wrapper) =>

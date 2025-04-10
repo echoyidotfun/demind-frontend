@@ -1,11 +1,11 @@
-import { GqlChain } from "@/lib/services/api/generated/graphql";
+import { GlobalChain } from "@/lib/services/api/magpie/api.types";
 import { NetworkConfig } from "../config.types";
 
 const networkConfig: NetworkConfig = {
   chainId: 146,
   name: "Sonic",
-  shortName: "Sonic",
-  chain: GqlChain.Sonic,
+  shortName: "SONIC",
+  chain: GlobalChain.Sonic,
   iconPath: "/images/chains/SONIC.svg",
   blockExplorer: {
     baseUrl: "https://sonicscan.org",
@@ -17,15 +17,15 @@ const networkConfig: NetworkConfig = {
     },
     nativeAsset: {
       name: "Sonic",
-      address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      address: "0x0000000000000000000000000000000000000000",
       symbol: "S",
       decimals: 18,
     },
     defaultSwapTokens: {
-      tokenIn: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      tokenIn: "0x0000000000000000000000000000000000000000",
     },
     popularTokens: {
-      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee": "S",
+      "0x0000000000000000000000000000000000000000": "S",
       "0x039e2fb66102314ce7b64ce5ce3e5183bc94ad38": "wS",
       "0xe5da20f15420ad15de0fa650600afc998bbe3955": "stS",
       "0x29219dd400f2bf60e5a23d13be72b486d4038894": "USDC.e",

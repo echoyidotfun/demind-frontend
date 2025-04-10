@@ -1,6 +1,5 @@
 import { DefaultPageContainer } from "@/components/common/containers/DefaultPageContainer";
 import { Button, Heading, VStack, Text } from "@chakra-ui/react";
-import { headers } from "next/headers";
 import Link from "next/link";
 
 export async function NotFoundPage() {

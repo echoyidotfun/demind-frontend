@@ -16,7 +16,7 @@ import { useMandatoryContext } from "@/lib/utils/contexts";
 import { getNetworkConfig } from "@/lib/configs/app.config";
 import { exclNativeAssetFilter, nativeAssetFilter } from "./tokenHelper";
 import { HumanAmount, Slippage } from "@balancer/sdk";
-import { ApiToken } from "./token.types";
+import { GlobalToken } from "./token.types";
 import { isZero } from "@/lib/utils/numbers";
 
 const BALANCE_CACHE_TIME_MS = 30_000;
@@ -34,8 +34,8 @@ export const TokenBalancesContext =
  * case the buffer is set to the slippage percentage set by the user.
  */
 export function _useTokenBalances(
-  initTokens?: ApiToken[],
-  extTokens?: ApiToken[],
+  initTokens?: GlobalToken[],
+  extTokens?: GlobalToken[],
   bufferPercentage: HumanAmount | string = "0"
 ) {
   if (!initTokens && !extTokens)
@@ -44,7 +44,7 @@ export function _useTokenBalances(
     throw new Error("initTokens and tokens cannot be provided together");
 
   // eslint-disable-next-line react/hook-use-state
-  const [_tokens, _setTokens] = useState<ApiToken[]>(initTokens || []);
+  const [_tokens, _setTokens] = useState<GlobalToken[]>(initTokens || []);
 
   const { userAddress } = useUserAccount();
 
@@ -144,7 +144,7 @@ export function _useTokenBalances(
     return balances.find((balance) => isSameAddress(balance.address, address));
   }
 
-  function setTokens(tokens: ApiToken[]) {
+  function setTokens(tokens: GlobalToken[]) {
     if (extTokens)
       throw new Error("Cannot set tokens when using external tokens");
     _setTokens(tokens);
@@ -165,8 +165,8 @@ export function _useTokenBalances(
 }
 
 type ProviderProps = PropsWithChildren<{
-  initTokens?: ApiToken[];
-  extTokens?: ApiToken[];
+  initTokens?: GlobalToken[];
+  extTokens?: GlobalToken[];
   bufferPercentage?: HumanAmount | string;
 }>;
 

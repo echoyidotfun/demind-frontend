@@ -14,7 +14,7 @@ import {
   useChainSwitch,
 } from "@/lib/modules/web3/useChainSwitch";
 import { GenericError } from "@/components/errors/GenericError";
-import { getGqlChain } from "@/lib/configs/app.config";
+import { getGlobalChain } from "@/lib/configs/app.config";
 import { TransactionTimeoutError } from "@/components/errors/TransactionTimeoutError";
 import { useState } from "react";
 import { ensureError } from "@/lib/utils/errors";
@@ -103,7 +103,7 @@ function TransactionError({ step }: Props) {
     const isTimeoutError = resultError.name === "TimeoutError";
     const transactionHash = step.execution.data;
     if (isTimeoutError && transactionHash) {
-      const chain = getGqlChain(step.chainId);
+      const chain = getGlobalChain(step.chainId);
       return (
         <TransactionTimeoutError
           chain={chain}
