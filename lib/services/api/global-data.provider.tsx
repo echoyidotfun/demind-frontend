@@ -1,18 +1,17 @@
 import { TokensProvider } from "@/lib/modules/tokens/TokensProvider";
 import { PropsWithChildren } from "react";
 import { PROJECT_CONFIG } from "@/lib/configs/getProjectConfig";
-import { MagpieTokenApiVariables } from "@/lib/services/api/magpie/api.types";
+import {
+  MagpieApiToken,
+  MagpieNetworkToGlobalChainMap,
+  MagpieTokenApiVariables,
+} from "@/lib/services/api/magpie/api.types";
 import { GlobalChainToMagpieNetworkMap } from "@/lib/services/api/magpie/api.types";
 import { GlobalToken } from "@/lib/modules/tokens/token.types";
 
-// 为构建环境提供一份静态空数据
-const EMPTY_TOKENS: GlobalToken[] = [];
+export const revalidate = 60;
 
-/**
- * GlobalDataProvider - 服务器组件，用于获取并提供全局代币数据
- */
-export function GlobalDataProvider({ children }: PropsWithChildren) {
-  // 创建API请求变量
+export async function GlobalDataProvider({ children }: PropsWithChildren) {
   const variables: MagpieTokenApiVariables = {
     networkNames: PROJECT_CONFIG.supportedNetworks.map(
       (network) => GlobalChainToMagpieNetworkMap[network]
@@ -22,10 +21,32 @@ export function GlobalDataProvider({ children }: PropsWithChildren) {
     offset: 0,
   };
 
-  // 使用空数据，让客户端组件处理数据加载
-  // 这避免了Next.js构建时的动态fetch错误
+  const tokensData = await fetch(
+    `${process.env.NEXT_PUBLIC_MAGPIE_TOKENS_API}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(variables),
+      next: {
+        revalidate: 60,
+      },
+    }
+  );
+
+  const initTokensData = await tokensData.json();
+
+  const tokens: GlobalToken[] = initTokensData.map((token: MagpieApiToken) => {
+    return {
+      ...token,
+      chain: MagpieNetworkToGlobalChainMap[token.network.name],
+      chainId: token.network.chainId,
+    };
+  });
+
   return (
-    <TokensProvider tokensData={EMPTY_TOKENS} variables={variables}>
+    <TokensProvider tokensData={tokens} variables={variables}>
       {children}
     </TokensProvider>
   );

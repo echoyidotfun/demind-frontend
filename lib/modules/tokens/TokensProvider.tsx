@@ -16,9 +16,9 @@ import {
   useCallback,
   useState,
   useEffect,
-  useRef,
 } from "react";
 import { Address } from "viem";
+import { useSkipInitialQuery } from "@/hooks/useSkipInitialQuery";
 import {
   getNativeAssetAddress,
   getWrappedNativeAssetAddress,
@@ -30,17 +30,13 @@ import { useQuery } from "@tanstack/react-query";
 export type UseTokensResult = ReturnType<typeof _useTokens>;
 export const TokensContext = createContext<UseTokensResult | null>(null);
 
-export type GetTokenFn = (
-  address: string,
-  chain: GlobalChain
-) => GlobalToken | undefined;
-
 // 从API获取代币数据
 const fetchTokens = async (
   variables: MagpieTokenApiVariables
 ): Promise<GlobalToken[]> => {
   // 在SSR环境下返回空数组，避免服务端请求
   if (typeof window === "undefined") {
+    console.log("Running on server, skipping token fetch");
     return [];
   }
 
@@ -51,7 +47,6 @@ const fetchTokens = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify(variables),
-      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -76,16 +71,12 @@ export function _useTokens(
   initTokenData: GlobalToken[],
   variables: MagpieTokenApiVariables
 ) {
+  const skipInitialQuery = useSkipInitialQuery(variables);
   const pollInterval = mins(1).toMs();
   const [isPolling, setIsPolling] = useState(false);
-  const isClient = typeof window !== "undefined";
 
-  // 初始化标记，确保数据加载只尝试一次
-  const initialLoadAttempted = useRef(false);
-
-  // 使用React Query获取数据
   const {
-    data: tokens = [],
+    data: tokens = initTokenData,
     isLoading,
     isError,
     error,
@@ -93,26 +84,23 @@ export function _useTokens(
   } = useQuery({
     queryKey: ["tokens", variables],
     queryFn: () => fetchTokens(variables),
-    // 仅在客户端环境启用查询
-    enabled: isClient,
-    // 仅在启用轮询时设置轮询间隔
+    enabled: typeof window !== "undefined" && !skipInitialQuery,
     refetchInterval: isPolling ? pollInterval : false,
     initialData: initTokenData,
-    refetchOnWindowFocus: false,
-    retry: 2,
+    meta: {
+      source: "token-service",
+      context: {
+        extra: {
+          variables,
+        },
+      },
+    },
     staleTime: mins(1).toMs(),
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
-  // 确保在挂载后获取一次数据
-  useEffect(() => {
-    if (isClient && !initialLoadAttempted.current) {
-      initialLoadAttempted.current = true;
-      // 无论初始数据是否为空，都主动获取一次最新数据
-      refetch();
-    }
-  }, [isClient, refetch]);
-
-  // 从tokens计算prices
+  // 从tokens直接计算prices，保持数据一致性
   const prices: TokenPrice[] = tokens.map((token) => ({
     price: parseFloat(token.usdPrice),
     address: token.address,
@@ -121,20 +109,16 @@ export function _useTokens(
 
   // 启动轮询
   const startTokenPricePolling = useCallback(() => {
-    if (isClient) {
-      setIsPolling(true);
-    }
-  }, [isClient]);
+    setIsPolling(true);
+  }, []);
 
   // 停止轮询
   const stopTokenPricePolling = useCallback(() => {
-    if (isClient) {
-      setIsPolling(false);
-    }
-  }, [isClient]);
+    setIsPolling(false);
+  }, []);
 
-  // 当轮询状态变化时刷新数据
   useEffect(() => {
+    // 当isPolling变为true时，立即触发一次refetch
     if (isPolling) {
       refetch();
     }
@@ -267,27 +251,8 @@ export function TokensProvider({
 }) {
   const tokens = _useTokens(tokensData, variables);
 
-  // 添加延迟渲染逻辑，当代币数据为空且仍在加载时不渲染子组件
-  // 这可以防止像SwapProvider这样的组件因为空数据而进入无限循环
-  const isLoading = tokens.isLoadingTokenPrices && tokens.tokens.length === 0;
-
   return (
-    <TokensContext.Provider value={tokens}>
-      {isLoading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "50vh",
-          }}
-        >
-          <div>Loading Tokens metadata...</div>
-        </div>
-      ) : (
-        children
-      )}
-    </TokensContext.Provider>
+    <TokensContext.Provider value={tokens}>{children}</TokensContext.Provider>
   );
 }
 
