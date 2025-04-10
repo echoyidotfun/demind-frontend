@@ -62,7 +62,7 @@ const roadmapData: RoadmapData[] = [
   {
     time: "Q2 2025",
     features: [
-      { name: "Upgrade token API", isFinished: false },
+      { name: "Upgrade token API", isFinished: true },
       { name: "Support user-imported tokens", isFinished: false },
       { name: "Ingregate subgraph", isFinished: false },
       { name: "Order route visualization", isFinished: false },

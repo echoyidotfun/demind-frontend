@@ -140,11 +140,19 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
   const tokenInInfo = getToken(swapState.tokenIn.address, selectedChain);
   const tokenOutInfo = getToken(swapState.tokenOut.address, selectedChain);
 
-  if ((isTokenInSet && !tokenInInfo) || (isTokenOutSet && !tokenOutInfo)) {
+  // 检查是否有可用的token数据
+  const hasAvailableTokens = getTokensByChain(selectedChain).length > 0;
+
+  // 仅在有token数据可用时才尝试设置默认token
+  if (
+    hasAvailableTokens &&
+    ((isTokenInSet && !tokenInInfo) || (isTokenOutSet && !tokenOutInfo))
+  ) {
     try {
       setDefaultTokens();
     } catch (error) {
-      throw new Error("Token metadata not found");
+      console.error("Token metadata not found", error);
+      // 出错时不要抛出异常，避免中断渲染
     }
   }
 
