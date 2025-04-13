@@ -27,7 +27,7 @@ export function createWalletConnectConnector({
     id: "walletConnect",
     name: "WalletConnect",
     iconBackground: "#3b99fc",
-    iconUrl: async () => "/images/logos/walletConnectWallet.svg",
+    iconUrl: async () => "/images/icons/walletConnect.svg",
     showQrModal: true,
     index,
     groupIndex: 1,
@@ -48,7 +48,7 @@ export function createWalletConnectConnector({
     // Enforce wallet connect popup always on top
     // More info: https://github.com/wevm/wagmi/discussions/2775
     qrModalOptions: {
-      themeMode: "light",
+      themeMode: "dark",
       themeVariables: {
         "--wcm-z-index": "9999999",
       },

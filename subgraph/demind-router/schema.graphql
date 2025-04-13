@@ -1,0 +1,61 @@
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Swapped @entity(immutable: true) {
+  id: Bytes!
+  _tokenIn: Bytes! # address
+  _tokenOut: Bytes! # address
+  _amountIn: BigInt! # uint256
+  _amountOut: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TrustedTokenRemoved @entity(immutable: true) {
+  id: Bytes!
+  _trustedToken: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UpdateMinFee @entity(immutable: true) {
+  id: Bytes!
+  _oldMinFee: BigInt! # uint256
+  _newMinFee: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UpdatedExecutors @entity(immutable: true) {
+  id: Bytes!
+  _newExecutors: [Bytes!]! # address[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UpdatedFeeClaimer @entity(immutable: true) {
+  id: Bytes!
+  _oldFeeClaimer: Bytes! # address
+  _newFeeClaimer: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UpdatedTrustedTokens @entity(immutable: true) {
+  id: Bytes!
+  _newTruestedTokens: [Bytes!]! # address[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

@@ -2,6 +2,8 @@
 
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
+  coinbaseWallet,
+  injectedWallet,
   metaMaskWallet,
   okxWallet,
   rabbyWallet,
@@ -24,11 +26,11 @@ const connectors = connectorsForWallets(
     {
       groupName: "Recommended",
       wallets: [
-        // metaMaskWallet must appear above injectedWallet to avoid random disconnection issues
         walletConnectWallet,
         metaMaskWallet,
         okxWallet,
         rabbyWallet,
+        coinbaseWallet,
         rainbowWallet,
       ],
     },

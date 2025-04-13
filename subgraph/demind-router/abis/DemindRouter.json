@@ -1,0 +1,549 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_executors",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_trustedTokens",
+        "type": "address[]"
+      },
+      { "internalType": "address", "name": "_feeClaimer", "type": "address" },
+      { "internalType": "address", "name": "_wrappedNative", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "owner", "type": "address" }
+    ],
+    "name": "OwnableInvalidOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_tokenIn",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_tokenOut",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amountIn",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amountOut",
+        "type": "uint256"
+      }
+    ],
+    "name": "Swapped",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_trustedToken",
+        "type": "address"
+      }
+    ],
+    "name": "TrustedTokenRemoved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_oldMinFee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_newMinFee",
+        "type": "uint256"
+      }
+    ],
+    "name": "UpdateMinFee",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "_newExecutors",
+        "type": "address[]"
+      }
+    ],
+    "name": "UpdatedExecutors",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_oldFeeClaimer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "_newFeeClaimer",
+        "type": "address"
+      }
+    ],
+    "name": "UpdatedFeeClaimer",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "_newTruestedTokens",
+        "type": "address[]"
+      }
+    ],
+    "name": "UpdatedTrustedTokens",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "FEE_CLAIMER",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "FEE_DENOMINATOR",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "MIN_FEE",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "NAME",
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "NATIVE",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "WNATIVE",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_executor", "type": "address" }
+    ],
+    "name": "addExecutor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_trustedToken", "type": "address" }
+    ],
+    "name": "addTrustedToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_executor", "type": "address" }
+    ],
+    "name": "deleteExecutor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_trustedToken", "type": "address" }
+    ],
+    "name": "deleteTrustedToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "executors",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "executorsCount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amountIn", "type": "uint256" },
+      { "internalType": "address", "name": "_tokenIn", "type": "address" },
+      { "internalType": "address", "name": "_tokenOut", "type": "address" },
+      { "internalType": "uint256", "name": "_maxSteps", "type": "uint256" }
+    ],
+    "name": "findBestPath",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256[]",
+            "name": "amounts",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "address[]",
+            "name": "executors",
+            "type": "address[]"
+          },
+          { "internalType": "address[]", "name": "path", "type": "address[]" },
+          {
+            "internalType": "uint256",
+            "name": "gasEstimate",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct FormattedRoute",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amountIn", "type": "uint256" },
+      { "internalType": "address", "name": "_tokenIn", "type": "address" },
+      { "internalType": "address", "name": "_tokenOut", "type": "address" },
+      { "internalType": "uint256", "name": "_maxSteps", "type": "uint256" },
+      { "internalType": "uint256", "name": "_gasPrice", "type": "uint256" }
+    ],
+    "name": "findBestPathWithGas",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256[]",
+            "name": "amounts",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "address[]",
+            "name": "executors",
+            "type": "address[]"
+          },
+          { "internalType": "address[]", "name": "path", "type": "address[]" },
+          {
+            "internalType": "uint256",
+            "name": "gasEstimate",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct FormattedRoute",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amountIn", "type": "uint256" },
+      { "internalType": "address", "name": "_tokenIn", "type": "address" },
+      { "internalType": "address", "name": "_tokenOut", "type": "address" },
+      { "internalType": "uint8", "name": "_index", "type": "uint8" }
+    ],
+    "name": "queryExecutor",
+    "outputs": [
+      { "internalType": "uint256", "name": "amountOut", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amountIn", "type": "uint256" },
+      { "internalType": "address", "name": "_tokenIn", "type": "address" },
+      { "internalType": "address", "name": "_tokenOut", "type": "address" },
+      { "internalType": "uint8[]", "name": "_options", "type": "uint8[]" }
+    ],
+    "name": "queryNoSplit",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "executor", "type": "address" },
+          { "internalType": "address", "name": "tokenIn", "type": "address" },
+          { "internalType": "address", "name": "tokenOut", "type": "address" },
+          { "internalType": "uint256", "name": "amountOut", "type": "uint256" }
+        ],
+        "internalType": "struct Query",
+        "name": "bestQuery",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amountIn", "type": "uint256" },
+      { "internalType": "address", "name": "_tokenIn", "type": "address" },
+      { "internalType": "address", "name": "_tokenOut", "type": "address" }
+    ],
+    "name": "queryNoSplit",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "executor", "type": "address" },
+          { "internalType": "address", "name": "tokenIn", "type": "address" },
+          { "internalType": "address", "name": "tokenOut", "type": "address" },
+          { "internalType": "uint256", "name": "amountOut", "type": "uint256" }
+        ],
+        "internalType": "struct Query",
+        "name": "bestQuery",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_wrappedNative", "type": "address" }
+    ],
+    "name": "setAllowanceForWrapping",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address[]", "name": "_executors", "type": "address[]" }
+    ],
+    "name": "setExecutors",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_feeClaimer", "type": "address" }
+    ],
+    "name": "setFeeClaimer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_minFee", "type": "uint256" }
+    ],
+    "name": "setMinFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_trustedTokens",
+        "type": "address[]"
+      }
+    ],
+    "name": "setTrustedTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+          { "internalType": "uint256", "name": "amountOut", "type": "uint256" },
+          { "internalType": "address[]", "name": "path", "type": "address[]" },
+          {
+            "internalType": "address[]",
+            "name": "executors",
+            "type": "address[]"
+          }
+        ],
+        "internalType": "struct TradeSummary",
+        "name": "_trade",
+        "type": "tuple"
+      },
+      { "internalType": "address", "name": "_to", "type": "address" },
+      { "internalType": "uint256", "name": "fee", "type": "uint256" }
+    ],
+    "name": "swapNoSplit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+          { "internalType": "uint256", "name": "amountOut", "type": "uint256" },
+          { "internalType": "address[]", "name": "path", "type": "address[]" },
+          {
+            "internalType": "address[]",
+            "name": "executors",
+            "type": "address[]"
+          }
+        ],
+        "internalType": "struct TradeSummary",
+        "name": "_trade",
+        "type": "tuple"
+      },
+      { "internalType": "address", "name": "_to", "type": "address" },
+      { "internalType": "uint256", "name": "_fee", "type": "uint256" }
+    ],
+    "name": "swapNoSplitFromNative",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+          { "internalType": "uint256", "name": "amountOut", "type": "uint256" },
+          { "internalType": "address[]", "name": "path", "type": "address[]" },
+          {
+            "internalType": "address[]",
+            "name": "executors",
+            "type": "address[]"
+          }
+        ],
+        "internalType": "struct TradeSummary",
+        "name": "_trade",
+        "type": "tuple"
+      },
+      { "internalType": "address", "name": "_to", "type": "address" },
+      { "internalType": "uint256", "name": "_fee", "type": "uint256" }
+    ],
+    "name": "swapNoSplitToNative",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "trustedTokens",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "trustedTokensCount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  { "stateMutability": "payable", "type": "receive" }
+]
