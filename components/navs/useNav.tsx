@@ -15,6 +15,15 @@ export function useNav() {
       href: swapHref,
       label: "Swap",
     },
+    {
+      href: "/mind",
+      label: "Mind",
+      isBuilding: true,
+    },
+    {
+      href: "/analytics",
+      label: "Analytics",
+    },
   ];
 
   function linkColorFor(path: string) {

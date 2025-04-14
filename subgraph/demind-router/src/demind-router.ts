@@ -1,124 +1,153 @@
+import { BigDecimal, BigInt, Address, log } from "@graphprotocol/graph-ts";
+import { Swapped } from "../generated/DemindRouter/DemindRouter";
+import { ERC20 } from "../generated/DemindRouter/ERC20";
 import {
-  OwnershipTransferred as OwnershipTransferredEvent,
-  Swapped as SwappedEvent,
-  TrustedTokenRemoved as TrustedTokenRemovedEvent,
-  UpdateMinFee as UpdateMinFeeEvent,
-  UpdatedExecutors as UpdatedExecutorsEvent,
-  UpdatedFeeClaimer as UpdatedFeeClaimerEvent,
-  UpdatedTrustedTokens as UpdatedTrustedTokensEvent
-} from "../generated/DemindRouter/DemindRouter"
-import {
-  OwnershipTransferred,
-  Swapped,
-  TrustedTokenRemoved,
-  UpdateMinFee,
-  UpdatedExecutors,
-  UpdatedFeeClaimer,
-  UpdatedTrustedTokens
-} from "../generated/schema"
-import { Bytes } from "@graphprotocol/graph-ts"
+  Swap,
+  Token,
+  DailyVolume,
+  TokenDailyVolume,
+} from "../generated/schema";
+import { convertToDecimal, getDayId } from "./utils";
 
-export function handleOwnershipTransferred(
-  event: OwnershipTransferredEvent
-): void {
-  let entity = new OwnershipTransferred(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.previousOwner = event.params.previousOwner
-  entity.newOwner = event.params.newOwner
+// 加载或创建Token实体
+function getOrCreateToken(address: Address): Token {
+  let token = Token.load(address.toHexString());
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  if (!token) {
+    token = new Token(address.toHexString());
+    token.address = address;
+    token.volumeTokenIn = BigInt.fromI32(0);
+    token.volumeTokenOut = BigInt.fromI32(0);
+    token.volumeUSD = BigDecimal.fromString("0");
 
-  entity.save()
+    // 尝试从合约加载代币信息
+    let erc20Contract = ERC20.bind(address);
+
+    let nameResult = erc20Contract.try_name();
+    if (!nameResult.reverted) {
+      token.name = nameResult.value;
+    }
+
+    let symbolResult = erc20Contract.try_symbol();
+    if (!symbolResult.reverted) {
+      token.symbol = symbolResult.value;
+    }
+
+    let decimalsResult = erc20Contract.try_decimals();
+    if (!decimalsResult.reverted) {
+      token.decimals = decimalsResult.value;
+    } else {
+      token.decimals = 18; // 默认值
+    }
+
+    token.save();
+  }
+
+  return token;
 }
 
-export function handleSwapped(event: SwappedEvent): void {
-  let entity = new Swapped(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity._tokenIn = event.params._tokenIn
-  entity._tokenOut = event.params._tokenOut
-  entity._amountIn = event.params._amountIn
-  entity._amountOut = event.params._amountOut
+// 获取或创建每日统计
+function getOrCreateDailyVolume(timestamp: BigInt): DailyVolume {
+  let dateId = getDayId(timestamp);
+  let dailyVolume = DailyVolume.load(dateId);
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  if (!dailyVolume) {
+    dailyVolume = new DailyVolume(dateId);
+    dailyVolume.date = dateId;
+    dailyVolume.volumeIn = BigDecimal.fromString("0");
+    dailyVolume.volumeOut = BigDecimal.fromString("0");
+    dailyVolume.swapCount = BigInt.fromI32(0);
+    dailyVolume.uniqueUsers = [];
+    dailyVolume.save();
+  }
 
-  entity.save()
+  return dailyVolume;
 }
 
-export function handleTrustedTokenRemoved(
-  event: TrustedTokenRemovedEvent
-): void {
-  let entity = new TrustedTokenRemoved(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity._trustedToken = event.params._trustedToken
+// 获取或创建代币每日统计
+function getOrCreateTokenDailyVolume(
+  token: Token,
+  dailyVolume: DailyVolume
+): TokenDailyVolume {
+  let id = token.id + "-" + dailyVolume.id;
+  let tokenDailyVolume = TokenDailyVolume.load(id);
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  if (!tokenDailyVolume) {
+    tokenDailyVolume = new TokenDailyVolume(id);
+    tokenDailyVolume.token = token.id;
+    tokenDailyVolume.date = dailyVolume.date;
+    tokenDailyVolume.dailyVolume = dailyVolume.id;
+    tokenDailyVolume.volumeIn = BigDecimal.fromString("0");
+    tokenDailyVolume.volumeOut = BigDecimal.fromString("0");
+    tokenDailyVolume.save();
+  }
 
-  entity.save()
+  return tokenDailyVolume;
 }
 
-export function handleUpdateMinFee(event: UpdateMinFeeEvent): void {
-  let entity = new UpdateMinFee(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity._oldMinFee = event.params._oldMinFee
-  entity._newMinFee = event.params._newMinFee
+// 处理Swapped事件
+export function handleSwapped(event: Swapped): void {
+  // 创建唯一ID
+  let id =
+    event.transaction.hash.toHexString() + "-" + event.logIndex.toString();
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  // 加载或创建相关实体
+  let tokenIn = getOrCreateToken(event.params._tokenIn);
+  let tokenOut = getOrCreateToken(event.params._tokenOut);
+  let dailyVolume = getOrCreateDailyVolume(event.block.timestamp);
+  let tokenInDailyVolume = getOrCreateTokenDailyVolume(tokenIn, dailyVolume);
+  let tokenOutDailyVolume = getOrCreateTokenDailyVolume(tokenOut, dailyVolume);
 
-  entity.save()
-}
+  // 转换金额
+  let decimalsIn = tokenIn.decimals ? tokenIn.decimals : 18;
+  let decimalsOut = tokenOut.decimals ? tokenOut.decimals : 18;
 
-export function handleUpdatedExecutors(event: UpdatedExecutorsEvent): void {
-  let entity = new UpdatedExecutors(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity._newExecutors = changetype<Bytes[]>(event.params._newExecutors)
+  let amountInDecimal = convertToDecimal(event.params._amountIn, decimalsIn);
+  let amountOutDecimal = convertToDecimal(event.params._amountOut, decimalsOut);
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  // 创建Swap实体
+  let swap = new Swap(id);
+  swap.tokenIn = tokenIn.id;
+  swap.tokenOut = tokenOut.id;
+  swap.amountIn = amountInDecimal;
+  swap.amountOut = amountOutDecimal;
+  swap.timestamp = event.block.timestamp;
+  swap.date = dailyVolume.date;
+  swap.sender = event.transaction.from;
+  swap.txHash = event.transaction.hash;
+  swap.blockNumber = event.block.number;
+  swap.save();
 
-  entity.save()
-}
+  // 更新代币累计交易量
+  tokenIn.volumeTokenIn = tokenIn.volumeTokenIn.plus(event.params._amountIn);
+  tokenOut.volumeTokenOut = tokenOut.volumeTokenOut.plus(
+    event.params._amountOut
+  );
+  tokenIn.volumeUSD = tokenIn.volumeUSD.plus(amountInDecimal);
+  tokenOut.volumeUSD = tokenOut.volumeUSD.plus(amountOutDecimal);
+  tokenIn.save();
+  tokenOut.save();
 
-export function handleUpdatedFeeClaimer(event: UpdatedFeeClaimerEvent): void {
-  let entity = new UpdatedFeeClaimer(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity._oldFeeClaimer = event.params._oldFeeClaimer
-  entity._newFeeClaimer = event.params._newFeeClaimer
+  // 更新每日交易量
+  dailyVolume.volumeIn = dailyVolume.volumeIn.plus(amountInDecimal);
+  dailyVolume.volumeOut = dailyVolume.volumeOut.plus(amountOutDecimal);
+  dailyVolume.swapCount = dailyVolume.swapCount.plus(BigInt.fromI32(1));
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  // 处理唯一用户
+  let senderString = event.transaction.from.toHexString();
+  let uniqueUsers = dailyVolume.uniqueUsers;
+  if (!uniqueUsers.includes(senderString)) {
+    uniqueUsers.push(senderString);
+    dailyVolume.uniqueUsers = uniqueUsers;
+  }
 
-  entity.save()
-}
+  dailyVolume.save();
 
-export function handleUpdatedTrustedTokens(
-  event: UpdatedTrustedTokensEvent
-): void {
-  let entity = new UpdatedTrustedTokens(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity._newTruestedTokens = changetype<Bytes[]>(
-    event.params._newTruestedTokens
-  )
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  // 更新代币每日交易量
+  tokenInDailyVolume.volumeIn =
+    tokenInDailyVolume.volumeIn.plus(amountInDecimal);
+  tokenOutDailyVolume.volumeOut =
+    tokenOutDailyVolume.volumeOut.plus(amountOutDecimal);
+  tokenInDailyVolume.save();
+  tokenOutDailyVolume.save();
 }

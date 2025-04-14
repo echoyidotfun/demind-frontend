@@ -1,18 +1,19 @@
 {
   "name": "demind-router",
-  "license": "UNLICENSED",
+  "description": "Demind Router Subgraph",
+  "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ demind-router",
-    "create-local": "graph create --node http://localhost:8020/ demind-router",
-    "remove-local": "graph remove --node http://localhost:8020/ demind-router",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 demind-router",
-    "test": "graph test"
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ demind-router"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.97.0",
     "@graphprotocol/graph-ts": "0.37.0"
   },
-  "devDependencies": { "matchstick-as": "0.6.0" }
+  "devDependencies": {
+    "assemblyscript": "^0.19.23",
+    "matchstick-as": "0.6.0"
+  }
 }

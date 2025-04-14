@@ -67,6 +67,7 @@ export type AppLink = {
   icon?: ReactNode;
   iconType?: IconType;
   isExternal?: boolean;
+  isBuilding?: boolean;
 };
 
 type Links = {

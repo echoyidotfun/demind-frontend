@@ -42,20 +42,23 @@ function NavLinks({ appLinks, onClick, customLinks }: NavLinkProps) {
 
   return (
     <VStack align="start" w="full">
-      {appLinks.map((link) => (
-        <Link
-          as={NextLink}
-          color={linkColorFor(link.href)}
-          fontSize="xl"
-          href={link.href}
-          key={link.href}
-          onClick={onClick}
-          prefetch
-          variant="nav"
-        >
-          {link.label}
-        </Link>
-      ))}
+      {appLinks.map(
+        (link) =>
+          !link.isBuilding && (
+            <Link
+              as={NextLink}
+              color={linkColorFor(link.href)}
+              fontSize="xl"
+              href={link.href}
+              key={link.href}
+              onClick={onClick}
+              prefetch
+              variant="nav"
+            >
+              {link.label}
+            </Link>
+          )
+      )}
       {customLinks}
     </VStack>
   );

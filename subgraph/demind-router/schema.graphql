@@ -1,61 +1,44 @@
-type OwnershipTransferred @entity(immutable: true) {
-  id: Bytes!
-  previousOwner: Bytes! # address
-  newOwner: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type Swap @entity(immutable: true) {
+  id: ID! # 交易唯一ID (txHash-logIndex)
+  tokenIn: Token! # 输入代币
+  tokenOut: Token! # 输出代币
+  amountIn: BigDecimal! # 输入金额
+  amountOut: BigDecimal! # 输出金额
+  timestamp: BigInt! # 时间戳
+  date: String! # 日期 (YYYY-MM-DD格式)
+  sender: Bytes! # 交易发送者
+  txHash: Bytes! # 交易哈希
+  blockNumber: BigInt! # 区块号
 }
 
-type Swapped @entity(immutable: true) {
-  id: Bytes!
-  _tokenIn: Bytes! # address
-  _tokenOut: Bytes! # address
-  _amountIn: BigInt! # uint256
-  _amountOut: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type Token @entity(immutable: false) {
+  id: ID! # 代币地址
+  address: Bytes! # 代币地址（冗余，便于查询）
+  symbol: String # 代币符号（可选，需从合约获取）
+  name: String # 代币名称（可选，需从合约获取）
+  decimals: Int # 代币精度（可选，需从合约获取）
+  volumeTokenIn: BigInt! # 作为输入代币的总交易量
+  volumeTokenOut: BigInt! # 作为输出代币的总交易量
+  volumeUSD: BigDecimal! # 代币美元总交易量
+  swapsIn: [Swap!]! @derivedFrom(field: "tokenIn") # 作为输入的交易
+  swapsOut: [Swap!]! @derivedFrom(field: "tokenOut") # 作为输出的交易
+  dailyVolumes: [TokenDailyVolume!]! @derivedFrom(field: "token") # 每日统计
 }
 
-type TrustedTokenRemoved @entity(immutable: true) {
-  id: Bytes!
-  _trustedToken: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type DailyVolume @entity(immutable: false) {
+  id: ID! # 日期 (YYYY-MM-DD)
+  date: String! # 日期 (YYYY-MM-DD)
+  volumeIn: BigDecimal! # 当日总输入交易量
+  volumeOut: BigDecimal! # 当日总输出交易量
+  swapCount: BigInt! # 当日交易笔数
+  uniqueUsers: [String!]! # 当日唯一用户地址列表
 }
 
-type UpdateMinFee @entity(immutable: true) {
-  id: Bytes!
-  _oldMinFee: BigInt! # uint256
-  _newMinFee: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type UpdatedExecutors @entity(immutable: true) {
-  id: Bytes!
-  _newExecutors: [Bytes!]! # address[]
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type UpdatedFeeClaimer @entity(immutable: true) {
-  id: Bytes!
-  _oldFeeClaimer: Bytes! # address
-  _newFeeClaimer: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type UpdatedTrustedTokens @entity(immutable: true) {
-  id: Bytes!
-  _newTruestedTokens: [Bytes!]! # address[]
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type TokenDailyVolume @entity(immutable: false) {
+  id: ID! # tokenAddress-date
+  token: Token! # 代币引用
+  date: String! # 日期 (YYYY-MM-DD)
+  volumeIn: BigDecimal! # 当日作为输入的交易量
+  volumeOut: BigDecimal! # 当日作为输出的交易量
+  dailyVolume: DailyVolume! # 关联到对应的每日总量
 }

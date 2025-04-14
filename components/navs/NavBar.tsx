@@ -10,7 +10,15 @@ import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
 import { useThemeSettings } from "@/lib/services/themes/useThemeSettings";
 import DarkModeToggle from "../common/btns/DarkModeToggle";
 import { ConnectWallet } from "@/lib/modules/web3/ConnectWallet";
-import { Box, BoxProps, Button, HStack, Link } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  BoxProps,
+  Button,
+  HStack,
+  Link,
+  Text,
+} from "@chakra-ui/react";
 import {
   motion,
   useMotionTemplate,
@@ -64,20 +72,43 @@ function NavLinks({
 
   return (
     <HStack fontWeight="medium" spacing="lg" {...props}>
-      {appLinks.map((link) => (
-        <Box as={motion.div} key={link.href}>
-          <Link
-            as={NextLink}
-            color={linkColorFor(link.href)}
-            href={link.href}
-            isExternal={link.isExternal}
-            prefetch
-            variant="nav"
-          >
-            {link.label}
-          </Link>
-        </Box>
-      ))}
+      {appLinks.map((link) => {
+        if (link.isBuilding) {
+          return (
+            <HStack as="div" spacing={1} cursor="default" opacity={0.8}>
+              <Text color="font.primary">{link.label}</Text>
+              <Badge
+                fontSize="2xs"
+                colorScheme="purple"
+                variant="subtle"
+                borderRadius="sm"
+                // marginBottom={1}
+                bg="rgba(161, 124, 247, 0.4)"
+                color="text.secondary"
+                textTransform="capitalize"
+              >
+                <Text fontSize="xs" variant="special">
+                  building
+                </Text>
+              </Badge>
+            </HStack>
+          );
+        }
+        return (
+          <Box as={motion.div} key={link.href}>
+            <Link
+              as={NextLink}
+              color={linkColorFor(link.href)}
+              href={link.href}
+              isExternal={link.isExternal}
+              prefetch
+              variant="nav"
+            >
+              {link.label}
+            </Link>
+          </Box>
+        );
+      })}
       {customLinks}
     </HStack>
   );
