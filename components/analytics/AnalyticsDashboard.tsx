@@ -27,6 +27,8 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  Bar,
+  ComposedChart,
 } from "recharts";
 import { formatDate, formatNumber } from "@/lib/utils/formatters";
 
@@ -70,11 +72,13 @@ function VolumeChart() {
 
   // Format date and volumes
   const chartData =
-    volumeData?.map((day) => ({
-      date: formatDate(day.date),
-      Volume: parseFloat(day.volumeIn),
-      Swaps: parseInt(day.swapCount),
-    })) || [];
+    volumeData
+      ?.sort((a, b) => a.date.localeCompare(b.date))
+      .map((day) => ({
+        date: formatDate(day.date),
+        Volume: parseFloat(day.volumeIn),
+        Swaps: parseInt(day.swapCount),
+      })) || [];
 
   // Custom tooltip component
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -118,7 +122,7 @@ function VolumeChart() {
       </Heading>
       <Box h="330px">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
+          <ComposedChart
             data={chartData}
             margin={{
               top: 5,
@@ -133,12 +137,12 @@ function VolumeChart() {
             <YAxis yAxisId="right" orientation="right" />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
-            <Line
+            <Bar
               yAxisId="left"
-              type="monotone"
               dataKey="Volume"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
+              fill="#8884d8"
+              barSize={30}
+              opacity={0.8}
             />
             <Line
               yAxisId="right"
@@ -146,7 +150,7 @@ function VolumeChart() {
               dataKey="Swaps"
               stroke="#82ca9d"
             />
-          </LineChart>
+          </ComposedChart>
         </ResponsiveContainer>
       </Box>
     </Box>
