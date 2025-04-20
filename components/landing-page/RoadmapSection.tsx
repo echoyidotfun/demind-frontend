@@ -64,7 +64,7 @@ const roadmapData: RoadmapData[] = [
     features: [
       { name: "Upgrade token API", isFinished: true },
       { name: "Support user-imported tokens", isFinished: false },
-      { name: "Ingregate subgraph", isFinished: false },
+      { name: "Ingregate subgraph", isFinished: true },
       { name: "Order route visualization", isFinished: false },
       { name: "Agentic trading", isFinished: false },
     ],
