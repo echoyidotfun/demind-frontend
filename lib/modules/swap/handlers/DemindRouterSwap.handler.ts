@@ -109,6 +109,7 @@ export class DemindRouterSwapHandler implements SwapHandler {
       inputAmountRaw: inputAmount,
       outputAmountRaw: outputAmount,
       pools: [],
+      protocolVersion: 1,
     };
 
     const tokenOutDecimals = sdkPath.tokens[sdkPath.tokens.length - 1].decimals;
