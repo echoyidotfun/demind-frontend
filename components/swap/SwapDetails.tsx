@@ -54,15 +54,17 @@ export function SwapRoute() {
       <Text color="grayText">Route</Text>
       <Flex align="center">
         {/* Token In */}
-        {tokenInInfo.logoUrl ? (
-          <Image
-            src={tokenInInfo.logoUrl}
-            alt={tokenInInfo.symbol}
-            boxSize="22px"
-          />
-        ) : (
-          <Box bg="gray.200" boxSize="14px" />
-        )}
+        <Box bg="gray.200" boxSize="22px" borderRadius="full" overflow="hidden">
+          {tokenInInfo.logoUrl ? (
+            <Image
+              src={tokenInInfo.logoUrl}
+              alt={tokenInInfo.symbol}
+              boxSize="22px"
+            />
+          ) : (
+            <Box bg="gray.200" boxSize="14px" />
+          )}
+        </Box>
 
         {/* Arrow */}
         <MdKeyboardDoubleArrowRight
@@ -88,15 +90,17 @@ export function SwapRoute() {
           style={{ margin: "0 2px" }}
         />
 
-        {tokenOutInfo.logoUrl ? (
-          <Image
-            src={tokenOutInfo.logoUrl}
-            alt={tokenOutInfo.symbol}
-            boxSize="22px"
-          />
-        ) : (
-          <Box bg="gray.200" boxSize="14px" />
-        )}
+        <Box bg="gray.200" boxSize="22px" borderRadius="full" overflow="hidden">
+          {tokenOutInfo.logoUrl ? (
+            <Image
+              src={tokenOutInfo.logoUrl}
+              alt={tokenOutInfo.symbol}
+              boxSize="22px"
+            />
+          ) : (
+            <Box bg="gray.200" boxSize="14px" />
+          )}
+        </Box>
       </Flex>
     </HStack>
   );
