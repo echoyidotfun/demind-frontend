@@ -28,6 +28,7 @@ export interface TokensConfig {
 
 export interface ContractsConfig {
   router: Address;
+  naviXRouter?: Address;
   balancer: {
     vaultV2: Address;
   };

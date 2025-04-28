@@ -56,17 +56,17 @@ const roadmapData: RoadmapData[] = [
     features: [
       { name: "Launch on Sonic mainnet", isFinished: true },
       { name: "Finish UI/UX design", isFinished: true },
-      { name: "Aggregate 5+ AMM protocols", isFinished: true },
+      { name: "Ingregate subgraph", isFinished: true },
     ],
   },
   {
     time: "Q2 2025",
     features: [
       { name: "Upgrade token API", isFinished: true },
+      { name: "Aggregate aggregators", isFinished: true },
       { name: "Support user-imported tokens", isFinished: false },
-      { name: "Ingregate subgraph", isFinished: true },
       { name: "Order route visualization", isFinished: false },
-      { name: "Agentic trading", isFinished: false },
+      { name: "Use weighted average token price", isFinished: false },
     ],
   },
   {
@@ -263,7 +263,7 @@ export function RoadmapSection() {
                         <Text
                           key={fIndex}
                           fontSize={{ base: "sm", md: "md" }}
-                          opacity={feature.isFinished ? 0.6 : 1}
+                          opacity={feature.isFinished ? 1 : 0.6}
                           mb="4"
                         >
                           {feature.name}

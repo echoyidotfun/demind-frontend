@@ -38,23 +38,33 @@ export type SimulateSwapInputs = {
   poolIds?: string[];
 };
 
-export type SimulateSwapResponse = {
+export interface SimulateSwapResponse {
+  returnAmount: string;
   effectivePrice: string;
   effectivePriceReversed: string;
-  returnAmount: string;
   swapType: SorSwapType;
-};
+  provider?: string;
+  hopCount?: number;
+  paths?: any[];
+  router?: string;
+  calldata?: `0x${string}`;
+}
+
+export interface RouterApiSimulateSwapResponse extends SimulateSwapResponse {
+  provider: string;
+  router: string;
+  calldata: `0x${string}`;
+  value: bigint;
+}
 
 export interface SdkSimulateSwapResponse extends SimulateSwapResponse {
   swap: Swap;
   queryOutput: ExactInQueryOutput | ExactOutQueryOutput;
-  protocolVersion: number;
   hopCount: number;
 }
 
 export interface DemindRouterSimulateSwapResponse extends SimulateSwapResponse {
   paths: Path[];
-  protocolVersion: number;
   hopCount: number;
   router: Address;
 }

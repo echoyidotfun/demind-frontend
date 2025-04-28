@@ -3,7 +3,7 @@
 import { defaultDebounceMs, onlyExplicitRefetch } from "@/lib/utils/queries";
 import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
-import { SwapHandler } from "../handlers/Swap.handler";
+import { AnySwapHandler, SwapHandler } from "../handlers/Swap.handler";
 import { swapQueryKeys } from "./swapQueryKeys";
 import {
   SdkSimulateSwapResponse,
@@ -23,7 +23,7 @@ export type SdkSimulationResponseWithRouter = SdkSimulateSwapResponse & {
 };
 
 export type SimulateSwapParams = {
-  handler: SwapHandler;
+  handler: AnySwapHandler;
   swapInputs: SimulateSwapInputs;
   enabled: boolean;
 };

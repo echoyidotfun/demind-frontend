@@ -26,17 +26,3 @@ export function parseSwapError(msg?: string): string {
   const pattern = swapErrorPatterns.find((p) => p.pattern.test(msg));
   return pattern ? pattern.message : msg;
 }
-
-export function isV3SwapRoute(
-  simulationQuery: SwapSimulationQueryResult
-): boolean {
-  return orderRouteVersion(simulationQuery) === 3;
-}
-
-export function orderRouteVersion(
-  simulationQuery: SwapSimulationQueryResult
-): number {
-  const queryData = simulationQuery.data as SdkSimulateSwapResponse;
-  const orderRouteVersion = queryData ? queryData.protocolVersion : 2;
-  return orderRouteVersion;
-}

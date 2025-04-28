@@ -75,7 +75,13 @@ function NavLinks({
       {appLinks.map((link) => {
         if (link.isBuilding) {
           return (
-            <HStack as="div" spacing={1} cursor="default" opacity={0.8}>
+            <HStack
+              as="div"
+              spacing={1}
+              cursor="default"
+              opacity={0.8}
+              key={link.href || link.label}
+            >
               <Text color="font.primary">{link.label}</Text>
               <Badge
                 fontSize="2xs"

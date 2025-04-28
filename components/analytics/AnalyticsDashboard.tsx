@@ -14,12 +14,10 @@ import {
   Td,
   Text,
   Skeleton,
-  HStack,
   Card,
   VStack,
 } from "@chakra-ui/react";
 import {
-  LineChart,
   Line,
   XAxis,
   YAxis,

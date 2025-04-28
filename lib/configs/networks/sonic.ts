@@ -33,7 +33,8 @@ const networkConfig: NetworkConfig = {
     },
   },
   contracts: {
-    router: "0x50663d063b7c61c9917a87353a8584077fa89796",
+    router: "0x045de71e35D0909ab518F9d262008493524ec620",
+    naviXRouter: "0x097DF2e7a99633EFEa9560E1B6873AE9DB6669EB",
     balancer: {
       vaultV2: "0xba12222222228d8ba445958a75a0704d566bf2c8",
     },

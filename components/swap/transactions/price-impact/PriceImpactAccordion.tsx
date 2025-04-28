@@ -31,6 +31,7 @@ interface PriceImpactAccordionProps {
   // Unknown price impact due to limitations in ABA priceImpact calculation
   cannotCalculatePriceImpact?: boolean;
   avoidPriceImpactAlert?: boolean;
+  defaultIsOpen?: boolean;
 }
 export function PriceImpactAccordion({
   setNeedsToAcceptPIRisk,
@@ -39,6 +40,7 @@ export function PriceImpactAccordion({
   isDisabled,
   cannotCalculatePriceImpact = false,
   avoidPriceImpactAlert = false,
+  defaultIsOpen = false,
 }: PriceImpactAccordionProps) {
   const acceptHighImpactDisclosure = useDisclosure();
   const {
@@ -75,7 +77,12 @@ export function PriceImpactAccordion({
 
   return (
     <Box w="full">
-      <Accordion allowToggle variant="button" w="full">
+      <Accordion
+        allowToggle
+        defaultIndex={defaultIsOpen ? 0 : undefined}
+        variant="button"
+        w="full"
+      >
         <AccordionItem
           isDisabled={isDisabled}
           shadow={isDisabled ? "none" : undefined}

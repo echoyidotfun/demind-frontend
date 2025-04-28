@@ -24,10 +24,10 @@ export function getNetworkConfig(
   defaultNetwork?: GlobalChain
 ): NetworkConfig {
   // cannot get default network directly from config here
-  if (!chain) return config.networks[defaultNetwork || GlobalChain.Ethereum];
+  if (!chain) return config.networks[defaultNetwork || GlobalChain.Sonic];
 
   if (typeof chain === "number") {
-    return networksByChainId[chain] || config.networks.ETHEREUM;
+    return networksByChainId[chain] || config.networks.SONIC;
   }
 
   return config.networks[chain];

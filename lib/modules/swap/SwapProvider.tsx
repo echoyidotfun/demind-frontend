@@ -11,7 +11,6 @@ import { useMakeVarPersisted } from "@/hooks/useMakeVarPersisted";
 import { Address, Hash, isAddress, parseUnits } from "viem";
 import {
   OSwapAction,
-  SdkSimulateSwapResponse,
   SimulateSwapResponse,
   SwapAction,
   SwapState,
@@ -29,14 +28,12 @@ import { useTokenInputsValidation } from "../tokens/TokenInputsValidationProvide
 import { usePriceImpact } from "../price-impact/PriceImpactProvider";
 import { useDisclosure } from "@chakra-ui/react";
 import { GlobalToken } from "../tokens/token.types";
-import { SwapHandler } from "./handlers/Swap.handler";
+import { AnySwapHandler } from "./handlers/Swap.handler";
 import {
   getWrapperForBaseToken,
   getWrapType,
-  isNativeWrap,
   isWrapOrUnwrap,
 } from "./wrap.helper";
-import { NativeWrapHandler } from "./handlers/NativeWrap.handler";
 import { bn } from "@/lib/utils/numbers";
 import { useSimulateSwapQuery } from "./queries/useSimulateSwapQuery";
 import { HumanAmount, isSameAddress } from "@balancer/sdk";
@@ -50,8 +47,7 @@ import { isDisabledWithReason } from "@/lib/utils/functions";
 import { LABELS } from "@/lib/utils/labels";
 import { useMandatoryContext } from "@/lib/utils/contexts";
 import { useTransactionSteps } from "../transactions/useTransactionSteps";
-import { useAggRouter } from "@/hooks/useAggRouter";
-import { DemindRouterSwapHandler } from "./handlers/DemindRouterSwap.handler";
+import { selectSwapHandler as factorySelectSwapHandler } from "./handlers/SwapHandlerFactory";
 
 export type UseSwapResponse = ReturnType<typeof _useSwap>;
 export const SwapContext = createContext<UseSwapResponse | null>(null);
@@ -65,18 +61,18 @@ export type PathParams = {
   urlTxHash?: Hash;
 };
 
-export type ProtocolVersion = 1 | 2 | 3;
-
 function selectSwapHandler(
   tokenInAddress: Address,
   tokenOutAddress: Address,
   chain: GlobalChain,
   getToken: (address: Address, chain: GlobalChain) => GlobalToken | undefined
-): SwapHandler {
-  if (isNativeWrap(tokenInAddress, tokenOutAddress, chain)) {
-    return new NativeWrapHandler();
-  }
-  return new DemindRouterSwapHandler(getToken);
+): AnySwapHandler {
+  return factorySelectSwapHandler(
+    tokenInAddress,
+    tokenOutAddress,
+    chain,
+    getToken
+  );
 }
 
 export type SwapProviderProps = {
@@ -204,7 +200,6 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
       swapType: swapState.swapType,
       swapAmount: getSwapAmount(),
       swapScaledAmount: getSwapScaledAmount(),
-      // We only use this field to filter by the specific pool swap path in pool swap flow
     },
     enabled: shouldFetchSwap(swapState, urlTxHash),
   });
@@ -451,11 +446,7 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
     );
   const validAmountOut = bn(swapState.tokenOut.amount).gt(0);
 
-  const protocolVersion =
-    ((simulationQuery.data as SdkSimulateSwapResponse)
-      ?.protocolVersion as ProtocolVersion) || 2;
-  const { routerAddress } = useAggRouter(protocolVersion);
-  // const { vaultAddress } = useVault(protocolVersion);
+  const routerAddress = simulationQuery.data?.router as Address;
 
   const swapAction: SwapAction = useMemo(() => {
     if (
@@ -483,7 +474,6 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
    */
   const { steps, isLoadingSteps } = useSwapSteps({
     routerAddress,
-    // routerAddress: vaultAddress,
     swapState,
     handler,
     simulationQuery,
@@ -678,7 +668,6 @@ export function _useSwap({ pathParams }: SwapProviderProps) {
     hasQuoteContext,
     isWrap,
     swapTxConfirmed,
-    protocolVersion,
     replaceUrlPath,
     resetSwapAmounts,
     setTokenSelectKey,

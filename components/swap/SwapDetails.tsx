@@ -8,6 +8,9 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
+  Image,
+  Flex,
+  Divider,
 } from "@chakra-ui/react";
 import { useSwap } from "@/lib/modules/swap/SwapProvider";
 import { useUserSettings } from "@/lib/modules/settings/UserSettingsProvider";
@@ -23,41 +26,78 @@ import {
   getFullPriceImpactLabel,
   getMaxSlippageLabel,
 } from "@/lib/modules/price-impact/price-impact.utils";
-import { DemindRouterSwapHandler } from "@/lib/modules/swap/handlers/DemindRouterSwap.handler";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
-export function OrderRoute() {
-  const { simulationQuery } = useSwap();
+export function SwapRoute() {
+  const { tokenInInfo, tokenOutInfo, simulationQuery } = useSwap();
 
-  const queryData = simulationQuery.data as SdkSimulateSwapResponse;
-  const hopCount = queryData ? queryData.hopCount : 0;
-
-  function getRouteHopsLabel() {
-    if (hopCount === 0) return "Unknown";
-    return `${hopCount} ${hopCount > 1 ? "hops" : "hop"}`;
+  // If no data or loading, don't display
+  if (
+    !simulationQuery.data ||
+    simulationQuery.isLoading ||
+    !tokenInInfo ||
+    !tokenOutInfo
+  ) {
+    return (
+      <HStack justify="space-between" w="full">
+        <Text color="grayText">Route</Text>
+        <Text color="grayText">Loading...</Text>
+      </HStack>
+    );
   }
+
+  // Get handler name
+  const handlerName = simulationQuery.data.provider || "Router";
 
   return (
     <HStack justify="space-between" w="full">
-      <Text color="grayText">Order route</Text>
-      <HStack>
-        <Text color="grayText">{getRouteHopsLabel()}</Text>
-        <Popover trigger="hover">
-          <PopoverTrigger>
-            <Box
-              _hover={{ opacity: 1 }}
-              opacity="0.5"
-              transition="opacity 0.2s var(--ease-out-cubic)"
-            >
-              <InfoIcon />
-            </Box>
-          </PopoverTrigger>
-          <PopoverContent maxW="300px" p="sm" w="auto">
-            <Text fontSize="sm" variant="primary">
-              Number of swap hops
-            </Text>
-          </PopoverContent>
-        </Popover>
-      </HStack>
+      <Text color="grayText">Route</Text>
+      <Flex align="center">
+        {/* Token In */}
+        {tokenInInfo.logoUrl ? (
+          <Image
+            src={tokenInInfo.logoUrl}
+            alt={tokenInInfo.symbol}
+            boxSize="22px"
+          />
+        ) : (
+          <Box bg="gray.200" boxSize="14px" />
+        )}
+
+        {/* Arrow */}
+        <MdKeyboardDoubleArrowRight
+          size={14}
+          color="#718096"
+          style={{ margin: "0 2px" }}
+        />
+
+        {/* Handler */}
+        <Flex align="center" mx={1}>
+          <Image
+            src={`/images/icons/${handlerName}.png`}
+            alt={handlerName}
+            boxSize="22px"
+            fallback={<Text fontSize="xs">{handlerName}</Text>}
+          />
+        </Flex>
+
+        {/* Arrow */}
+        <MdKeyboardDoubleArrowRight
+          size={14}
+          color="#718096"
+          style={{ margin: "0 2px" }}
+        />
+
+        {tokenOutInfo.logoUrl ? (
+          <Image
+            src={tokenOutInfo.logoUrl}
+            alt={tokenOutInfo.symbol}
+            boxSize="22px"
+          />
+        ) : (
+          <Box bg="gray.200" boxSize="14px" />
+        )}
+      </Flex>
     </HStack>
   );
 }
@@ -71,7 +111,7 @@ export function SwapDetails() {
   const { priceImpactLevel, priceImpactColor, PriceImpactIcon, priceImpact } =
     usePriceImpact();
 
-  const isDefaultSwap = handler instanceof DemindRouterSwapHandler;
+  // const isDefaultSwap = handler instanceof DemindRouterSwapHandler;
   const isNativeWrapOrUnwrap = handler instanceof NativeWrapHandler;
 
   const _slippage = isNativeWrapOrUnwrap ? 0 : slippage;
@@ -121,6 +161,8 @@ export function SwapDetails() {
 
   return (
     <VStack align="start" fontSize="sm" spacing="sm" w="full">
+      <SwapRoute />
+
       <HStack justify="space-between" w="full">
         <Text color={priceImpactColor}>Price impact</Text>
         <HStack>
@@ -204,7 +246,7 @@ export function SwapDetails() {
         </HStack>
       </HStack>
 
-      {isDefaultSwap ? <OrderRoute /> : null}
+      {/* {isDefaultSwap ? <OrderRoute /> : null} */}
     </VStack>
   );
 }

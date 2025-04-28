@@ -205,6 +205,7 @@ export function SwapForm() {
                   <PriceImpactAccordion
                     accordionButtonComponent={<SwapRate />}
                     accordionPanelComponent={<SwapDetails />}
+                    defaultIsOpen={!!simulationQuery.data}
                     isDisabled={!simulationQuery.data}
                     setNeedsToAcceptPIRisk={setNeedsToAcceptHighPI}
                   />

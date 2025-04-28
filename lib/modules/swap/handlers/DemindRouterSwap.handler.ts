@@ -109,14 +109,12 @@ export class DemindRouterSwapHandler implements SwapHandler {
       inputAmountRaw: inputAmount,
       outputAmountRaw: outputAmount,
       pools: [],
-      protocolVersion: 1,
     };
 
     const tokenOutDecimals = sdkPath.tokens[sdkPath.tokens.length - 1].decimals;
     const returnAmount = formatUnits(outputAmount, tokenOutDecimals);
 
     return {
-      protocolVersion: 2,
       hopCount,
       swapType,
       returnAmount,
@@ -181,6 +179,7 @@ export class DemindRouterSwapHandler implements SwapHandler {
     }
 
     console.log("executors: ", this.inPathExecutors);
+    console.log("path:", trade.path);
 
     return {
       account,

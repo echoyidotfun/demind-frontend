@@ -2,7 +2,11 @@ import { useUserSettings } from "@/lib/modules/settings/UserSettingsProvider";
 import { useUserAccount } from "@/lib/modules/web3/UserAccountProvider";
 import { onlyExplicitRefetch } from "@/lib/utils/queries";
 import { useQuery } from "@tanstack/react-query";
-import { SwapHandler } from "../handlers/Swap.handler";
+import {
+  SwapHandler,
+  AggregatorSwapHandler,
+  AnySwapHandler,
+} from "../handlers/Swap.handler";
 import { SimulateSwapResponse, SwapState } from "../swap.types";
 import { swapQueryKeys } from "./swapQueryKeys";
 import { SwapSimulationQueryResult } from "./useSimulateSwapQuery";
@@ -17,11 +21,20 @@ import { ensureLastQueryResponse } from "./LiquidityActionHelper";
 export type BuildSwapQueryResponse = ReturnType<typeof useBuildSwapQuery>;
 
 export type BuildSwapQueryParams = {
-  handler: SwapHandler;
+  handler: AnySwapHandler;
   simulationQuery: SwapSimulationQueryResult;
   swapState: SwapState;
   wethIsEth?: boolean;
 };
+
+/**
+ * 检查handler是否为AggregatorSwapHandler
+ */
+function isAggregatorHandler(
+  handler: SwapHandler | AggregatorSwapHandler
+): handler is AggregatorSwapHandler {
+  return "isAggregator" in handler && handler.isAggregator === true;
+}
 
 // Uses the SDK to build a transaction config to be used by wagmi's useManagedSendTransaction
 export function useBuildSwapQuery({
@@ -53,7 +66,7 @@ export function useBuildSwapQuery({
       simulationQuery.data
     );
 
-    const response = handler.build({
+    const inputs = {
       tokenIn,
       tokenOut,
       swapType,
@@ -62,10 +75,20 @@ export function useBuildSwapQuery({
       wethIsEth,
       selectedChain,
       simulateResponse,
-    });
-    console.log("Swap callData built:", response);
+    };
 
-    return response;
+    // 检查handler是否为AggregatorSwapHandler
+    if (isAggregatorHandler(handler)) {
+      // 使用异步build方法
+      const response = await handler.build(inputs);
+      console.log("Aggregator Swap callData built:", response);
+      return response;
+    } else {
+      // 使用同步build方法
+      const response = handler.build(inputs);
+      console.log("Swap callData built:", response);
+      return response;
+    }
   };
 
   return useQuery({
