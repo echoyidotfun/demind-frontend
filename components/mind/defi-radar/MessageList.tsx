@@ -117,11 +117,11 @@ export function MessageList({
             fontWeight="normal"
             onClick={() =>
               handleExampleClick(
-                "Can you help me find some investment opportunities on Base with an APY over 20%?"
+                "Can you help me find some investment opportunities on BSC with an APY over 20%?"
               )
             }
           >
-            "Can you help me find some investment opportunities on Base with an
+            "Can you help me find some investment opportunities on BSC with an
             APY over 20%?
           </Button>
           <Button
