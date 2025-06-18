@@ -106,14 +106,23 @@ export function ChatInput({
       {/* 发送或中止按钮 */}
       <Flex position="absolute" right="8px" bottom="8px">
         {isProcessing && onAbort ? (
-          <IconButton
-            aria-label="Stop"
-            icon={<FiStopCircle />}
-            size="sm"
-            colorScheme="red"
-            variant="ghost"
+          // <IconButton
+          //   aria-label="Stop"
+          //   icon={<FiStopCircle />}
+          //   size="sm"
+          //   colorScheme="red"
+          //   variant="ghost"
+          //   onClick={onAbort}
+          // />
+          <Button
             onClick={onAbort}
-          />
+            colorScheme={buttonColorScheme}
+            size="sm"
+            borderRadius="md"
+            leftIcon={<Icon as={FiStopCircle} />}
+          >
+            Abort
+          </Button>
         ) : (
           <Button
             isDisabled={!message.trim() || isDisabled}

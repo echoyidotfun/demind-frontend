@@ -99,13 +99,11 @@ export function MessageList({
           justify="center"
           py={20}
           opacity={0.8}
-          bgGradient="linear(to-br, rgba(129, 99, 199, 0.05), rgba(100, 100, 250, 0.02))"
           borderRadius="lg"
           backdropFilter="blur(8px)"
-          borderWidth="1px"
-          borderColor="border.base"
+          border="none"
         >
-          <Text variant="primary" fontSize="xl" fontWeight="semibold" mb={3}>
+          <Text variant="primary" fontSize="xl" fontWeight="medium" mb={3}>
             Welcome to Mind! I will be your DeFi seeker.
           </Text>
           <Text fontSize="md" mt={2} color="text.secondary">
@@ -113,31 +111,32 @@ export function MessageList({
           </Text>
           <Button
             variant="ghost"
-            colorScheme="blue"
+            colorScheme="purple"
             size="sm"
             mt={4}
             fontWeight="normal"
             onClick={() =>
               handleExampleClick(
-                "Find Ethereum DeFi opportunities with APY over 10%"
+                "Can you help me find some investment opportunities on Base with an APY over 20%?"
               )
             }
           >
-            "Find Ethereum DeFi opportunities with APY over 10%"
+            "Can you help me find some investment opportunities on Base with an
+            APY over 20%?
           </Button>
           <Button
             variant="ghost"
-            colorScheme="blue"
+            colorScheme="purple"
             size="sm"
             mt={2}
             fontWeight="normal"
             onClick={() =>
               handleExampleClick(
-                "Analyze investment opportunities in trending tokens"
+                "Hey, which coins are hot right now? Looking to make some money."
               )
             }
           >
-            "Analyze investment opportunities in trending tokens"
+            "Hey, which coins are hot right now? Looking to make some money."
           </Button>
         </Flex>
       );

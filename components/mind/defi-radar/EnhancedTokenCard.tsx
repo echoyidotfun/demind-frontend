@@ -280,7 +280,7 @@ export function EnhancedTokenCard({
                 {categories.slice(0, isCompact ? 2 : 4).map((category) => (
                   <WrapItem key={category}>
                     <Badge
-                      fontSize={isCompact ? "2xs" : "xs"}
+                      fontSize="2xs"
                       colorScheme="blue"
                       variant="subtle"
                       borderRadius="full"
@@ -293,7 +293,7 @@ export function EnhancedTokenCard({
                   <WrapItem>
                     <Tooltip label={categories.slice(4).join(", ")} hasArrow>
                       <Badge
-                        fontSize={isCompact ? "2xs" : "xs"}
+                        fontSize="2xs"
                         colorScheme="gray"
                         variant="subtle"
                         borderRadius="full"
@@ -322,7 +322,7 @@ export function EnhancedTokenCard({
                     <Badge
                       ml={1}
                       colorScheme={
-                        priceChangePercentage24h >= 0 ? "green" : "red"
+                        priceChangePercentage24h >= 0 ? "deepgreen" : "red"
                       }
                       variant="subtle"
                       fontSize="2xs"
