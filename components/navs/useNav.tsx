@@ -18,7 +18,7 @@ export function useNav() {
     {
       href: "/mind",
       label: "Mind",
-      isBuilding: true,
+      isBeta: true,
     },
     {
       href: "/analytics",

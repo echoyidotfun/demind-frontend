@@ -6,7 +6,7 @@ const networkConfig: NetworkConfig = {
   name: "Ethereum Mainnet",
   shortName: "Ethereum",
   chain: GlobalChain.Ethereum,
-  iconPath: "/images/chains/MAINNET.svg",
+  iconPath: "/images/chains/ETHEREUM.svg",
   blockExplorer: {
     baseUrl: "https://etherscan.io",
     name: "Etherscan",

@@ -72,49 +72,48 @@ function NavLinks({
 
   return (
     <HStack fontWeight="medium" spacing="lg" {...props}>
-      {appLinks.map((link) => {
-        if (link.isBuilding) {
-          return (
-            <HStack
-              as="div"
-              spacing={1}
-              cursor="default"
-              opacity={0.8}
-              key={link.href || link.label}
-            >
+      {appLinks.map((link) => (
+        <Box as={motion.div} key={link.href || link.label}>
+          <HStack
+            as="div"
+            spacing={1}
+            cursor={link.isBuilding ? "default" : "pointer"}
+            opacity={link.isBuilding ? 0.8 : 0.9}
+          >
+            {link.isBuilding ? (
               <Text color="font.primary">{link.label}</Text>
+            ) : (
+              <Link
+                as={NextLink}
+                color={linkColorFor(link.href)}
+                href={link.href}
+                isExternal={link.isExternal}
+                prefetch
+                variant="nav"
+              >
+                {link.label}
+              </Link>
+            )}
+
+            {/* Building 标签 */}
+            {(link.isBuilding || link.isBeta) && (
               <Badge
                 fontSize="2xs"
                 colorScheme="purple"
                 variant="subtle"
                 borderRadius="sm"
-                // marginBottom={1}
                 bg="rgba(161, 124, 247, 0.4)"
                 color="text.secondary"
                 textTransform="capitalize"
               >
                 <Text fontSize="xs" variant="special">
-                  building
+                  {link.isBuilding ? "building" : "beta"}
                 </Text>
               </Badge>
-            </HStack>
-          );
-        }
-        return (
-          <Box as={motion.div} key={link.href}>
-            <Link
-              as={NextLink}
-              color={linkColorFor(link.href)}
-              href={link.href}
-              isExternal={link.isExternal}
-              prefetch
-              variant="nav"
-            >
-              {link.label}
-            </Link>
-          </Box>
-        );
-      })}
+            )}
+          </HStack>
+        </Box>
+      ))}
       {customLinks}
     </HStack>
   );

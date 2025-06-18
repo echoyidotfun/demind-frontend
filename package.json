@@ -63,6 +63,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/tinycolor2": "^1.4.6",
+    "@types/uuid": "^10.0.0",
     "@wagmi/cli": "^2.2.0",
     "eslint": "^9",
     "eslint-config-next": "15.2.0",

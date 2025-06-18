@@ -2,6 +2,7 @@
 
 import { useDisclosure } from "@chakra-ui/hooks";
 import {
+  Badge,
   Box,
   Button,
   Divider,
@@ -42,23 +43,46 @@ function NavLinks({ appLinks, onClick, customLinks }: NavLinkProps) {
 
   return (
     <VStack align="start" w="full">
-      {appLinks.map(
-        (link) =>
-          !link.isBuilding && (
+      {appLinks.map((link) => (
+        <HStack
+          as="div"
+          spacing={1}
+          cursor={link.isBuilding ? "default" : "pointer"}
+          opacity={link.isBuilding ? 0.8 : 0.9}
+        >
+          {link.isBuilding ? (
+            <Text color="font.primary">{link.label}</Text>
+          ) : (
             <Link
               as={NextLink}
               color={linkColorFor(link.href)}
-              fontSize="xl"
               href={link.href}
-              key={link.href}
-              onClick={onClick}
+              isExternal={link.isExternal}
               prefetch
               variant="nav"
             >
               {link.label}
             </Link>
-          )
-      )}
+          )}
+
+          {/* Building 标签 */}
+          {(link.isBuilding || link.isBeta) && (
+            <Badge
+              fontSize="2xs"
+              colorScheme="purple"
+              variant="subtle"
+              borderRadius="sm"
+              bg="rgba(161, 124, 247, 0.4)"
+              color="text.secondary"
+              textTransform="capitalize"
+            >
+              <Text fontSize="xs" variant="special">
+                {link.isBuilding ? "building" : "beta"}
+              </Text>
+            </Badge>
+          )}
+        </HStack>
+      ))}
       {customLinks}
     </VStack>
   );

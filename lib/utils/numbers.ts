@@ -35,10 +35,10 @@ export const PRICE_IMPACT_FORMAT = "0.00%";
 export const INTEGER_PERCENTAGE_FORMAT = "0%";
 export const BOOST_FORMAT = "0.000";
 
-// Do not display APR values greater than this amount; they are likely to be nonsensical
-// These can arise from pools with extremely low balances (e.g., completed LBPs)
-export const APR_UPPER_THRESHOLD = 1_000_000;
-export const APR_LOWER_THRESHOLD = 0.0000001;
+// APY格式化的自定义阈值
+export const APY_MIN_THRESHOLD = 0.1; // 最小显示阈值0.1%
+export const APY_MAX_THRESHOLD = 10000; // 最大显示阈值10K%
+export const APY_K_THRESHOLD = 1000; // K表示的阈值
 
 // Do not display bn values lower than this amount; they are likely to generate NaN results
 export const BN_LOWER_THRESHOLD = 0.000001;
@@ -61,6 +61,9 @@ export type Numberish = string | number | bigint | BigNumber;
 export type NumberFormatter = (val: Numberish) => string;
 
 export function bn(val: Numberish): BigNumber {
+  if (val === null || val === undefined) {
+    return new BigNumber(0);
+  }
   return new BigNumber(val.toString());
 }
 
@@ -91,8 +94,8 @@ function fiatFormat(
   const format = abbreviated
     ? FIAT_FORMAT_A
     : isMoreThanOrEqualToAmount(val, FIAT_CENTS_THRESHOLD)
-    ? FIAT_FORMAT_WITHOUT_DECIMALS
-    : FIAT_FORMAT;
+      ? FIAT_FORMAT_WITHOUT_DECIMALS
+      : FIAT_FORMAT;
   return numeral(toSafeValue(val)).format(format);
 }
 
@@ -117,10 +120,21 @@ function tokenFormat(
 
 // Formats an APR value as a percentage.
 function aprFormat(apr: Numberish): string {
-  if (bn(apr).gt(APR_UPPER_THRESHOLD)) return "-";
-  if (isSmallPercentage(apr)) return SMALL_PERCENTAGE_LABEL;
+  const aprValue = bn(apr);
 
-  return numeral(apr.toString()).format(APR_FORMAT);
+  // 如果APR小于最小显示阈值，显示"<0.1%"
+  if (aprValue.gt(0) && aprValue.lt(APY_MIN_THRESHOLD)) return "<0.1%";
+
+  // 如果APR大于最大显示阈值，显示">10K%"
+  if (aprValue.gt(APY_MAX_THRESHOLD)) return ">10K%";
+
+  // 如果APR在1000到10K之间，使用K表示
+  if (aprValue.gte(APY_K_THRESHOLD) && aprValue.lte(APY_MAX_THRESHOLD)) {
+    return `${(aprValue.toNumber() / 1000).toFixed(2)}K%`;
+  }
+
+  // 其他情况使用两位小数
+  return `${aprValue.toFixed(2)}%`;
 }
 
 // Formats a slippage value as a percentage.

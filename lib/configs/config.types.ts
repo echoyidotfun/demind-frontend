@@ -69,6 +69,7 @@ export type AppLink = {
   iconType?: IconType;
   isExternal?: boolean;
   isBuilding?: boolean;
+  isBeta?: boolean;
 };
 
 type Links = {

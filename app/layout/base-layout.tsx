@@ -4,10 +4,16 @@ import { NavBarContainer } from "@/components/navs/NavBarContainer";
 import NextTopLoader from "nextjs-toploader";
 import { Box } from "@chakra-ui/react";
 
+type BaseLayoutProps = {
+  bgsrc?: string;
+  showFooter?: boolean;
+};
+
 export function BaseLayout({
   bgsrc = "/images/misc/basic-bg.svg",
   children,
-}: PropsWithChildren & { bgsrc?: string }) {
+  showFooter = false,
+}: PropsWithChildren & BaseLayoutProps) {
   return (
     <Box
       position="relative"
@@ -44,11 +50,13 @@ export function BaseLayout({
       <NextTopLoader color="#7f6ae8" showSpinner={false} />
       <NavBarContainer />
       {children}
-      <Footer
-        logoType="DeMind"
-        title="Where Mind Meets Momentum"
-        subTitle="DeMind is your AI companion that enhances trading intents into intelligent actions, powered by aggregated liquidity and momentum-driven strategies."
-      />
+      {showFooter && (
+        <Footer
+          logoType="DeMind"
+          title="Where Mind Meets Momentum"
+          subTitle="DeMind is your AI companion that enhances trading intents into intelligent actions, powered by aggregated liquidity and momentum-driven strategies."
+        />
+      )}
     </Box>
   );
 }
