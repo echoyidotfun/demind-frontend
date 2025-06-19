@@ -194,7 +194,7 @@ export function EnhancedPoolCard({
   return (
     <AnimatedCard delay={delay}>
       <Box
-        bg="background.transparent"
+        // bg="background.gradient"
         borderWidth="1px"
         borderColor={borderColor}
         borderRadius="lg"
@@ -209,7 +209,8 @@ export function EnhancedPoolCard({
         position="relative"
         height="350px"
         width="100%"
-        backdropFilter="blur(8px)"
+        // backgroundColor="rgba(255, 255, 255, 0.25)"
+        // backdropFilter="blur(8px)"
       >
         <Tabs
           variant="enclosed"

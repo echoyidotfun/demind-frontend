@@ -47,6 +47,7 @@ export function AnimatedCard({
       }
       height="100%"
       width="100%"
+      backdropFilter="blur(8px)"
     >
       {children}
     </Box>

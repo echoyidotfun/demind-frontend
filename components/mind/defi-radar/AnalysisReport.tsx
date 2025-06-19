@@ -183,12 +183,14 @@ export function AnalysisReport({ result }: AnalysisReportProps) {
                   tokenViewMode === "standard" ? <FiMinimize /> : <FiMaximize />
                 }
                 size="xs"
-                variant="ghost"
+                variant="outline"
+                px={2}
                 onClick={() => {
                   setTokenViewMode(
                     tokenViewMode === "standard" ? "compact" : "standard"
                   );
                 }}
+                backdropFilter="blur(8px)"
               />
             </Tooltip>
           </Flex>
@@ -288,6 +290,7 @@ export function AnalysisReport({ result }: AnalysisReportProps) {
                   rightIcon={<FiChevronDown />}
                   size="xs"
                   variant="outline"
+                  backdropFilter="blur(8px)"
                 >
                   Sort: {sortBy.toUpperCase()}
                 </MenuButton>
@@ -311,7 +314,9 @@ export function AnalysisReport({ result }: AnalysisReportProps) {
                 }
                 size="xs"
                 variant="outline"
+                px={2}
                 onClick={toggleSortDirection}
+                backdropFilter="blur(8px)"
               />
 
               <Tooltip
@@ -327,12 +332,14 @@ export function AnalysisReport({ result }: AnalysisReportProps) {
                     viewMode === "standard" ? <FiMinimize /> : <FiMaximize />
                   }
                   size="xs"
-                  variant="ghost"
+                  variant="outline"
+                  px={2}
                   onClick={() => {
                     setViewMode(
                       viewMode === "standard" ? "compact" : "standard"
                     );
                   }}
+                  backdropFilter="blur(8px)"
                 />
               </Tooltip>
             </HStack>

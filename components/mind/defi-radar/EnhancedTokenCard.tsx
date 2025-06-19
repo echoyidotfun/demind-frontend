@@ -166,7 +166,7 @@ export function EnhancedTokenCard({
         maxHeight={isCompact ? "150px" : "320px"}
         onClick={isCompact && onClick ? onClick : undefined}
         cursor={isCompact && onClick ? "pointer" : "default"}
-        backdropFilter="blur(8px)"
+        // backdropFilter="blur(8px)"
         width="100%"
       >
         {/* 背景装饰 - 使用主题渐变 */}
@@ -322,7 +322,7 @@ export function EnhancedTokenCard({
                     <Badge
                       ml={1}
                       colorScheme={
-                        priceChangePercentage24h >= 0 ? "deepgreen" : "red"
+                        priceChangePercentage24h >= 0 ? "green" : "red"
                       }
                       variant="subtle"
                       fontSize="2xs"

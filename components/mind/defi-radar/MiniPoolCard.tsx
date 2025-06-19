@@ -255,7 +255,7 @@ export function MiniPoolCard({
                     </Tooltip>
                   ))}
                   {tokensList.length > 3 && (
-                    <Tooltip label={`${tokensList.length - 3} 更多代币`}>
+                    <Tooltip label={`${tokensList.length - 3} more tokens`}>
                       <Badge
                         borderRadius="full"
                         px={1}
@@ -298,7 +298,7 @@ export function MiniPoolCard({
           {/* 底部 - 核心指标 */}
           <Flex justify="space-between" align="center" mt={1}>
             {/* APY */}
-            <Tooltip label="年化收益率">
+            <Tooltip label="Annualized Return">
               <VStack spacing={0} align="flex-start">
                 <Text fontSize="xs" color="gray.500">
                   APY
@@ -322,7 +322,7 @@ export function MiniPoolCard({
             </Tooltip>
 
             {/* TVL */}
-            <Tooltip label="锁仓价值">
+            <Tooltip label="Total Value Locked">
               <VStack spacing={0} align="flex-start">
                 <Text fontSize="xs" color="gray.500">
                   TVL
